@@ -15,7 +15,6 @@ interface Field {
     label: string;
     value:string    
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    // values: {}
 }
 
 const fields:Omit<Field, "value" | "onChange">[] = [{

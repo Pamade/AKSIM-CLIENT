@@ -17,8 +17,6 @@ function Login() {
                     <p className={styles.type}>Register</p>
                     <Form formType="register"/>
                 </div>
-                {/* <div></div>  << form */}
-                {/* div << form */}
             </div>
         </div>
     )

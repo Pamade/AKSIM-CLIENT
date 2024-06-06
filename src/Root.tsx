@@ -54,7 +54,7 @@ function Root(){
         }  
     };
 
-    //This works, grabs delta from db object and sets into html
+    // grabs delta from db object and sets into html
     // const getHTMLFromDelta = (delta:any) => {
     //   const tempQuill = new Quill(document.createElement('div'));
     //   tempQuill.setContents(delta);
@@ -73,22 +73,17 @@ function Root(){
         tempQuill.setContents(delta);
         return tempQuill.root.innerHTML;
     };
-    console.log(savedDeltas)
 
     return (
         <div className="main">
             <h1>Creation: </h1>
             <h1>Quill Text Editor Example</h1>
-            
-            {/* Quill editor */}
             <form onSubmit={handleSubmit}>
                 <ReactQuill modules={modules} ref={quillRef} theme="snow" onChange={handleChange} />
                 <button type="submit">Submit</button>
             </form>
-            {/* <pre>{editorHtml}</pre> */}
             <div dangerouslySetInnerHTML={{ __html: editorHtml }} />
 
-            {/* {delta && delta.ops.map((item) => <p>{item.insert}</p>)} */}
             <h1>Created Quills</h1>
             {savedDeltas.map((deltaJson, index) => {
                 const delta = JSON.parse(deltaJson);
