@@ -1,9 +1,9 @@
-import React, { useState, useRef } from 'react';
+import  { useState, useRef} from 'react';
 import ReactQuill, {Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import DOMPurify from 'dompurify';
-import 'react-quill/dist/quill.snow.css';
-import './ql-config.scss'
+import '../ql-config.scss'
+
 
 type Insert = {
     insert:string,
@@ -14,7 +14,7 @@ interface D {
     ops:[Insert]
 }
 
-function Root(){
+function ArticleCreator(){
 
     const [delta, setDelta] = useState<D>({} as D);
     const [savedDeltas, setSavedDeltas] = useState<string[]>([])
@@ -92,6 +92,7 @@ function Root(){
             })}
         </div>
     );
+
 }
 
-export default Root
+export default ArticleCreator;

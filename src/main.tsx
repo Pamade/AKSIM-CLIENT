@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.scss'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Root from './Root.tsx'
+import Root from './Root/Root.tsx'
 import Login from './Login/Login.tsx'
 
 const router = createBrowserRouter([
@@ -25,9 +25,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
     <div className="wrapper">
       <RouterProvider router={router}/>
-    </div>
-  </React.StrictMode>,
+    </div>,
 )
