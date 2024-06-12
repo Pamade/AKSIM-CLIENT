@@ -2,14 +2,17 @@ import { Link } from "react-router-dom";
 import styles from "./Form.module.scss";
 import { FormEvent, useState } from "react";
 
-type Form = {
+type FormType = {
     formType:"login" | "register"
 }
 
-type FieldName = "email" | "password" | "repeatPassword";
+type FieldsRegisterType = "email" | "password" | "repeatPassword";
+type FieldsLoginType = "email" | "password";
+
+type FieldsDisplay = Omit<Field, "value" | "onChange">;
 
 interface Field {
-    name:FieldName,
+    name:FieldsRegisterType | FieldsLoginType
     type: string;
     placeholder: string;
     label: string;
@@ -17,7 +20,17 @@ interface Field {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const fields:Omit<Field, "value" | "onChange">[] = [{
+interface LoginValues {
+    email:string,
+    password:string
+}
+
+interface RegisterValues extends LoginValues {
+    repeatPassword:string
+}
+
+
+const fields:FieldsDisplay[] = [{
     name:"email",
     type:"email",
     placeholder:"Enter Your email",
@@ -29,56 +42,74 @@ const fields:Omit<Field, "value" | "onChange">[] = [{
     placeholder:"Enter your password",
     label:"Password",
 },
-{
-    name:"repeatPassword",
+{   name:"repeatPassword", 
     type:"password",
-    placeholder:"Repeat password",
-    label:"Repeat password",
+    placeholder:"Repeat password", 
+    label:"Repeat Password"
 }
-] as const;
+]
 
 
-function Form({formType}:Form){
 
-    const [values, setValues] = useState({
+function Form({formType}:FormType){
+
+    const [reigsterValues, setRegisterValues] = useState<RegisterValues>({
         email: '',
         password: '',
         repeatPassword: ''
     });
 
-    const requestOptions = {
-        method:"POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: values.email, password:values.password, repeatPassword:values.repeatPassword })
-    }
+    const [loginValues, setLoginValues] = useState<LoginValues>({
+        email:'',
+        password:''
+    })
 
-    const createUserPostRequest = (e:FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        fetch('http://localhost:8080/api/createUser', requestOptions)
-        .then(response => response.json())
-        .then(data => {});
-    }
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target
 
-        setValues(prevState => ({
+        setRegisterValues(prevState => ({
             ...prevState, [name]:value
         }))
     }
 
+    const handleChangeLogin = (e:React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target
+        setLoginValues(prevState => ({
+            ...prevState, [name]:value
+        }))
+    }
+
+    const handleSubmit = async (e:FormEvent, {formType}:FormType)  => {
+        e.preventDefault();
+        const endpoint = formType === "register" ? "register" : "authenticate";
+        const API = `http://localhost:8080/api/auth/${endpoint}`;
+        const values = formType === "register" ? reigsterValues : loginValues
+
+        const response = await fetch(API, {
+            method:"POST",
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body:JSON.stringify(values)
+        })
+        console.log(response)
+        const data =  await response.json()
+        console.log(data)
+    }
+
+    const RegisterForm = fields.map((field, index) => <Field onChange={handleChangeRegister} value={reigsterValues[field.name] as FieldsRegisterType} key={index} {...field} />)
+    const LoginForm = fields.slice(0,-1).map((field, index) => <Field onChange={handleChangeLogin} value={loginValues[field.name as FieldsLoginType]}  key={index} {...field} />) 
+
     return (
-        <form onSubmit={(e:FormEvent<HTMLFormElement>) => createUserPostRequest(e)} className={styles.form}>
-            {formType === "register" ? fields.map((field, index) => <Field onChange={handleChange} value={values[field.name]} key={index} {...field} />) 
-            : fields.slice(0,-1).map((field, index) => <Field onChange={handleChange} value={values[field.name]}  key={index} {...field} />) }
-            <button  className={styles.button}>{formType === "register" ? "Create an Account" : "Log in"}</button>
+        <form onSubmit={(e:FormEvent<HTMLFormElement>) => handleSubmit(e, {formType})} className={styles.form}>
+            {formType=== "register" ? RegisterForm : LoginForm}
+            <button type="submit" className={styles.button}>{formType === "register" ? "Create an Account" : "Log in"}</button>
             {formType === "login" && <Link className={styles.link} to="reset">Forgot password ?</Link>}
         </form>
     )
 }
 
 function Field({label, placeholder, type, name, value, onChange}:Field){
-
 
     return (
         <div className={styles.field}>
