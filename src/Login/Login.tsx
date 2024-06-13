@@ -15,7 +15,7 @@ function Login() {
                 <h1 className={styles.heading}>AKSIM</h1>
             </section>
             <div className={styles.loading_wrapper}>
-                    {requestLoading && <ClipLoader />}
+                    {requestLoading && <ClipLoader size={125} />}
                 </div>
             <div className={styles.form_wrapper}>
                 <div>

@@ -50,20 +50,30 @@
         font-weight: bold;
         font-size: 1.25rem;
     }
+    .form_wrapper{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
     .error_wrapper{
-        margin: 2rem 0;
-        height: 100px;
-        background-color:red;
+        background-color:$warning;
+        border: 1px solid $warning;
+        border-radius: 5px;
+        color: white;
         padding: 1rem;
+        height: 120px;
         &__hidden{
-            margin: 2rem 0;
-            height: 100px;
+            border: 1px solid $warning;
+            height: 120px;
             padding: 1rem;
-            background-color:white;
+            visibility: hidden;
+        
         }
     }
     .disabled{
         background-color: $lightgray;
+        border:1px solid $lightgray;
     }
 }
 

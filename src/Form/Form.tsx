@@ -115,7 +115,7 @@ function Form({formType, setRequestLoading, requestLoading}:FormType){
                 setErrors(data.errors)
             } else navigate("/")
         } catch (err) {
-            setErrors(["An error occurred"])
+            formType === "login" ? setErrors(["Invalid Credentials"]) : setErrors(["An error occurred"])
         }
         finally {
             setRequestLoading(false)
@@ -129,12 +129,12 @@ function Form({formType, setRequestLoading, requestLoading}:FormType){
     const LoginForm = fields.slice(0,-1).map((field, index) => <Field onChange={handleChangeLogin} value={loginValues[field.name as FieldsLoginType]}  key={index} {...field} />) 
 
     return (
-        <div>
+        <div className={styles.form_wrapper}>
             <div className={`${errors === null  ? styles.error_wrapper__hidden : styles.error_wrapper}`}>
                 {errors !== null  && errors.map((err, index) => <p key={index}>{err}</p>)}
             </div>
-            <p className={styles.type}>{formType === "register" ? "REGISTER" : "LOGIN"}</p>
             <form onSubmit={(e:FormEvent<HTMLFormElement>) => handleSubmit(e, {formType})} className={styles.form}>
+                <p className={styles.type}>{formType === "register" ? "REGISTER" : "LOGIN"}</p>
                 {formType=== "register" ? RegisterForm : LoginForm}
                 <button disabled={requestLoading === true ? true : false} type="submit" className={ requestLoading ? `${styles.disabled} ${styles.button}` 
                 : styles.button}>{formType === "register" ? "Create an Account" : "Log in"}</button>

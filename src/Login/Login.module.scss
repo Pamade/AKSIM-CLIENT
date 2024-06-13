@@ -14,7 +14,15 @@
         flex-direction: column;
         gap: 4rem;
     }
-
+    
+    .loading_wrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }
 
 @media (min-width:1200px) {
@@ -24,13 +32,6 @@
         margin: 0 auto;
         width:70%;
     }
-    .loading_wrapper{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-    }
+
     
 }
