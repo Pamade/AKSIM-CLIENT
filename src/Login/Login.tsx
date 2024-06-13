@@ -1,24 +1,28 @@
 import styles from './Login.module.scss';
 import Form from '../Form/Form';
-import useFetchOnLoad from '../CustomHooks/useFetchOnLoad';
+import { useState } from 'react';
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 
 function Login() {
+
+    const [requestLoading, setRequestLoading] = useState(false)
 
     return (
         <div className="content">
             <section>
                 <h1 className={styles.heading}>AKSIM</h1>
             </section>
+            <div className={styles.loading_wrapper}>
+                    {requestLoading && <ClipLoader />}
+                </div>
             <div className={styles.form_wrapper}>
                 <div>
-                    <p className={styles.type}>Login</p>
-                    <Form formType="login"/>
+                    <Form requestLoading={requestLoading} setRequestLoading={setRequestLoading} formType="login"/>
                 </div>
                 <div>
-                    <p className={styles.type}>Register</p>
-                    <Form formType="register"/>
+                    <Form requestLoading={requestLoading} setRequestLoading={setRequestLoading} formType="register"/>
                 </div>
             </div>
         </div>

@@ -46,6 +46,25 @@
         color: $blue;
         text-align: center;
     }
+    .type {
+        font-weight: bold;
+        font-size: 1.25rem;
+    }
+    .error_wrapper{
+        margin: 2rem 0;
+        height: 100px;
+        background-color:red;
+        padding: 1rem;
+        &__hidden{
+            margin: 2rem 0;
+            height: 100px;
+            padding: 1rem;
+            background-color:white;
+        }
+    }
+    .disabled{
+        background-color: $lightgray;
+    }
 }
 
 @media (min-width:1200px) {
