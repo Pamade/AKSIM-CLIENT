@@ -4,6 +4,7 @@ import './index.scss'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './Root/Root.tsx'
 import Login from './Login/Login.tsx'
+import { UserProvider } from './Context/UserContext.tsx'
 
 const router = createBrowserRouter([
   {
@@ -25,7 +26,9 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <div className="wrapper">
-      <RouterProvider router={router}/>
-    </div>,
+    <UserProvider>
+      <div className="wrapper">
+        <RouterProvider router={router}/>
+      </div>
+    </UserProvider>,
 )

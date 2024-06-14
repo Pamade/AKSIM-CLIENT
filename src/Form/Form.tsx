@@ -113,7 +113,10 @@ function Form({formType, setRequestLoading, requestLoading}:FormType){
     
             if (data.errors != null) {
                 setErrors(data.errors)
-            } else navigate("/")
+            } else  {
+                localStorage.setItem("access_token", data.access_token)
+                navigate("/")
+            }
         } catch (err) {
             formType === "login" ? setErrors(["Invalid Credentials"]) : setErrors(["An error occurred"])
         }
