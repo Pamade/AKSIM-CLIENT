@@ -1,42 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Form.module.scss";
 import { FormEvent, useState } from "react";
-
-type FormType = {
-    formType:"login" | "register",
-    setRequestLoading:React.Dispatch<React.SetStateAction<boolean>>,
-    requestLoading:boolean
-}
-
-type FieldsRegisterType = "email" | "password" | "repeatPassword";
-type FieldsLoginType = "email" | "password";
-
-type FieldsDisplay = Omit<Field, "value" | "onChange">;
-
-interface Field {
-    name:FieldsRegisterType | FieldsLoginType
-    type: string;
-    placeholder: string;
-    label: string;
-    value:string    
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-interface LoginValues {
-    email:string,
-    password:string
-}
-
-interface RegisterValues extends LoginValues {
-    repeatPassword:string
-}
-
-interface Data {
-    errors:string[] | null,
-    access_token:string,
-    refresh_token:string
-}
-
+import { ClipLoader } from "react-spinners";
 
 const fields:FieldsDisplay[] = [{
     name:"email",
@@ -58,11 +23,11 @@ const fields:FieldsDisplay[] = [{
 ]
 
 
-
-
-function Form({formType, setRequestLoading, requestLoading}:FormType){
+function Form({formType}:FormType){
 
     const navigate = useNavigate();
+    const [requestLoading, setRequestLoading] = useState(false)
+
     const [reigsterValues, setRegisterValues] = useState<RegisterValues>({
         email: '',
         password: '',
@@ -73,6 +38,9 @@ function Form({formType, setRequestLoading, requestLoading}:FormType){
         email:'',
         password:''
     })
+
+    const [forgotPasswordEmail, setForgotPasswordEmail] = useState<string>("")
+
     const [errors, setErrors] = useState<String[] | null>(null)
 
     const handleChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,6 +57,7 @@ function Form({formType, setRequestLoading, requestLoading}:FormType){
             ...prevState, [name]:value
         }))
     }
+
 
     const handleSubmit = async (e:FormEvent, {formType}:Pick<FormType, "formType">)  => {
         e.preventDefault();
@@ -124,27 +93,45 @@ function Form({formType, setRequestLoading, requestLoading}:FormType){
             setRequestLoading(false)
         }
 
-
-
     }
 
     const RegisterForm = fields.map((field, index) => <Field onChange={handleChangeRegister} value={reigsterValues[field.name] as FieldsRegisterType} key={index} {...field} />)
     const LoginForm = fields.slice(0,-1).map((field, index) => <Field onChange={handleChangeLogin} value={loginValues[field.name as FieldsLoginType]}  key={index} {...field} />) 
+    const EmailForm = fields.slice(0, 1).map((field, index) => <Field onChange={(e) => setForgotPasswordEmail(e.target.value)} value={forgotPasswordEmail} key={index} {...field}/>)
 
-    return (
-        <div className={styles.form_wrapper}>
-            <div className={`${errors === null  ? styles.error_wrapper__hidden : styles.error_wrapper}`}>
-                {errors !== null  && errors.map((err, index) => <p key={index}>{err}</p>)}
+    function content(description:string, fields:JSX.Element[], buttonText:string, additionalContent?:JSX.Element){
+        return (
+            <div className={styles.form_wrapper}>
+                <div className={styles.loading_wrapper}>
+                    {requestLoading && <ClipLoader size={125} />}
+                </div>
+                <div className={`${errors === null  ? styles.error_wrapper__hidden : styles.error_wrapper}`}>
+                    {errors !== null  && errors.map((err, index) => <p key={index}>{err}</p>)}
+                </div>
+                <form onSubmit={(e:FormEvent<HTMLFormElement>) => handleSubmit(e, {formType})} className={styles.form}>
+                        <p className={styles.type}>{description}</p>
+                        {fields}
+                        <button disabled={requestLoading === true ? true : false} type="submit" className={ requestLoading ? `${styles.disabled} ${styles.button}` 
+                        : styles.button}>{buttonText}</button>
+                        <div>
+                            {additionalContent}
+                        </div>
+                </form>
             </div>
-            <form onSubmit={(e:FormEvent<HTMLFormElement>) => handleSubmit(e, {formType})} className={styles.form}>
-                <p className={styles.type}>{formType === "register" ? "REGISTER" : "LOGIN"}</p>
-                {formType=== "register" ? RegisterForm : LoginForm}
-                <button disabled={requestLoading === true ? true : false} type="submit" className={ requestLoading ? `${styles.disabled} ${styles.button}` 
-                : styles.button}>{formType === "register" ? "Create an Account" : "Log in"}</button>
-                {formType === "login" && <Link className={styles.link} to="reset">Forgot password ?</Link>}
-            </form>
-        </div>
-    )
+        )
+    }
+
+    switch(formType) {
+        case "register":
+            return content("Register", RegisterForm, "CREATE AN ACCOUNT",<Link className={styles.link} to="reset">Forgot password ?</Link> )
+        case "login":
+            return content("Login", LoginForm, "LOG IN")
+        case "forgotPassword":
+            return content("Forgot Password", EmailForm, "SEND")
+        default:
+            return null;
+    }
+
 }
 
 function Field({label, placeholder, type, name, value, onChange}:Field){

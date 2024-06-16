@@ -5,6 +5,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './Root/Root.tsx'
 import Login from './Login/Login.tsx'
 import { UserProvider } from './Context/UserContext.tsx'
+import Form from './Form/Form.tsx'
+import Header from "./Header/Header.tsx";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +20,10 @@ const router = createBrowserRouter([
     //   }
     // ]
   },
-  
+  {
+    path:"/forgotPassword",
+    element:<Form formType="forgotPassword"/>
+  },
   {
     path:"/login",
     element:<Login />
@@ -28,7 +33,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <UserProvider>
       <div className="wrapper">
-        <RouterProvider router={router}/>
+        <Header>
+          <RouterProvider router={router}/>
+        </Header>
       </div>
     </UserProvider>,
 )

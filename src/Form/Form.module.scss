@@ -71,9 +71,19 @@
         
         }
     }
+    
     .disabled{
         background-color: $lightgray;
         border:1px solid $lightgray;
+    }
+
+    .loading_wrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
     }
 }
 

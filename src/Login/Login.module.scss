@@ -1,28 +1,12 @@
 @import "../styles/variables";
 
 @media (min-width:280px) {
-    .heading{
-        font-weight: 100;
-        font-style: italic;
-        text-align: center;
-        border-bottom: 1px solid $lightgray;
-        font-size: 3rem;
-    }
-
     .form_wrapper{
         display: flex;
         flex-direction: column;
         gap: 4rem;
     }
     
-    .loading_wrapper{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-    }
 }
 
 @media (min-width:1200px) {
