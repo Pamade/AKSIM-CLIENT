@@ -1,5 +1,45 @@
 @import "../styles/variables";
 
+// $wrapper-styles: (
+//   background-color: $color,
+//   border: 1px solid $color,
+//   border-radius: 5px,
+//   color: white,
+//   padding: 1rem,
+//   height: 120px
+// );
+
+@mixin wrapper($col) {
+    background-color: $col;
+    border: 1px solid $col;
+    border-radius: 5px;
+    color: white;
+    padding: 1rem;
+    height: 120px;
+}
+@mixin wrapper_hidden($col){
+    border: 1px solid $col;
+    height: 120px;
+    padding: 1rem;
+    visibility: hidden;    
+}
+
+// $wrapper:($color) (
+//   background-color: $color,
+//   border: 1px solid $color,
+//   border-radius: 5px,
+//   color: white,
+//   padding: 1rem,
+//   height: 120px
+// );
+
+// @mixin wrap($color) {
+//     @each $property, $value in $wrapper-styles {
+//       // Check if the value is the placeholder $color, if so replace it with the actual $color value
+//       #{$property}: if($value == $color, $color, $value);
+//     }
+//   }
+
 @media (min-width:280px) {
     .form {
         display: flex;
@@ -17,6 +57,7 @@
         border-radius: 8px;
         font-size: 1rem;
         padding: 0.5rem;
+        box-sizing: border-box;
         margin: 0.25rem 0;
         &:focus{
             outline:none;
@@ -31,7 +72,7 @@
         font-size: 1rem;
         border-radius: 8px;
         border: 1px solid $blue;
-        outline: none;
+        width: 100%;
         font-weight: bold;
         cursor: pointer;
         transition: 0.3s;
@@ -57,21 +98,19 @@
     }
 
     .error_wrapper{
-        background-color:$warning;
-        border: 1px solid $warning;
-        border-radius: 5px;
-        color: white;
-        padding: 1rem;
-        height: 120px;
+        @include wrapper($warning);
         &__hidden{
-            border: 1px solid $warning;
-            height: 120px;
-            padding: 1rem;
-            visibility: hidden;
-        
+            @include wrapper_hidden($warning)
         }
     }
-    
+    .success_wrapper{
+        @include wrapper($success);
+        &__hidden{
+            @include wrapper_hidden($success)
+        }
+
+    }
+
     .disabled{
         background-color: $lightgray;
         border:1px solid $lightgray;
@@ -86,9 +125,8 @@
         transform: translateX(-50%);
     }
 }
-
 @media (min-width:1200px) {
-    .input{
-        width: 25rem;
+    .input {
+        min-width: 20rem;
     }
 }

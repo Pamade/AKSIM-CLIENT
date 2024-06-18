@@ -27,7 +27,7 @@ function Form({formType}:FormType){
 
     const navigate = useNavigate();
     const [requestLoading, setRequestLoading] = useState(false)
-
+    const [successMessage, setSuccessMessage] = useState("")
     const [reigsterValues, setRegisterValues] = useState<RegisterValues>({
         email: '',
         password: '',
@@ -62,10 +62,24 @@ function Form({formType}:FormType){
     const handleSubmit = async (e:FormEvent, {formType}:Pick<FormType, "formType">)  => {
         e.preventDefault();
         setErrors(null)
-        const endpoint = formType === "register" ? "register" : "authenticate";
+        let endpoint = "";
+        let values:RegisterValues | LoginValues | string;
+        switch (formType) {
+            case "register":
+                endpoint = "register"
+                values = reigsterValues
+                break;
+            case "login":
+                endpoint = "authenticate"
+                values = loginValues;
+                break;
+            case "forgotPassword":
+                endpoint = "forgotPassword"
+                values = forgotPasswordEmail
+                break;
+        }
         const API = `http://localhost:8080/api/auth/${endpoint}`;
-        const values = formType === "register" ? reigsterValues : loginValues
-        
+    
         try {
             setRequestLoading(true)
             const response = await fetch(API, {
@@ -82,11 +96,17 @@ function Form({formType}:FormType){
     
             if (data.errors != null) {
                 setErrors(data.errors)
-            } else  {
+            } 
+
+            if (data.errors === null && "access_token" in data) {
                 localStorage.setItem("access_token", data.access_token)
                 navigate("/")
             }
+
+            if (data.success) setSuccessMessage(data.success)
+
         } catch (err) {
+            console.log(err);
             formType === "login" ? setErrors(["Invalid Credentials"]) : setErrors(["An error occurred"])
         }
         finally {
@@ -102,12 +122,13 @@ function Form({formType}:FormType){
     function content(description:string, fields:JSX.Element[], buttonText:string, additionalContent?:JSX.Element){
         return (
             <div className={styles.form_wrapper}>
-                <div className={styles.loading_wrapper}>
+                {/* <div className={styles.loading_wrapper}>
                     {requestLoading && <ClipLoader size={125} />}
-                </div>
-                <div className={`${errors === null  ? styles.error_wrapper__hidden : styles.error_wrapper}`}>
+                </div> */}
+                {successMessage ? <div className={`${successMessage === ""  ? styles.success_wrapper__hidden : styles.success_wrapper}`}>{successMessage}</div> :                 <div className={`${errors === null  ? styles.error_wrapper__hidden : styles.error_wrapper}`}>
                     {errors !== null  && errors.map((err, index) => <p key={index}>{err}</p>)}
-                </div>
+                </div>}
+
                 <form onSubmit={(e:FormEvent<HTMLFormElement>) => handleSubmit(e, {formType})} className={styles.form}>
                         <p className={styles.type}>{description}</p>
                         {fields}

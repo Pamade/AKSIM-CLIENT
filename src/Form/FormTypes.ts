@@ -27,5 +27,6 @@ interface RegisterValues extends LoginValues {
 interface Data {
     errors:string[] | null,
     access_token:string,
-    refresh_token:string
+    refresh_token:string,
+    success?:string
 }
