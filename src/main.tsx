@@ -24,6 +24,10 @@ const router = createBrowserRouter([
     path:"/forgotPassword",
     element:<Form formType="forgotPassword"/>
   },
+  { 
+    path:"/resetPassword/:token", 
+    element:<Form formType="resetPassword"/>
+  },
   {
     path:"/login",
     element:<Login />

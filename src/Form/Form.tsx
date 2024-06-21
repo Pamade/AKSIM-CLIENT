@@ -1,8 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "./Form.module.scss";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
-
+import useFetchOnLoad from "../CustomHooks/useFetchOnLoad";
 const fields:FieldsDisplay[] = [{
     name:"email",
     type:"email",
@@ -22,26 +22,24 @@ const fields:FieldsDisplay[] = [{
 }
 ]
 
-
 function Form({formType}:FormType){
-
+    const {token} = useParams()
+    const {results} = useFetchOnLoad("search?page=2")
     const navigate = useNavigate();
     const [requestLoading, setRequestLoading] = useState(false)
     const [successMessage, setSuccessMessage] = useState("")
-    const [reigsterValues, setRegisterValues] = useState<RegisterValues>({
-        email: '',
-        password: '',
-        repeatPassword: ''
-    });
-
-    const [loginValues, setLoginValues] = useState<LoginValues>({
-        email:'',
-        password:''
-    })
-
+    const [reigsterValues, setRegisterValues] = useState<RegisterValues>({email:'', password:'', repeatPassword:''})
+    const [loginValues, setLoginValues] = useState<LoginValues>({email:'', password:''})
+    const [resetPasswordValues, setResetPasswordValues] = useState<ResetPasswordValues>({password:'', repeatPassword:''})
     const [forgotPasswordEmail, setForgotPasswordEmail] = useState<string>("")
-
     const [errors, setErrors] = useState<String[] | null>(null)
+
+    useEffect(() => {
+        console.log(token)
+        if (formType === "resetPassword") {
+            fetchPost
+        }
+    }, [])
 
     const handleChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target
@@ -58,12 +56,76 @@ function Form({formType}:FormType){
         }))
     }
 
+    const handleChangeResetPassword = (e:React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target
+        setResetPasswordValues(prevState => ({
+            ...prevState, [name]:value
+        }))
+    }
+
+    const fetchPost = async (values:any, endpoint:string) => {
+        const API = `http://localhost:8080/api/auth/${endpoint}`;
+        try {
+            setRequestLoading(true)
+            const response = await fetch(API, {
+                method:"POST",
+                headers:{
+                    'Content-Type':'application/json',
+                },
+                body:JSON.stringify(values)
+            })
+            if (!response.ok) {
+                setErrors(["could not authenticate"])
+            }
+            const data:ForgotPasswordResponse | ValidateTokenResponse | AuthenticationResponse
+            = await response.json()
+        
+
+
+            // if (isData(data)) {
+            //     if (data.errors === null && "access_token" in data) {
+            //         localStorage.setItem("access_token", data.access_token)
+            //         navigate("/")
+            //     }
+            //     else {
+            //         setErrors(data.errors)
+            //     } 
+            // } else {
+            //     if (data.success) setSuccessMessage(data.message)
+            //     else setErrors([data.message])
+            // }
+        
+        if (isForgotPasswordResponse(data)) {
+            const {successMessage, errors} = data
+            successMessage ? setSuccessMessage(successMessage) : setErrors(errors)
+        }
+        else if (isValidateTokenResponse(data)) {
+            const {isTokenValid} = data
+            isTokenValid ? null : navigate("/")
+        }
+        else if (isAuthenticationResponse(data)){
+            const {access_token, refresh_token, errors} = data
+            if (access_token) {
+                localStorage.setItem("access_token", access_token)
+                return navigate("/")
+            } 
+            setErrors(errors)
+        }
+        } catch (err) {
+            console.log(err);
+            setErrors(["Server error"])
+            // formType === "login" ? setErrors(["Invalid Credentials"]) : setErrors(["An error occurred"])
+        }
+        finally {
+            setRequestLoading(false)
+        }
+    }
 
     const handleSubmit = async (e:FormEvent, {formType}:Pick<FormType, "formType">)  => {
         e.preventDefault();
         setErrors(null)
         let endpoint = "";
-        let values:RegisterValues | LoginValues | string;
+        let values: any;
         switch (formType) {
             case "register":
                 endpoint = "register"
@@ -77,47 +139,63 @@ function Form({formType}:FormType){
                 endpoint = "forgotPassword"
                 values = forgotPasswordEmail
                 break;
+            case "resetPassword":
+                endpoint = "resetPassword"
+                values = resetPasswordValues
+                break;
+                
+            default:
+                null
         }
-        const API = `http://localhost:8080/api/auth/${endpoint}`;
+        console.log(values)
+        await fetchPost(values, endpoint)
+        // const API = `http://localhost:8080/api/auth/${endpoint}`;
     
-        try {
-            setRequestLoading(true)
-            const response = await fetch(API, {
-                method:"POST",
-                headers:{
-                    'Content-Type':'application/json',
-                },
-                body:JSON.stringify(values)
-            })
-            if (!response.ok) {
-                setErrors(["could not authenticate"])
-            }
-            const data:Data = await response.json()
-    
-            if (data.errors != null) {
-                setErrors(data.errors)
-            } 
+        // try {
+        //     setRequestLoading(true)
+        //     const response = await fetch(API, {
+        //         method:"POST",
+        //         headers:{
+        //             'Content-Type':'application/json',
+        //         },
+        //         body:JSON.stringify(values)
+        //     })
+        //     if (!response.ok) {
+        //         setErrors(["could not authenticate"])
+        //     }
+        //     const data:Data = await response.json()
+            
+        //     switch (data) {
+        //         case null && "access_token" in data:
+        //             // localStorage.setItem("access_token", data.access_token)
+        //             navigate("/")
+        //     }
 
-            if (data.errors === null && "access_token" in data) {
-                localStorage.setItem("access_token", data.access_token)
-                navigate("/")
-            }
+        //     if (data.errors != null) {
+        //         setErrors(data.errors)
+        //     } 
 
-            if (data.success) setSuccessMessage(data.success)
+        //     if (data.errors === null && "access_token" in data) {
+        //         localStorage.setItem("access_token", data.access_token)
+        //         navigate("/")
+        //     }
 
-        } catch (err) {
-            console.log(err);
-            formType === "login" ? setErrors(["Invalid Credentials"]) : setErrors(["An error occurred"])
-        }
-        finally {
-            setRequestLoading(false)
-        }
+        //     if (data.success) setSuccessMessage(data.success)
+
+        // } catch (err) {
+        //     console.log(err);
+        //     formType === "login" ? setErrors(["Invalid Credentials"]) : setErrors(["An error occurred"])
+        // }
+        // finally {
+        //     setRequestLoading(false)
+        // }
 
     }
 
     const RegisterForm = fields.map((field, index) => <Field onChange={handleChangeRegister} value={reigsterValues[field.name] as FieldsRegisterType} key={index} {...field} />)
     const LoginForm = fields.slice(0,-1).map((field, index) => <Field onChange={handleChangeLogin} value={loginValues[field.name as FieldsLoginType]}  key={index} {...field} />) 
     const EmailForm = fields.slice(0, 1).map((field, index) => <Field onChange={(e) => setForgotPasswordEmail(e.target.value)} value={forgotPasswordEmail} key={index} {...field}/>)
+    const ResetPasswordForm = fields.slice(1).map((field, index) => <Field onChange={handleChangeResetPassword} value={resetPasswordValues[field.name as FieldsResetPassword]}  key={index} {...field}/>)
 
     function content(description:string, fields:JSX.Element[], buttonText:string, additionalContent?:JSX.Element){
         return (
@@ -144,11 +222,13 @@ function Form({formType}:FormType){
 
     switch(formType) {
         case "register":
-            return content("Register", RegisterForm, "CREATE AN ACCOUNT",<Link className={styles.link} to="reset">Forgot password ?</Link> )
+            return content("Register", RegisterForm, "CREATE AN ACCOUNT",<Link className={styles.link} to="../forgotPassword">Forgot password ?</Link> )
         case "login":
             return content("Login", LoginForm, "LOG IN")
         case "forgotPassword":
             return content("Forgot Password", EmailForm, "SEND")
+        case "resetPassword":
+            return content("Reset Password", ResetPasswordForm, "CHANGE PASSWORD")
         default:
             return null;
     }
