@@ -1,8 +1,9 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "./Form.module.scss";
 import { FormEvent, useEffect, useState } from "react";
-import { ClipLoader } from "react-spinners";
 import useFetchOnLoad from "../CustomHooks/useFetchOnLoad";
+import { FieldsDisplay, FormType, FieldType, RegisterValues, LoginValues, ResetPasswordValues, ForgotPasswordResponse, ValidateTokenResponse, AuthenticationResponse, isForgotPasswordResponse, isValidateTokenResponse, isAuthenticationResponse, FieldsLoginType, FieldsResetPassword, FieldsRegisterType } from "./FormTypes";
+
 const fields:FieldsDisplay[] = [{
     name:"email",
     type:"email",
@@ -30,15 +31,14 @@ function Form({formType}:FormType){
     const [successMessage, setSuccessMessage] = useState("")
     const [reigsterValues, setRegisterValues] = useState<RegisterValues>({email:'', password:'', repeatPassword:''})
     const [loginValues, setLoginValues] = useState<LoginValues>({email:'', password:''})
-    const [resetPasswordValues, setResetPasswordValues] = useState<ResetPasswordValues>({password:'', repeatPassword:''})
+    const [resetPasswordValues, setResetPasswordValues] = useState<ResetPasswordValues>({password:'', repeatPassword:'',
+         tokenValue:token as string, tokenType:'forgot_password' })
+         
     const [forgotPasswordEmail, setForgotPasswordEmail] = useState<string>("")
     const [errors, setErrors] = useState<String[] | null>(null)
 
     useEffect(() => {
-        console.log(token)
-        if (formType === "resetPassword") {
-            fetchPost
-        }
+        formType === "resetPassword" && fetchPost({value:token, type:"forgot_password"}, "validateToken")
     }, [])
 
     const handleChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,29 +79,14 @@ function Form({formType}:FormType){
             }
             const data:ForgotPasswordResponse | ValidateTokenResponse | AuthenticationResponse
             = await response.json()
-        
 
-
-            // if (isData(data)) {
-            //     if (data.errors === null && "access_token" in data) {
-            //         localStorage.setItem("access_token", data.access_token)
-            //         navigate("/")
-            //     }
-            //     else {
-            //         setErrors(data.errors)
-            //     } 
-            // } else {
-            //     if (data.success) setSuccessMessage(data.message)
-            //     else setErrors([data.message])
-            // }
-        
         if (isForgotPasswordResponse(data)) {
             const {successMessage, errors} = data
             successMessage ? setSuccessMessage(successMessage) : setErrors(errors)
         }
         else if (isValidateTokenResponse(data)) {
             const {isTokenValid} = data
-            isTokenValid ? null : navigate("/")
+            isTokenValid && formType === "resetPassword" ? null : navigate("/")
         }
         else if (isAuthenticationResponse(data)){
             const {access_token, refresh_token, errors} = data
@@ -109,12 +94,12 @@ function Form({formType}:FormType){
                 localStorage.setItem("access_token", access_token)
                 return navigate("/")
             } 
+            console.log(errors)
             setErrors(errors)
         }
         } catch (err) {
-            console.log(err);
+            console.log(err)
             setErrors(["Server error"])
-            // formType === "login" ? setErrors(["Invalid Credentials"]) : setErrors(["An error occurred"])
         }
         finally {
             setRequestLoading(false)
@@ -143,53 +128,10 @@ function Form({formType}:FormType){
                 endpoint = "resetPassword"
                 values = resetPasswordValues
                 break;
-                
             default:
                 null
         }
-        console.log(values)
         await fetchPost(values, endpoint)
-        // const API = `http://localhost:8080/api/auth/${endpoint}`;
-    
-        // try {
-        //     setRequestLoading(true)
-        //     const response = await fetch(API, {
-        //         method:"POST",
-        //         headers:{
-        //             'Content-Type':'application/json',
-        //         },
-        //         body:JSON.stringify(values)
-        //     })
-        //     if (!response.ok) {
-        //         setErrors(["could not authenticate"])
-        //     }
-        //     const data:Data = await response.json()
-            
-        //     switch (data) {
-        //         case null && "access_token" in data:
-        //             // localStorage.setItem("access_token", data.access_token)
-        //             navigate("/")
-        //     }
-
-        //     if (data.errors != null) {
-        //         setErrors(data.errors)
-        //     } 
-
-        //     if (data.errors === null && "access_token" in data) {
-        //         localStorage.setItem("access_token", data.access_token)
-        //         navigate("/")
-        //     }
-
-        //     if (data.success) setSuccessMessage(data.success)
-
-        // } catch (err) {
-        //     console.log(err);
-        //     formType === "login" ? setErrors(["Invalid Credentials"]) : setErrors(["An error occurred"])
-        // }
-        // finally {
-        //     setRequestLoading(false)
-        // }
-
     }
 
     const RegisterForm = fields.map((field, index) => <Field onChange={handleChangeRegister} value={reigsterValues[field.name] as FieldsRegisterType} key={index} {...field} />)
@@ -222,9 +164,9 @@ function Form({formType}:FormType){
 
     switch(formType) {
         case "register":
-            return content("Register", RegisterForm, "CREATE AN ACCOUNT",<Link className={styles.link} to="../forgotPassword">Forgot password ?</Link> )
+            return content("Register", RegisterForm, "CREATE AN ACCOUNT")
         case "login":
-            return content("Login", LoginForm, "LOG IN")
+            return content("Login", LoginForm, "LOG IN", <Link className={styles.link} to="../forgotPassword">Forgot password ?</Link>)
         case "forgotPassword":
             return content("Forgot Password", EmailForm, "SEND")
         case "resetPassword":
@@ -235,7 +177,7 @@ function Form({formType}:FormType){
 
 }
 
-function Field({label, placeholder, type, name, value, onChange}:Field){
+function Field({label, placeholder, type, name, value, onChange}:FieldType){
 
     return (
         <div className={styles.field}>

@@ -1,14 +1,14 @@
 
-type FormType = {
+export type FormType = {
     formType:"login" | "register" | "forgotPassword" | "resetPassword",
 }
 
-type FieldsRegisterType = "email" | "password" | "repeatPassword";
-type FieldsLoginType = "email" | "password";
-type FieldsResetPassword = "password" | "repeatPassword";
-type FieldsDisplay = Omit<Field, "value" | "onChange">;
+export type FieldsRegisterType = "email" | "password" | "repeatPassword";
+export type FieldsLoginType = "email" | "password";
+export type FieldsResetPassword = "password" | "repeatPassword";
+export type FieldsDisplay = Omit<FieldType, "value" | "onChange">;
 
-interface Field{
+export interface FieldType{
     name:FieldsRegisterType | FieldsLoginType | FieldsResetPassword
     type: string;
     placeholder: string;
@@ -17,46 +17,45 @@ interface Field{
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-interface LoginValues {
+export interface LoginValues {
     email:string,
     password:string
 }
 
-interface RegisterValues extends LoginValues {
+export interface RegisterValues extends LoginValues {
     repeatPassword:string
 }
 
-interface ResetPasswordValues {
+export interface ResetPasswordValues {
     password:string,
     repeatPassword:string,
+    tokenType:string,
+    tokenValue:string
 }
 
-interface ForgotPasswordResponse{
+export interface ForgotPasswordResponse{
     errors:string[],
     successMessage:string | null,
 }
 
-interface ValidateTokenResponse {
+export interface ValidateTokenResponse {
     isTokenValid:boolean
 }
 
-interface AuthenticationResponse {
+export interface AuthenticationResponse {
     access_token:string | null,
     refresh_token:string | null,
     errors:string[]
 }
 
-function isForgotPasswordResponse(value: any): value is ForgotPasswordResponse {
+export function isForgotPasswordResponse(value: any): value is ForgotPasswordResponse {
     return 'errors' in value && 'successMessage' in value;
 }
 
-function isValidateTokenResponse(value: any): value is ValidateTokenResponse {
+export function isValidateTokenResponse(value: any): value is ValidateTokenResponse {
     return 'isTokenValid' in value;
 }
 
-function isAuthenticationResponse(value: any): value is AuthenticationResponse {
+export function isAuthenticationResponse(value: any): value is AuthenticationResponse {
     return 'access_token' in value && 'refresh_token' in value && 'errors' in value;
 }
-// function isData(value:Data | IsTokenValid):value is Data {
-//     return (value as Data).refresh_token !== undefined;
-// }
