@@ -1,8 +1,10 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "./Form.module.scss";
 import { FormEvent, useEffect, useState } from "react";
+// import UserContext from "../Context/UserContext";
 import useFetchOnLoad from "../CustomHooks/useFetchOnLoad";
-import { FieldsDisplay, FormType, FieldType, RegisterValues, LoginValues, ResetPasswordValues, ForgotPasswordResponse, ValidateTokenResponse, AuthenticationResponse, isForgotPasswordResponse, isValidateTokenResponse, isAuthenticationResponse, FieldsLoginType, FieldsResetPassword, FieldsRegisterType } from "./FormTypes";
+import { useUserContext } from "../Context/UserContext";
+import { FieldsDisplay, FormType, FieldType, RegisterValues, LoginValues, ResetPasswordValues, ForgotPasswordResponse, ValidateTokenResponse, AuthenticationResponse, isForgotPasswordResponse, isValidateTokenResponse, isAuthenticationResponse, FieldsLoginType, FieldsResetPassword, FieldsRegisterType, FetchValues } from "./FormTypes";
 
 const fields:FieldsDisplay[] = [{
     name:"email",
@@ -26,6 +28,7 @@ const fields:FieldsDisplay[] = [{
 function Form({formType}:FormType){
     const {token} = useParams()
     const {results} = useFetchOnLoad("search?page=2")
+    const {fetchUserData} = useUserContext()
     const navigate = useNavigate();
     const [requestLoading, setRequestLoading] = useState(false)
     const [successMessage, setSuccessMessage] = useState("")
@@ -62,8 +65,7 @@ function Form({formType}:FormType){
             ...prevState, [name]:value
         }))
     }
-
-    const fetchPost = async (values:any, endpoint:string) => {
+    const fetchPost = async (values:FetchValues, endpoint:string) => {
         const API = `http://localhost:8080/api/auth/${endpoint}`;
         try {
             setRequestLoading(true)
@@ -92,13 +94,12 @@ function Form({formType}:FormType){
             const {access_token, refresh_token, errors} = data
             if (access_token) {
                 localStorage.setItem("access_token", access_token)
+                fetchUserData(access_token)
                 return navigate("/")
             } 
-            console.log(errors)
             setErrors(errors)
         }
         } catch (err) {
-            console.log(err)
             setErrors(["Server error"])
         }
         finally {
@@ -110,7 +111,7 @@ function Form({formType}:FormType){
         e.preventDefault();
         setErrors(null)
         let endpoint = "";
-        let values: any;
+        let values: FetchValues;
         switch (formType) {
             case "register":
                 endpoint = "register"
@@ -129,7 +130,8 @@ function Form({formType}:FormType){
                 values = resetPasswordValues
                 break;
             default:
-                null
+                values = ""
+                endpoint = "/"
         }
         await fetchPost(values, endpoint)
     }
@@ -145,11 +147,16 @@ function Form({formType}:FormType){
                 {/* <div className={styles.loading_wrapper}>
                     {requestLoading && <ClipLoader size={125} />}
                 </div> */}
-                {successMessage ? <div className={`${successMessage === ""  ? styles.success_wrapper__hidden : styles.success_wrapper}`}>{successMessage}</div> :                 <div className={`${errors === null  ? styles.error_wrapper__hidden : styles.error_wrapper}`}>
+                {successMessage? <div className={`${successMessage === ""  ? styles.success_wrapper__hidden : styles.success_wrapper}`}>
+                    <p>{successMessage}</p>
+                    {formType === "resetPassword" && <Link className={styles.link_back_to_login} to={"/login"}>Go To Login Page</Link>}
+                </div> :                 <div className={`${errors === null  ? styles.error_wrapper__hidden : styles.error_wrapper}`}>
                     {errors !== null  && errors.map((err, index) => <p key={index}>{err}</p>)}
                 </div>}
-
-                <form onSubmit={(e:FormEvent<HTMLFormElement>) => handleSubmit(e, {formType})} className={styles.form}>
+                {successMessage && formType === "resetPassword" ? 
+                    ""
+                    :
+                     <form onSubmit={(e:FormEvent<HTMLFormElement>) => handleSubmit(e, {formType})} className={styles.form}>
                         <p className={styles.type}>{description}</p>
                         {fields}
                         <button disabled={requestLoading === true ? true : false} type="submit" className={ requestLoading ? `${styles.disabled} ${styles.button}` 
@@ -157,7 +164,8 @@ function Form({formType}:FormType){
                         <div>
                             {additionalContent}
                         </div>
-                </form>
+                </form>}    
+                
             </div>
         )
     }

@@ -14,7 +14,7 @@ const API_GET_CONTENT = (
 
 function useFetchOnLoad<T>(URL:string) {
     const [isLoading, setIsLoading] = useState(false)
-    const [results, setResults] = useState<T | null>(null)
+    const [results, setContent] = useState<T | null>(null)
     const [error, setError] = useState("")
 
 
@@ -26,10 +26,9 @@ function useFetchOnLoad<T>(URL:string) {
                     const res = await API_GET_CONTENT.get<AxiosResponse<any>>(URL + `&api-key=${API_KEY}`);
                     if (res.status === 200 && res.data) {
                         const content = res.data as T;
-                        setResults(content)
+                        setContent(content)
                     }
                 } catch (e) {
-                    console.log(e)
                     setError("Could not load content");
                 } finally {
                     setIsLoading(false);

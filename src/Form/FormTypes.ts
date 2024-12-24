@@ -42,20 +42,28 @@ export interface ValidateTokenResponse {
     isTokenValid:boolean
 }
 
+export interface CheckValidationToken {
+    value?:string, type:string
+}
+
 export interface AuthenticationResponse {
     access_token:string | null,
     refresh_token:string | null,
     errors:string[]
 }
 
-export function isForgotPasswordResponse(value: any): value is ForgotPasswordResponse {
-    return 'errors' in value && 'successMessage' in value;
+export type FetchValues = RegisterValues | LoginValues | ResetPasswordValues |CheckValidationToken | string;
+
+export function isForgotPasswordResponse(value: unknown): value is ForgotPasswordResponse {
+    // return 'errors' in value && 'successMessage' in value;
+    return typeof value === 'object' && value !== null && 'errors' in value && 'successMessage' in value;
+
 }
 
-export function isValidateTokenResponse(value: any): value is ValidateTokenResponse {
-    return 'isTokenValid' in value;
+export function isValidateTokenResponse(value: unknown): value is ValidateTokenResponse {
+    return typeof value === 'object' && value !== null && 'isTokenValue' in value;
 }
 
-export function isAuthenticationResponse(value: any): value is AuthenticationResponse {
-    return 'access_token' in value && 'refresh_token' in value && 'errors' in value;
+export function isAuthenticationResponse(value: unknown): value is AuthenticationResponse {
+    return typeof value === 'object' && value !== null && 'access_token' in value;
 }

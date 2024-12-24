@@ -1,14 +1,5 @@
 @import "../styles/variables";
 
-// $wrapper-styles: (
-//   background-color: $color,
-//   border: 1px solid $color,
-//   border-radius: 5px,
-//   color: white,
-//   padding: 1rem,
-//   height: 120px
-// );
-
 @mixin wrapper($col) {
     background-color: $col;
     border: 1px solid $col;
@@ -114,6 +105,11 @@
     .disabled{
         background-color: $lightgray;
         border:1px solid $lightgray;
+        &:hover{
+            background-color: $lightgray;
+            border:1px solid $lightgray;
+            color: white;
+        }
     }
 
     .loading_wrapper{
@@ -123,6 +119,16 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
+    }
+
+    .link_back_to_login{
+        text-align: center;
+        margin: 1rem 0;
+        color: white;
+        font-size: 1rem;
+        &:hover{
+            color: $lightblue;
+        }
     }
 }
 @media (min-width:1200px) {

@@ -1,48 +1,87 @@
-import { error } from "console"
-import { useContext, createContext, ReactNode, useReducer } from "react"
-interface User {
+import React, { createContext, useContext, useEffect, useReducer } from "react";
 
+interface User {
+    username: string;
 }
 
 interface State {
-    user:User | null,
-    loading:boolean,
-    error:null | string
+    user: User | null;
+    loading: boolean;
+    error: null | string;
 }
 
-const InitialState:State = {
-    user:null,
-    loading:false,
-    error:null
-}
+const initialState: State = {
+    user: null,
+    loading: false,
+    error: null,
+};
 
-interface FetchUserData {
-    type:"FETCH_USER_DATA",
-    payload:User
-}
+// Define Action Types
+type Action =
+    | { type: "START_FETCH_USER_DATA" }
+    | { type: "FETCH_USER_DATA_SUCCESS"; payload: User }
+    | { type: "FETCH_USER_DATA_ERROR"; payload: string };
 
-type ActionTypes = FetchUserData
-
-const userReducer = (state:State, action:ActionTypes) => {
-    switch(action.type) {
-        case "FETCH_USER_DATA":
-            return {...state, user:action.payload, loading:false, error:null}
+// Reducer Function
+const userReducer = (state: State, action: Action): State => {
+    switch (action.type) {
+        case "START_FETCH_USER_DATA":
+            return { ...state, loading: true, error: null };
+        case "FETCH_USER_DATA_SUCCESS":
+            return { ...state, user: action.payload, loading: false, error: null };
+        case "FETCH_USER_DATA_ERROR":
+            return { ...state, loading: false, error: action.payload };
         default:
             return state;
     }
-}
+};
 
+// Create Context
 const UserContext = createContext<{
-    state:State,
-    dispatch:React.Dispatch<ActionTypes>
-}>({state:InitialState, dispatch: () => {}})
+    state: State;
+    fetchUserData: (token: string) => Promise<void>;
+}>({
+    state: initialState,
+    fetchUserData: async () => {},
+});
 
-export const UserProvider: React.FC<{ children: ReactNode }> = ({children}) => {
-    const [state, dispatch] = useReducer(userReducer, InitialState)
-    return <UserContext.Provider value={{state, dispatch}}>
-        {children}
-    </UserContext.Provider>
+// Context Provider Component
+export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [state, dispatch] = useReducer(userReducer, initialState);
+
+    const fetchUserData = async (token: string) => {
+        dispatch({ type: "START_FETCH_USER_DATA" });
+
+        try {
+            const response = await fetch("http://localhost:8080/api/user/info", {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch");
+            }
+
+            const data: User = await response.json();
+            dispatch({ type: "FETCH_USER_DATA_SUCCESS", payload: data });
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch({ type: "FETCH_USER_DATA_ERROR", payload: error.message });
+            }
+        }
+    };
+
+    return (
+        <UserContext.Provider value={{ state, fetchUserData }}>
+            {children}
+        </UserContext.Provider>
+    );
+};
+
+export const useUserContext = () => {
+    const context = useContext(UserContext)
+    return context;
 }
-
-
-export default UserContext

@@ -1,4 +1,4 @@
-import useFetchOnLoad from '../CustomHooks/useFetchOnLoad';
+import { useUserContext } from '../Context/UserContext';
 
 interface FieldContent{
     thumbnail:string,
@@ -14,12 +14,11 @@ interface Result{
 }
 
 function Root(){
-    
-    const {results, isLoading} = useFetchOnLoad<Result[]>("search?page=2&q=debate&show-fields=thumbnail,bodyText")
-    console.log(results)
+
+    const {state} = useUserContext();
     return (
         <div>
-            {results && results.length > 0 && !isLoading ? results.map((result) => <h1>{result.fields.bodyText}</h1>) : "xd"}
+            {state.user?.username}
         </div>
     )
     
