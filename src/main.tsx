@@ -11,14 +11,16 @@ import App from './App.tsx'
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: <Header><Root /></Header>,
   },
   {
     path:"/forgotPassword",
     element:
     (
     <ProtectedRoute>
-      <Form formType="forgotPassword"/>
+      <Header>
+        <Form formType="forgotPassword"/>
+      </Header>
       </ProtectedRoute>
     )
   },
@@ -27,7 +29,9 @@ const router = createBrowserRouter([
     element:
     (
     <ProtectedRoute>
-      <Form formType="resetPassword"/>
+        <Header>
+          <Form formType="resetPassword"/>
+        </Header>
       </ProtectedRoute>
     )
   },
@@ -35,20 +39,20 @@ const router = createBrowserRouter([
     path:"/login",
     element:(
       <ProtectedRoute>
-        <Login />
+        <Header>
+          <Login />
+        </Header>
       </ProtectedRoute>
     )
   }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <UserProvider>
-      <App>
-        <div className="wrapper">
-            <Header>
-              <RouterProvider router={router}/>
-            </Header>
-        </div>
-      </App>
-    </UserProvider>,
-)
+  <UserProvider>
+    <App>
+      <div className="wrapper">
+            <RouterProvider router={router}/>
+      </div>
+    </App>
+  </UserProvider>,
+)  

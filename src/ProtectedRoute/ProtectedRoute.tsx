@@ -8,7 +8,7 @@ interface ProtectedRouteProps  {
 
 const ProtectedRoute = ({children}:ProtectedRouteProps) => {
     const {state} = useUserContext();
-    console.log(state)
+    
     if (state.user) {
         return <Navigate to="/"/>
     }
