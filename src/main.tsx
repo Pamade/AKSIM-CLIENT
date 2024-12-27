@@ -5,9 +5,11 @@ import Root from './Root/Root.tsx'
 import Login from './Login/Login.tsx'
 import Form from './Form/Form.tsx'
 import Header from "./Header/Header.tsx";
+import AddArticle from './AddArticle/AddArticle.tsx'
 import { UserProvider } from './Context/UserContext.tsx'
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute.tsx'
 import App from './App.tsx'
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -43,6 +45,14 @@ const router = createBrowserRouter([
           <Login />
         </Header>
       </ProtectedRoute>
+    )
+  },
+  {
+    path:"/user/add-article",
+    element:(
+        <Header>
+          <AddArticle />
+        </Header>
     )
   }
 ]);

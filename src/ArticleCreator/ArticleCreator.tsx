@@ -13,8 +13,10 @@ type Insert = {
 interface D {
     ops:[Insert]
 }
-
-function ArticleCreator(){
+interface Props{
+    handleChangeArticleContent: (html: string) => void
+}
+function ArticleCreator({handleChangeArticleContent}:Props){
 
     const [delta, setDelta] = useState<D>({} as D);
     const [savedDeltas, setSavedDeltas] = useState<string[]>([])
@@ -50,6 +52,7 @@ function ArticleCreator(){
             const html = editor.root.innerHTML;
             const sanitizedHtml = DOMPurify.sanitize(html);
             setEditorHtml(sanitizedHtml);
+            handleChangeArticleContent(sanitizedHtml)
         }
         }  
     };
@@ -66,8 +69,8 @@ function ArticleCreator(){
         event.preventDefault();
         const deltaJson = JSON.stringify(delta);
         setSavedDeltas(deltas => [...deltas, deltaJson])
-        
     };
+    console.log(editorHtml)
     const getHTMLFromDelta = (delta:any) => {
         const tempQuill = new Quill(document.createElement('div'));
         tempQuill.setContents(delta);
@@ -76,20 +79,24 @@ function ArticleCreator(){
 
     return (
         <div className="main">
-            <h1>Creation: </h1>
-            <h1>Quill Text Editor Example</h1>
             <form onSubmit={handleSubmit}>
                 <ReactQuill modules={modules} ref={quillRef} theme="snow" onChange={handleChange} />
                 <button type="submit">Submit</button>
             </form>
-            <div dangerouslySetInnerHTML={{ __html: editorHtml }} />
+            <div style={{
+                whiteSpace: "pre-wrap", // Ensures spaces, tabs, and line breaks are preserved
+                marginTop: "20px",
+        }} dangerouslySetInnerHTML={{ __html:editorHtml}} />
 
-            <h1>Created Quills</h1>
+            {/* <h1>Created Quills</h1>
             {savedDeltas.map((deltaJson, index) => {
                 const delta = JSON.parse(deltaJson);
                 const html = getHTMLFromDelta(delta);
-                return <div key={index} dangerouslySetInnerHTML={{ __html: html }} />;
-            })}
+                return <div style={{
+                    whiteSpace: "pre-wrap", // Ensures spaces, tabs, and line breaks are preserved
+                    marginTop: "20px",
+                  }} key={index} dangerouslySetInnerHTML={{ __html: html }} />;
+            })} */}
         </div>
     );
 

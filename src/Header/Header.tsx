@@ -8,14 +8,15 @@ interface Props {
 }
 interface ButtonProps{
     path:string,
-    text:string
+    text:string,
+    event?:() => void
 }
-function Button({path,text}:ButtonProps){
-    return <Link className={styles.button} to={path}>{text}</Link>
+function Button({path,text, event}:ButtonProps){
+    return <Link onClick={event} className={styles.button} to={path}>{text}</Link>
 }
 
 function Header({children}:Props) {
-    const {state} = useUserContext();
+    const {state, logout} = useUserContext();
     return (
         <section>
             <div className={styles.wrapper}>
@@ -23,10 +24,10 @@ function Header({children}:Props) {
                 <h1 className={styles.heading}>AKSIM</h1>
                 {!state.user?<div>
                     <Button text="Login" path="/login"/>
-                    <button>Register</button>
                 </div> : <div className={styles.buttons}>
                     <Button text="Profile" path="user/profile" />
-                    <Button text="Logout" path="/" />
+                    <Button text="Add Article" path="user/add-article" />
+                    <Button event={logout} text="Logout" path="/" />
                 </div>}              
             </div>
             {children}
