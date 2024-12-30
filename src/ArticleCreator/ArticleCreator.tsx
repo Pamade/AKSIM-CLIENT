@@ -81,7 +81,6 @@ function ArticleCreator({handleChangeArticleContent}:Props){
         <div className="main">
             <form onSubmit={handleSubmit}>
                 <ReactQuill modules={modules} ref={quillRef} theme="snow" onChange={handleChange} />
-                <button type="submit">Submit</button>
             </form>
             <div style={{
                 whiteSpace: "pre-wrap", // Ensures spaces, tabs, and line breaks are preserved

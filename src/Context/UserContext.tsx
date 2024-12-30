@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
-
+import React, { createContext, useContext, useReducer } from "react";
+import axios from "axios";
 interface User {
     username: string;
 }
@@ -63,19 +63,17 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         dispatch({ type: "START_FETCH_USER_DATA" });
 
         try {
-            const response = await fetch("http://localhost:8080/api/user/info", {
-                method: "GET",
+            const res = await axios.get("http://localhost:8080/api/user/info", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
             });
 
-            if (!response.ok) {
+            if (res.status !== 200) {
                 throw new Error("Failed to fetch");
             }
-
-            const data: User = await response.json();
+            const data: User = res.data
             dispatch({ type: "FETCH_USER_DATA_SUCCESS", payload: data });
         } catch (error) {
             if (error instanceof Error) {

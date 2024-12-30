@@ -1,7 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "./Form.module.scss";
 import { FormEvent, useEffect, useState } from "react";
-// import UserContext from "../Context/UserContext";
 import useFetchOnLoad from "../CustomHooks/useFetchOnLoad";
 import { useUserContext } from "../Context/UserContext";
 import { FieldsDisplay, FormType, FieldType, RegisterValues, LoginValues, ResetPasswordValues, ForgotPasswordResponse, ValidateTokenResponse, AuthenticationResponse, isForgotPasswordResponse, isValidateTokenResponse, isAuthenticationResponse, FieldsLoginType, FieldsResetPassword, FieldsRegisterType, FetchValues } from "./FormTypes";
