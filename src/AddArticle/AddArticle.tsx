@@ -36,7 +36,7 @@ const AddArticle = () => {
         formData.append("content", article.content || "");
         formData.append("creationDate", new Date().toISOString());
         try {
-            const res = await axios.post<Data>("http://localhost:8080/api/auth/add-article", 
+            const res = await axios.post<Data>("http://localhost:8080/api/auth/add-image-to-article", 
             formData,
             {
                 headers:{
@@ -80,7 +80,6 @@ const AddArticle = () => {
             }))
         }
     }
-
     return <section className={styles.section}>
         <h2>Add Article</h2>
         <form onSubmit={handlePostArticle} className={styles.form}>

@@ -3,7 +3,7 @@ import ReactQuill, {Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import DOMPurify from 'dompurify';
 import '../ql-config.scss'
-
+import axios from 'axios';
 
 type Insert = {
     insert:string,
@@ -24,23 +24,62 @@ function ArticleCreator({handleChangeArticleContent}:Props){
     const quillRef:any = useRef(null);
     const [editorHtml, setEditorHtml] = useState('');
 
+    const handleArticleImageUpload = async () => {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+    
+        input.click();
+    
+        input.onchange = async () => {
+          const file = input.files?.[0];
+          if (file) {
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            try {
+              // Send the image to the server for storage
+              const response = await axios.post('http://localhost:8080/api/auth/add-image-to-article', formData, {
+                headers: {
+                   Authorization: "Bearer " + localStorage.getItem("access_token"), 
+                  'Content-Type': 'multipart/form-data',
+                },
+              });
+    
+              // Get the URL of the uploaded image
+              const imageUrl = response.data.url;
+    
+              // Insert the image URL into the editor
+              const editor = quillRef.current.getEditor();
+              const range = editor.getSelection();
+              editor.insertEmbed(range.index, 'image', imageUrl);
+            } catch (error) {
+              console.error('Error uploading image:', error);
+            }
+          }
+        };
+      };
     const modules = {
-        toolbar: [
-        ['bold', 'italic', 'underline', 'strike'],
-        ['blockquote', 'code-block'],
-        [{ 'header': 1 }, { 'header': 2 }],
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-        [{ 'script': 'sub'}, { 'script': 'super' }],
-        [{ 'indent': '-1'}, { 'indent': '+1' }],
-        [{ 'direction': 'rtl' }],
-        [{ 'size': ['small', false, 'large', 'huge'] }],
-        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-        [{ 'color': [] }, { 'background': [] }],
-        [{ 'font': [] }],
-        [{ 'align': [] }],
-        ['link', 'image', 'video'],
-        ['clean']
-        ]
+        toolbar: {
+            container:[
+                ['bold', 'italic', 'underline', 'strike'],
+                ['blockquote', 'code-block'],
+                [{ 'header': 1 }, { 'header': 2 }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'script': 'sub'}, { 'script': 'super' }],
+                [{ 'indent': '-1'}, { 'indent': '+1' }],
+                [{ 'direction': 'rtl' }],
+                [{ 'size': ['small', false, 'large', 'huge'] }],
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'font': [] }],
+                [{ 'align': [] }],
+                ['link', 'image', 'video'],
+                ['clean']
+            ],handlers: {
+                image:handleArticleImageUpload
+            },}
+       
     };
 
     const handleChange = (content:any, delta:any, source:any, editor:any) => {
@@ -57,12 +96,6 @@ function ArticleCreator({handleChangeArticleContent}:Props){
         }  
     };
 
-    // grabs delta from db object and sets into html
-    // const getHTMLFromDelta = (delta:any) => {
-    //   const tempQuill = new Quill(document.createElement('div'));
-    //   tempQuill.setContents(delta);
-    //   return tempQuill.root.innerHTML;
-    // };  
 
     
     const handleSubmit = (event:any) => {
@@ -70,12 +103,14 @@ function ArticleCreator({handleChangeArticleContent}:Props){
         const deltaJson = JSON.stringify(delta);
         setSavedDeltas(deltas => [...deltas, deltaJson])
     };
-    console.log(editorHtml)
+
+
     const getHTMLFromDelta = (delta:any) => {
         const tempQuill = new Quill(document.createElement('div'));
         tempQuill.setContents(delta);
         return tempQuill.root.innerHTML;
     };
+
 
     return (
         <div className="main">
