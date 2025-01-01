@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useState } from "react";
 import useFetchOnLoad from "../CustomHooks/useFetchOnLoad";
 import { useUserContext } from "../Context/UserContext";
 import { FieldsDisplay, FormType, FieldType, RegisterValues, LoginValues, ResetPasswordValues, ForgotPasswordResponse, ValidateTokenResponse, AuthenticationResponse, isForgotPasswordResponse, isValidateTokenResponse, isAuthenticationResponse, FieldsLoginType, FieldsResetPassword, FieldsRegisterType, FetchValues } from "./FormTypes";
+import axios from "axios";
 
 const fields:FieldsDisplay[] = [{
     name:"email",
@@ -26,7 +27,7 @@ const fields:FieldsDisplay[] = [{
 
 function Form({formType}:FormType){
     const {token} = useParams()
-    const {results} = useFetchOnLoad("search?page=2")
+    // const {results} = useFetchOnLoad("search?page=2")
     const {fetchUserData} = useUserContext()
     const navigate = useNavigate();
     const [requestLoading, setRequestLoading] = useState(false)
@@ -68,19 +69,17 @@ function Form({formType}:FormType){
         const API = `http://localhost:8080/api/auth/${endpoint}`;
         try {
             setRequestLoading(true)
-            const response = await fetch(API, {
-                method:"POST",
-                headers:{
-                    'Content-Type':'application/json',
+            
+            const response = await axios.post(API, values, {
+                headers: {
+                  'Content-Type': 'application/json',
                 },
-                body:JSON.stringify(values)
-            })
-            if (!response.ok) {
+              });
+
+            if (response.status !== 200) {
                 setErrors(["could not authenticate"])
             }
-            const data:ForgotPasswordResponse | ValidateTokenResponse | AuthenticationResponse
-            = await response.json()
-
+            const data:ForgotPasswordResponse | ValidateTokenResponse | AuthenticationResponse = response.data
         if (isForgotPasswordResponse(data)) {
             const {successMessage, errors} = data
             successMessage ? setSuccessMessage(successMessage) : setErrors(errors)

@@ -36,7 +36,7 @@ const AddArticle = () => {
         formData.append("content", article.content || "");
         formData.append("creationDate", new Date().toISOString());
         try {
-            const res = await axios.post<Data>("http://localhost:8080/api/auth/add-image-to-article", 
+            const res = await axios.post<Data>("http://localhost:8080/api/user/add-article", 
             formData,
             {
                 headers:{
@@ -57,7 +57,6 @@ const AddArticle = () => {
         } catch (e) {
             setErrors({server:"Server Error"})
         }
-        console.log(article)
     }
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {

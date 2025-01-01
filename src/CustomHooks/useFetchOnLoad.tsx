@@ -14,19 +14,18 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 
 function useFetchOnLoad<T>(URL:string) {
     const [isLoading, setIsLoading] = useState(false)
-    const [results, setContent] = useState<T | null>(null)
+    const [responseData, setResponseData] = useState<T | null>(null)
     const [error, setError] = useState("")
 
 
     useEffect(() => {
         const fetchData= async () => {
                 setIsLoading(true);
-                // + `&api-key=${API_KEY}
                 try {
-                    const res = await axios.get<AxiosResponse<any>>(`https://content.guardianapis.com/&api-key=${API_KEY}`);
+                    const res = await axios.get(URL);
                     if (res.status === 200 && res.data) {
-                        const content = res.data as T;
-                        setContent(content)
+                        // const content = res.data as T;
+                        setResponseData(res.data)
                     }
                 } catch (e) {
                     setError("Could not load content");
@@ -37,7 +36,7 @@ function useFetchOnLoad<T>(URL:string) {
             fetchData();
         }, []
     )
-    return {isLoading, results, error};
+    return {isLoading, responseData, error};
 }
     
 export default useFetchOnLoad
