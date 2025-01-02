@@ -1,3 +1,4 @@
+import {useState} from "react";
 import styles from "./Header.module.scss"
 import logo from "./aksim logo.jpg"
 import { useUserContext } from "../Context/UserContext";
@@ -18,15 +19,16 @@ function Button({path,text, event}:ButtonProps){
 
 function Header({children}:Props) {
     const {state, logout} = useUserContext();
-
+    const [isNavigationOpen, setIsNavigationOpen] = useState(false)
     return (
         <section>
-            <div className={styles.wrapper}>
+            <div  className={styles.wrapper}>
                 <div className={styles.logo_bar}>
-                     <FaBars className={styles.bar}/>
+                     <FaBars onClick={() => setIsNavigationOpen(!isNavigationOpen)} className={styles.bar}/>
                      <Link to="/" className={styles.link}><img className={styles.logo} src={logo} alt="aksim" /></Link>
                 </div>
-                <Navigation />
+                {isNavigationOpen && <Navigation />}
+                
                 <h1 className={styles.heading}><Link to={"/"}>AKSIM</Link></h1>
                 {!state.user?<div>
                     <Button text="Login" path="/login"/>

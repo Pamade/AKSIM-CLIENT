@@ -1,8 +1,18 @@
+@import "../../Styles/variables";
+
 .navigation{
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     width: 80vw;
     height: 100%;
-    background-color: red;
+    background-color: white;
+    color: darken($lightgray, 20);
+    border-right: 1px solid black;
+}
+
+.close_container{
+    display: flex;
+    justify-content: flex-end;
+    color: black;
 }
