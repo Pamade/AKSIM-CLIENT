@@ -14,13 +14,12 @@
     font-size: 1.5rem;
 }
 
-.logo{
-    width: 3rem;
-}
+
 .buttons{
     display: flex;
     gap: 0.1rem;
 }   
+
 .button{
     cursor: pointer;
     border-radius: 30px;
@@ -31,4 +30,42 @@
     border:1px solid black;
     font-style: italic;
     font-size: 0.6rem;
+}
+
+.logo_bar {
+    display: flex;
+    align-items: center;
+    
+}
+
+.logo{
+    width: 5rem;
+    display: inline-block;
+    margin-top: 0.3rem;
+}
+
+.bar{
+    font-size: 1.5rem;
+    padding: 1rem 0;
+}
+
+
+@media (min-width:760px){
+    .buttons{
+        gap: 1rem;
+    }
+    .heading{
+        font-size: 2.5rem;
+    }
+    .logo{
+        width: 6rem;
+    }
+    .button{
+        font-size: 0.8rem;
+    }
+}
+@media (min-width:1200px) {
+    .bar{
+        display: none;
+    }
 }

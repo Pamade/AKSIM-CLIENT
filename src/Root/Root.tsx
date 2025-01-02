@@ -58,6 +58,7 @@ function Root(){
     console.log(aksimResponseData)
 
     const {state} = useUserContext();
+
     return (
         <div>
             {!aksimIsLoading && aksimResponseData?.map((item) => <div>
@@ -65,7 +66,7 @@ function Root(){
                 <p>{item.description}</p>
                 <p>{item.userId}</p>
                 <div dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(item.content)}}>
-
+                    
                 </div>
                 </div>)}
             {/* Aksim articles */}

@@ -54,7 +54,7 @@ const router = createBrowserRouter([
           <AddArticle />
         </Header>
     )
-  }
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
