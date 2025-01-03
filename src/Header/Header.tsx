@@ -4,7 +4,7 @@ import logo from "./aksim logo.jpg"
 import { useUserContext } from "../Context/UserContext";
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
-import Navigation from "./Navigation/Navigation";
+import SideNavigation from "../SideNavigation/SideNavigation";
 interface Props {
     children:React.ReactNode;
 }
@@ -17,9 +17,10 @@ function Button({path,text, event}:ButtonProps){
     return <Link onClick={event} className={styles.button} to={path}>{text}</Link>
 }
 
-function Header({children}:Props) {
+function Header() {
     const {state, logout} = useUserContext();
     const [isNavigationOpen, setIsNavigationOpen] = useState(false)
+
     return (
         <section>
             <div  className={styles.wrapper}>
@@ -27,8 +28,7 @@ function Header({children}:Props) {
                      <FaBars onClick={() => setIsNavigationOpen(!isNavigationOpen)} className={styles.bar}/>
                      <Link to="/" className={styles.link}><img className={styles.logo} src={logo} alt="aksim" /></Link>
                 </div>
-                {isNavigationOpen && <Navigation />}
-                
+                {isNavigationOpen && <SideNavigation isNavigationOpen={true} setIsNavigationOpen={setIsNavigationOpen}/>}            
                 <h1 className={styles.heading}><Link to={"/"}>AKSIM</Link></h1>
                 {!state.user?<div>
                     <Button text="Login" path="/login"/>
@@ -37,7 +37,6 @@ function Header({children}:Props) {
                     <Button event={logout} text="Logout" path="/" />
                 </div>}              
             </div>
-            {children}
         </section>
     )
 }

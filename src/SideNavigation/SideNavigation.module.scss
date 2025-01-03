@@ -1,0 +1,58 @@
+@import "../Styles/variables";
+
+.navigation{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 80vw;
+    height: 100%;
+    background-color: white;
+    color: darken($lightgray, 20);
+    border-right: 1px solid black;
+    padding: 1rem;
+    display: none;
+    &_open{
+        display: block;
+    }
+}
+
+
+.close_container{
+    display: flex;
+    justify-content: flex-end;
+    color: black;
+}
+
+.close_button{
+    font-size: 2rem;
+    cursor: pointer;
+    border-radius: 5px;
+    &:hover{
+        color: darken($lightgray, 50);
+    }
+}
+
+.list{
+    display: flex;
+    flex-direction: column;
+}
+
+.item_content{
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 1.2rem;
+}
+
+@media(min-width:1200px) {
+    .navigation{
+        display: block;
+        position: static;
+        width: 20%;
+        border: none;
+    }
+
+    .close_button{
+        display: none;
+    }
+}
