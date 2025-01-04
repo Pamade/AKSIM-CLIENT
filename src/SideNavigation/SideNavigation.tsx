@@ -9,6 +9,7 @@ interface Props{
     setIsNavigationOpen?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+const sections = ["sport", "culture", "politics", "fashion", "science", "business"] as const;
 
 function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
     console.log(isNavigationOpen)
@@ -21,10 +22,11 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
                     <div>
                     <h4>Articles</h4>
                         <ul className={styles.list}>
-                            <NavigationLink Icon={TbChartBarPopular} path="/" text="Popular"/>
+                            {sections.map((section) => <NavigationLink path={section} text={section}/>)}
+                            {/* <NavigationLink Icon={TbChartBarPopular} path="/" text="Popular"/>
                             <NavLink to="/"><div className={styles.item_content}> <TbChartBarPopular />Popular</div></NavLink>
                             <NavLink to="/">New</NavLink>
-                            <NavLink to="/">Poland</NavLink>
+                            <NavLink to="/">Poland</NavLink> */}
                         </ul>
                     </div>
                     <div>
@@ -40,12 +42,12 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
 }
 interface NavigationLinkProps{
     path:string,
-    Icon:IconType,
+    Icon?:IconType,
     text:string,
 }
 
 function NavigationLink({path, Icon, text}:NavigationLinkProps) {
 
-    return <NavLink to={path}><div className={styles.item_content}><Icon />{text}</div></NavLink>
+    return <NavLink to={path}><div className={styles.item_content}>{Icon && <Icon />}{text}</div></NavLink>
 }
 export default SideNavigation

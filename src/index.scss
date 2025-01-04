@@ -7,6 +7,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0 auto;
+  
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 a {
@@ -15,13 +22,10 @@ a {
 }
 
 
-
 @media(min-width:1200px) {
   .wrapper{
-    width: 70%;
-    margin: 0 auto;
-  }
-  .navigation_content_wrapper{
     display: flex;
+    margin: 0;
+    
   }
 }

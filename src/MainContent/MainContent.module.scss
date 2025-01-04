@@ -1,0 +1,37 @@
+
+.wrapper{
+        width: 100%;
+        margin: 0 auto;
+        padding: 1rem;
+        padding: none;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.2rem;
+    }
+.thumbnail{
+    width: 200px;
+}
+
+@media(min-width:760px){
+    .wrapper{
+        flex-direction: row;
+    }    
+    .single_item{
+        width: 45%;
+    }
+}
+
+@media(min-width:1200px){
+    .wrapper{
+        width: 60%;
+        gap: 0.2rem;
+    }
+    .single_item{
+        width: 20%;
+    }
+    .thumbnail{
+        
+    }
+}

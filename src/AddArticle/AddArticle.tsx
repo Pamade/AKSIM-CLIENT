@@ -24,6 +24,7 @@ interface Data {
 const AddArticle = () => {
     const [article, setArticle] = useState<Partial<Article>>({creationDate: new Date()} as Article)
     const [errors, setErrors] = useState<Errors>({} as Errors)
+
     const handlePostArticle = async(e:React.FormEvent) => {
         e.preventDefault();
         const token = localStorage.getItem('access_token')
@@ -52,7 +53,6 @@ const AddArticle = () => {
                 if (err) {
                     setErrors({title:err.title, content:err.content})
                 } else  setErrors({})
-                
             }      
         } catch (e) {
             setErrors({server:"Server Error"})

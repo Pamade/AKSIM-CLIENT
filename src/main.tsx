@@ -10,16 +10,16 @@ import { UserProvider } from './Context/UserContext.tsx';
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute.tsx';
 import App from './App.tsx';
 import SideNavigation from "./SideNavigation/SideNavigation.tsx"
-
+import SideContent from './SideContent/SideContent.tsx';
+import MainContent from './MainContent/MainContent.tsx';
 // Layout Component
 const MainLayout = () => (
   <>
     <Header /> {/* Header now inside Router context */}
-    <div className="navigation_content_wrapper">
+    <div className="wrapper">
       <SideNavigation isNavigationOpen={false}/>
-      <div className="wrapper">
-        <Outlet /> {/* Renders the nested route components */}
-      </div>
+          <Outlet /> {/* Renders the nested route components */}
+      <SideContent />
     </div>
   </>
 );
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <MainLayout />, // Use MainLayout as the root layout
     children: [
-      { path: "/", element: <Root /> },
+      { path: "/", element: <MainContent api_content="search?sort_by=newest&show-fields=thumbnail,body"/> },
       { 
         path: "/forgotPassword", 
         element: (
