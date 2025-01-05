@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import './index.scss';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
-import Root from './Root/Root.tsx';
 import Login from './Login/Login.tsx';
 import Form from './Form/Form.tsx';
 import Header from "./Header/Header.tsx";
@@ -29,7 +28,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <MainLayout />, // Use MainLayout as the root layout
     children: [
-      { path: "/", element: <MainContent api_content="search?sort_by=newest&show-fields=thumbnail,body"/> },
+      { path: "/", element: <MainContent sectionName='New' apiContent="search?sort_by=newest&show-fields=thumbnail,body"/> },
       { 
         path: "/forgotPassword", 
         element: (

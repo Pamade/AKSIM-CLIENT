@@ -1,25 +1,50 @@
+@import "../Styles/variables";
 
 .wrapper{
-        width: 100%;
-        margin: 0 auto;
-        padding: 1rem;
-        padding: none;
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 0.2rem;
-    }
+    width: 100%;
+}
+
+.content{
+    margin: 3rem auto;
+    padding: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+}
+
+.single_item{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem; 
+}
+
+
+.date{
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
 .thumbnail{
-    width: 200px;
+    width: 100%;
 }
 
 @media(min-width:760px){
-    .wrapper{
+    
+    .content{
         flex-direction: row;
     }    
+
     .single_item{
         width: 40%;
+        padding: 1rem;
+        border: 1px solid $lightgray;
+    }
+
+    .title{
+        height: 8rem;
+        font-size: 0.9rem;
     }
 }
 
@@ -28,9 +53,11 @@
         width: 60%;
         gap: 0.2rem;
     }
+
     .single_item{
         width: 20%;
     }
+
     .thumbnail{
         
     }
