@@ -28,7 +28,8 @@ const router = createBrowserRouter([
     path: "/",
     element: <MainLayout />, // Use MainLayout as the root layout
     children: [
-      { path: "/", element: <MainContent sectionName='New' apiContent="search?sort_by=newest&show-fields=thumbnail,body"/> },
+      { path: "/", element: <MainContent sectionName='New' apiContent="search?sort_by=newest&show-fields=thumbnail"/> },
+      {path:"/:sectionID", element:<MainContent />},
       { 
         path: "/forgotPassword", 
         element: (

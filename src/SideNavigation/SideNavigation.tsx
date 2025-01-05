@@ -3,13 +3,21 @@ import styles from "./SideNavigation.module.scss";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { TbChartBarPopular } from "react-icons/tb";
 import { IconBaseProps, IconType } from "react-icons";
+import { MdSportsFootball } from "react-icons/md";
+import { FaHandsHelping } from "react-icons/fa";
+import { MdScience } from "react-icons/md";
+import { AiFillEnvironment } from "react-icons/ai";
+
+
+
 
 interface Props{
     isNavigationOpen:boolean,
     setIsNavigationOpen?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const sections = ["sport", "culture", "politics", "fashion", "science", "business"] as const;
+const sections = [{type:"sport", icon:MdSportsFootball},
+     {type:"politics", icon:FaHandsHelping }, {type:"science", icon:MdScience}, {type:"environment", icon:AiFillEnvironment}] as const;
 
 function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
     console.log(isNavigationOpen)
@@ -18,11 +26,10 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
                     <div className={styles.close_container}>
                         <IoCloseCircleOutline className={styles.close_button} onClick={() => {typeof setIsNavigationOpen !== "undefined" && setIsNavigationOpen(false)}}/>
                     </div>   
-                    <NavLink to="/">Home</NavLink>
+                    <h4  className={styles.heading}><NavLink to="/">Home</NavLink></h4>
                     <div>
-                    <h4>Articles</h4>
                         <ul className={styles.list}>
-                            {sections.map((section) => <NavigationLink path={section} text={section}/>)}
+                            {sections.map(({type, icon}) => <NavigationLink Icon={icon} text={type}/>)}
                             {/* <NavigationLink Icon={TbChartBarPopular} path="/" text="Popular"/>
                             <NavLink to="/"><div className={styles.item_content}> <TbChartBarPopular />Popular</div></NavLink>
                             <NavLink to="/">New</NavLink>
@@ -30,7 +37,7 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
                         </ul>
                     </div>
                     <div>
-                        <h4>Authors</h4>
+                    <h4  className={styles.heading}><NavLink to="/commentisfree">Opinions</NavLink></h4>
                         <ul className={styles.list}>
                             <NavLink to="/">Author 1</NavLink>
                             <NavLink to="/">Author 1</NavLink>
@@ -41,13 +48,12 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
     )
 }
 interface NavigationLinkProps{
-    path:string,
     Icon?:IconType,
     text:string,
 }
 
-function NavigationLink({path, Icon, text}:NavigationLinkProps) {
+function NavigationLink({ Icon, text}:NavigationLinkProps) {
 
-    return <NavLink to={path}><div className={styles.item_content}>{Icon && <Icon />}{text}</div></NavLink>
+    return <NavLink to={text}><div className={styles.item_content}>{Icon && <Icon className={styles.icon} />}{text}</div></NavLink>
 }
 export default SideNavigation

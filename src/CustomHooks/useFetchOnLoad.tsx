@@ -1,22 +1,12 @@
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
-
-const API_KEY = import.meta.env.VITE_API_KEY;
-// const BASE_URL = "https://content.guardianapis.com/" as const;
-
-
-// const API_GET_CONTENT = (
-//     axios.create({
-//         baseURL:BASE_URL,
-//         method:"GET"
-//     })
-// )
+import { useLocation } from "react-router";
 
 function useFetchOnLoad<T>(URL:string) {
     const [isLoading, setIsLoading] = useState(false)
     const [responseData, setResponseData] = useState<T | null>(null)
     const [error, setError] = useState("")
-
+    const location = useLocation();
 
     useEffect(() => {
         const fetchData= async () => {
@@ -34,7 +24,7 @@ function useFetchOnLoad<T>(URL:string) {
                 }
             };
             fetchData();
-        }, []
+        }, [location]
     )
     return {isLoading, responseData, error};
 }

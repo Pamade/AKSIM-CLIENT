@@ -11,7 +11,7 @@ export interface ArticleGuardian{
     webUrl:string
     fields:{
         body:string | TrustedHTML,
-        thumbnail:string,
+        thumbnail?:string,
     }
 }
 

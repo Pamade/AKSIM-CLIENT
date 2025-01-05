@@ -1,24 +1,29 @@
-import useFetchOnLoad from "../CustomHooks/useFetchOnLoad";
-import { GuardianApi } from "./MainContentTypes";
+import useFetchOnLoad from "../CustomHooks/useFetchOnLoad"
+import { GuardianApi } from "./MainContentTypes"
 import styles from "./MainContent.module.scss"
+import photoNotFound from "../assets/photo.png"
+import { useParams } from "react-router"
+
 interface Props {
-    apiContent:string,
+    apiContent?:string,
     sectionName?:string
 }
 
 const apiKey = import.meta.env.VITE_API_KEY
+const pageSize = 20 as const
+function MainContent({apiContent:api, sectionName}:Props){
+    const {sectionID} = useParams()
+    const apiContent = !api ? "search?show-fields=thumbnail&section=" + sectionID : api;
+    const {responseData, error, isLoading} = useFetchOnLoad<GuardianApi>(`https://content.guardianapis.com/${apiContent}&page-size=${pageSize}&api-key=${apiKey}`)
 
-function MainContent({apiContent, sectionName}:Props){
-    const {responseData, error, isLoading} = useFetchOnLoad<GuardianApi>(`https://content.guardianapis.com/${apiContent}&api-key=${apiKey}`)
-    
     return (
         <section className={styles.wrapper}>
-        {sectionName && <h2>{sectionName}</h2>}
+        <h2>{sectionName || sectionID?.toUpperCase()}</h2>
         <div className={styles.content}>
              {responseData?.response.results.map((item) => (
                 <div key={item.id} className={styles.single_item}>
                     <h3 className={styles.title}>{item.webTitle}</h3>
-                    <img className={styles.thumbnail} src={item.fields.thumbnail} alt="article" />
+                    <img className={styles.thumbnail} src={item.fields.thumbnail || photoNotFound} alt="article" />
                     {<p className={styles.date}>{new Date(item.webPublicationDate).toLocaleDateString('en-US', {
                             weekday: 'long', // "Monday"
                             year: 'numeric', // "2025"
