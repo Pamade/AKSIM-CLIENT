@@ -8,9 +8,6 @@ import { MdScience } from "react-icons/md";
 import { AiFillEnvironment } from "react-icons/ai";
 import { IoHome } from "react-icons/io5";
 
-
-
-
 interface Props{
     isNavigationOpen:boolean,
     setIsNavigationOpen?: React.Dispatch<React.SetStateAction<boolean>>
@@ -26,15 +23,11 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
                         <IoCloseCircleOutline className={styles.close_button} onClick={() => {typeof setIsNavigationOpen !== "undefined" && setIsNavigationOpen(false)}}/>
                     </div>
                     <section className={styles.content}>
-                        <Link className={styles.heading_home_link} to="/"><h4 className={`${styles.heading} ${styles.heading_home}`}><IoHome className={styles.icon}/> Home</h4></Link>
+                        <Link to="/"><h4 className={`${styles.heading} ${styles.heading_home}`}><IoHome className={styles.icon}/> Home</h4></Link>
                         <div>
                             <h4 className={styles.heading}>Popular Topics</h4>
                             <ul className={styles.list}>
                                 {sections.map(({type, icon}) => <NavigationLink Icon={icon} text={type}/>)}
-                                {/* <NavigationLink Icon={TbChartBarPopular} path="/" text="Popular"/>
-                                <NavLink to="/"><div className={styles.item_content}> <TbChartBarPopular />Popular</div></NavLink>
-                                <NavLink to="/">New</NavLink>
-                                <NavLink to="/">Poland</NavLink> */}
                             </ul>
                         </div>
                         <div>

@@ -79,12 +79,6 @@
         gap: 0.5rem;
         font-size: 2rem;
         align-items: center;
-
-        &_link{
-            &:hover{
-                color: darken(gray, 20);
-            }
-        }
     }
     & > a {
         color: $gray;
