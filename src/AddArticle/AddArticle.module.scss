@@ -1,8 +1,8 @@
 @import "../Styles/variables";
 
-$darkenGray: darken($lightgray, 40);
+
 .section{
-    color: $darkenGray;
+    color: $gray;
 }
 .form{
     display: flex;
@@ -12,15 +12,13 @@ $darkenGray: darken($lightgray, 40);
 
 .input{
     border: none;
-    border-bottom: 1px solid $darkenGray;
+    border-bottom: 1px solid $gray;
     font-size: 1.2rem;
-    color: $darkenGray;
+    color: $gray;
     &:focus{
         outline: none;
-        border-bottom: 1px solid darken($darkenGray, 20);
-        
+        border-bottom: 1px solid darken($gray, 20);
     }
-
 }
 
 .label_and_file{

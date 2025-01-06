@@ -15,7 +15,6 @@
     }
 }
 
-
 .close_container{
     display: flex;
     justify-content: flex-end;
@@ -26,6 +25,7 @@
     font-size: 2rem;
     cursor: pointer;
     border-radius: 5px;
+    color: $gray;
     &:hover{
         color: darken($lightgray, 50);
     }
@@ -45,12 +45,64 @@
     font-size: 1.1rem;
     text-transform: uppercase;
     font-weight: 300;
+    padding: 0.2rem 0;
+    position: relative; /* Required for pseudo-element positioning */
+    overflow: hidden; 
+    border-bottom: 1px solid transparent; // Transparent border by default
+
+    &::after {
+            content: ""; /* Empty content for the line */
+            position: absolute;
+            bottom: 0; /* Place it at the bottom */
+            left: 0; /* Start from the left */
+            height: 1px; /* Line height */
+            width: 0; /* Initial width is 0 */
+            background-color: $gray; /* Line color */
+            transition: width 0.3s ease-in; /* Smooth animation */
+    }
+    &:hover::after{
+        width: 100%;
+    }
 }
+.selected {
+    border-bottom: 1px solid $gray;
+}
+
 .heading{
     font-size: 1.4rem;
+    padding: 0.3rem 0;
+    margin: 0.8rem 0;
+    color: $gray;
+    transition: 0.3s fade-in;
+    &_home{
+        display: flex;
+        gap: 0.5rem;
+        font-size: 2rem;
+        align-items: center;
+
+        &_link{
+            &:hover{
+                color: darken(gray, 20);
+            }
+        }
+    }
+    & > a {
+        color: $gray;
+    }
 }
+
 .icon{
     font-size: 1.8rem;
+    color: $gray;
+    &:hover{
+        color: darken($gray, 20);
+    }
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 @media(min-width:1200px) {

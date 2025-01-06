@@ -33,6 +33,7 @@
 
 .thumbnail{
     width: 100%;
+    max-width: 500px;
 }
 
 @media(min-width:760px){
@@ -64,7 +65,7 @@
     }
 
     .single_item{
-        width: 20%;
+        width: 30%;
     }
 
     .thumbnail{
