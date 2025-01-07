@@ -11,6 +11,7 @@ import App from './App.tsx';
 import SideNavigation from "./SideNavigation/SideNavigation.tsx"
 import SideContent from './SideContent/SideContent.tsx';
 import MainContent from './MainContent/MainContent.tsx';
+import UserLoggedRoute from './UserLoggedRoute/UserLoggedRoute.tsx';
 // Layout Component
 const MainLayout = () => (
   <>
@@ -29,34 +30,37 @@ const router = createBrowserRouter([
     element: <MainLayout />, // Use MainLayout as the root layout
     children: [
       { path: "/", element: <MainContent sectionName='New' apiContent="search?sort_by=newest&show-fields=thumbnail"/> },
-      {path:"/:sectionID", element:<MainContent />},
+      {path:"/commentisfree/:authorID", element: <MainContent />},
+      {path:"/section/:sectionID", element:<MainContent />},
       { 
         path: "/forgotPassword", 
         element: (
-          <ProtectedRoute>
-            <Form formType="forgotPassword" />
-          </ProtectedRoute>
+            <UserLoggedRoute><Form formType="forgotPassword" /></UserLoggedRoute>
         ),
       },
       { 
         path: "/resetPassword/:token", 
         element: (
-          <ProtectedRoute>
-            <Form formType="resetPassword" />
-          </ProtectedRoute>
+            <UserLoggedRoute>
+              <Form formType="resetPassword" />
+            </UserLoggedRoute>
         ),
       },
       { 
         path: "/login", 
         element: (
-          <ProtectedRoute>
+          <UserLoggedRoute>
             <Login />
-          </ProtectedRoute>
+          </UserLoggedRoute>
         ),
       },
       { 
+        
         path: "/user/add-article", 
-        element: <AddArticle /> 
+        element: 
+         <ProtectedRoute>
+            <AddArticle />
+          </ProtectedRoute>
       },
     ],
   },

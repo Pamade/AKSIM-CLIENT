@@ -4,7 +4,7 @@
     position: fixed;
     left: 0;
     top: 0;
-    width: 50vw;
+    width: 80vw;
     height: 100%;
     background-color: white;
     border-right: 1px solid black;
@@ -29,6 +29,16 @@
     &:hover{
         color: darken($lightgray, 50);
     }
+}
+
+.search_input{
+    border: none;
+    border-bottom: 1px solid black;
+    border-radius: 5px;
+    outline: none;
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    width: 75%;
 }
 
 .list{
@@ -74,10 +84,10 @@
     margin: 0.8rem 0;
     color: $gray;
     transition: 0.3s fade-in;
-    &_home{
+    &_content{
         display: flex;
         gap: 0.5rem;
-        font-size: 2rem;
+        font-size: 1.5rem;
         align-items: center;
     }
     & > a {

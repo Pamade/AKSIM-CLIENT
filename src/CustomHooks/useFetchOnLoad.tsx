@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 
@@ -14,7 +14,6 @@ function useFetchOnLoad<T>(URL:string) {
                 try {
                     const res = await axios.get(URL);
                     if (res.status === 200 && res.data) {
-                        // const content = res.data as T;
                         setResponseData(res.data)
                     }
                 } catch (e) {
@@ -23,6 +22,7 @@ function useFetchOnLoad<T>(URL:string) {
                     setIsLoading(false);
                 }
             };
+            console.log(isLoading)
             fetchData();
         }, [location]
     )

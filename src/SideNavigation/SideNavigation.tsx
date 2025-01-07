@@ -1,4 +1,4 @@
-import { NavLink, useParams, Link } from "react-router-dom"
+import { NavLink, useParams, Link, useLocation } from "react-router-dom"
 import styles from "./SideNavigation.module.scss";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { IconType } from "react-icons";
@@ -7,6 +7,11 @@ import { FaHandsHelping } from "react-icons/fa";
 import { MdScience } from "react-icons/md";
 import { AiFillEnvironment } from "react-icons/ai";
 import { IoHome } from "react-icons/io5";
+import { MdEdit } from "react-icons/md";
+import { useUserContext } from "../Context/UserContext";
+import { IoMdSend } from "react-icons/io";
+
+
 
 interface Props{
     isNavigationOpen:boolean,
@@ -16,25 +21,35 @@ interface Props{
 const sections = [{type:"sport", icon:MdSportsFootball},
      {type:"politics", icon:FaHandsHelping }, {type:"science", icon:MdScience}, {type:"environment", icon:AiFillEnvironment}] as const;
 
+const authors = ["Siva Vaidhyanathan", "Simon Jenkins", "Polly Toynbee"] as const;
+
 function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
+
+    const {state} = useUserContext()
+
     return (
             <nav className={!isNavigationOpen ? styles.navigation : `${styles.navigation} ${styles.navigation_open}`}>
                     <div className={styles.close_container}>
                         <IoCloseCircleOutline className={styles.close_button} onClick={() => {typeof setIsNavigationOpen !== "undefined" && setIsNavigationOpen(false)}}/>
                     </div>
+                    
                     <section className={styles.content}>
-                        <Link to="/"><h4 className={`${styles.heading} ${styles.heading_home}`}><IoHome className={styles.icon}/> Home</h4></Link>
+                        <Link className={styles.heading_content_link} to="/"><h4 className={`${styles.heading} ${styles.heading_content}`}><IoHome className={styles.icon}/>Home</h4></Link>
+                        <div>
+                            <h4 className={`${styles.heading} ${styles.heading_content}`}>SEARCH <IoMdSend className={styles.icon}/></h4>
+                            <input className={styles.search_input} type="text" />
+                        </div>
+                        <Link className={styles.heading_content_link} to={state.user ? "/user/add-article" : "/login"}><h4 className={`${styles.heading} ${styles.heading_content}`}><MdEdit className={styles.icon}/>ADD ARTICLE</h4></Link>
                         <div>
                             <h4 className={styles.heading}>Popular Topics</h4>
                             <ul className={styles.list}>
-                                {sections.map(({type, icon}) => <NavigationLink Icon={icon} text={type}/>)}
+                                {sections.map(({type, icon}) => <NavigationLink path={`/section/${type}`} Icon={icon} text={type}/>)}
                             </ul>
                         </div>
                         <div>
-                        <h4 className={styles.heading}><NavLink to="/commentisfree">Opinions</NavLink></h4>
+                            <h4 className={styles.heading}><NavLink to="/section/commentisfree">Opinions</NavLink></h4>
                             <ul className={styles.list}>
-                                <NavLink to="/">Author 1</NavLink>
-                                <NavLink to="/">Author 1</NavLink>
+                                {authors.map((author) => <NavigationLink path={`/commentisfree/${author}`} text={author}/>)}
                             </ul>
                         </div>
                     </section>   
@@ -44,11 +59,12 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
 interface NavigationLinkProps{
     Icon?:IconType,
     text:string,
+    path:string
 }
 
-function NavigationLink({ Icon, text}:NavigationLinkProps) {
-    const {sectionID} = useParams();
-    // console.log(sectionID)
-    return <NavLink to={text}><div className={`${sectionID == text ? `${styles.item_content} ${styles.selected}` : styles.item_content}`}>{Icon && <Icon className={styles.icon} />}{text}</div></NavLink>
+function NavigationLink({ Icon, text, path}:NavigationLinkProps) {
+    const location = useLocation()
+        
+    return <NavLink to={path}><div className={`${location.pathname.replace("%20", " ") === path ? `${styles.item_content} ${styles.selected}` : styles.item_content}`}>{Icon && <Icon className={styles.icon} />}{text}</div></NavLink>
 }
 export default SideNavigation

@@ -2,16 +2,16 @@ import React from "react";
 import { Navigate } from "react-router";
 import { useUserContext } from "../Context/UserContext";
 
-interface ProtectedRouteProps  {
+interface RouteProps  {
     children: React.ReactNode,
 }
 
-const ProtectedRoute = ({children}:ProtectedRouteProps) => {
+const UserLoggedRoute = ({children}:RouteProps) => {
     const {state} = useUserContext();
     
-    if (!state.user) {
+    if (state.user) {
         return <Navigate to="/"/>
     }
     return <>{children}</>
 }
-export default ProtectedRoute
+export default UserLoggedRoute

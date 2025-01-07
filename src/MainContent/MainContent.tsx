@@ -12,13 +12,22 @@ interface Props {
 const apiKey = import.meta.env.VITE_API_KEY
 const pageSize = 20 as const
 function MainContent({apiContent:api, sectionName}:Props){
-    const {sectionID} = useParams()
-    const apiContent = !api ? "search?show-fields=thumbnail&section=" + sectionID : api;
-    const {responseData, error, isLoading} = useFetchOnLoad<GuardianApi>(`https://content.guardianapis.com/${apiContent}&page-size=${pageSize}&api-key=${apiKey}`)
+    const {sectionID, authorID} = useParams()
+        // if api content is provided get api, if not s
+    let apiContent;
+    if (api) {
+        apiContent = api;
+    } else if (!api && !authorID && sectionID) { // if no api provided author id, this means whe nredirect ther will be sectionid
+        apiContent = "search?show-fields=thumbnail&section=" + sectionID
+    } 
+    else if (!sectionID && !apiContent && authorID) {
+        apiContent = "/search?show-fields=thumbnail&byline=" + authorID
+    }
 
+    const {responseData, error, isLoading} = useFetchOnLoad<GuardianApi>(`https://content.guardianapis.com/${apiContent}&page-size=${pageSize}&api-key=${apiKey}`)
     return (
         <section className={styles.wrapper}>
-        <h2>{sectionName || sectionID?.toUpperCase()}</h2>
+        <h2>{sectionName || sectionID?.toUpperCase() || authorID}</h2>
         <div className={styles.content}>
              {responseData?.response.results.map((item) => (
                 <div key={item.id} className={styles.single_item}>
@@ -37,4 +46,5 @@ function MainContent({apiContent:api, sectionName}:Props){
         </section>
     )
 }
+
 export default MainContent;
