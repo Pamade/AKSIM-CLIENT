@@ -1,4 +1,4 @@
-.wrapper{
+.content{
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -13,7 +13,7 @@
 .list{
     list-style: none;
     width: 45%;
-    margin:2rem auto;
+    margin:2rem 0.5rem;
 }
 
 @media(min-width:760px){

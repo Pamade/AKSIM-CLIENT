@@ -13,16 +13,6 @@ $darkenGray: darken($gray, 0);
     &_open{
         display: block;
     }
-    &::-webkit-scrollbar{
-        width: 5px;
-        height: 5px;
-    }
-    &::-webkit-scrollbar-track{
-        background-color:$lightgray;
-    }
-    &::-webkit-scrollbar-thumb{
-        background-color: $darkenGray;
-    }
 }
 
 .close_container{
@@ -106,11 +96,9 @@ $darkenGray: darken($gray, 0);
     .navigation{
         display: block;
         position: sticky;
-        // position: absolute;
         width: 30%;
         height: 100vh;
         margin-right: 10px;
-        // border: none;
     }
 
     .close_button{

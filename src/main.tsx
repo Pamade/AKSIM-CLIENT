@@ -21,7 +21,9 @@ const MainLayout = () => (
     <Header /> {/* Header now inside Router context */}
     <div className="wrapper">
       <SideNavigation isNavigationOpen={false}/>
-          <Outlet /> {/* Renders the nested route components */}
+          <main className="wrapper-main">
+            <Outlet /> {/* Renders the nested route components */}
+          </main>
       <SideContent />
     </div>
   </>

@@ -1,0 +1,15 @@
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.loader{
+    width: 8rem;
+    display: flex;
+    margin: 0 auto;
+    animation: pulse 1.5s ease-in-out infinite;
+}

@@ -38,12 +38,10 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
                         <HeadingWithLink path={"/"} Icon={IoHome} text="HOME"/>
                         <HeadingWithLink Icon={HiSquares2X2} path={"/select-sections"} text="SECTIONS"/>
                         <div className={styles.search}>
-                            <HeadingWithLink path={`/search/${search}`} Icon={IoMdSend} text="SEARCH"/>
+                            <HeadingWithLink path={search ? `/search/${search}` : ""} Icon={IoMdSend} text="SEARCH"/>
                             <input onChange={(e) => setSearch(e.target.value)} className={styles.search_input} type="text" />
                         </div>
-                        <HeadingWithLink path={state.user ? "/user/add-article" : "/login"} Icon={MdEdit} text="PUBLISH ARTICLE"/>
-                        {/* <Link className={styles.heading_content_link} to={state.user ? "/user/add-article" : "/login"}><h4 className={`${styles.heading} ${styles.heading_content}`}><MdEdit className={styles.icon}/>ADD ARTICLE</h4></Link> */}
-                        <div>
+                        <HeadingWithLink path={state.user ? "/user/add-article" : "/login"} Icon={MdEdit} text="PUBLISH ARTICLE"/>                        <div>
                             <h4 className={styles.heading}>Popular Topics</h4>
                             <ul className={styles.list}>
                                 {sections.map(({type, icon}) => <NavigationLink path={`/section/${type}`} Icon={icon} text={type}/>)}

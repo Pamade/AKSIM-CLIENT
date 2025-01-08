@@ -1,9 +1,5 @@
 @import "../Styles/variables";
 
-.wrapper{
-    width: 100%;
-}
-
 .content{
     margin: 3rem auto;
     padding: none;
@@ -11,6 +7,11 @@
     flex-direction: column;
     flex-wrap: wrap;
     gap: 0.2rem;
+}
+
+.content{
+    margin: 0;
+    font-size: 2rem;
 }
 
 .single_item{
@@ -38,9 +39,6 @@
 
 @media(min-width:760px){
     
-    .wrapper{
-        margin: 2rem;
-    }
     .content{
         flex-direction: row;
     }    
@@ -58,10 +56,6 @@
 }
 
 @media(min-width:1200px){
-    .wrapper{
-        width: 60%;
-        gap: 0.2rem;
-    }
 
     .single_item{
         width: 30%;

@@ -25,17 +25,15 @@ function SelectSections(){
                     table = []
                     i -= 1;
                 }
-
             }
-            // console.log(sectionsByLetterTemp)
             sectionsByLetterTemp = sectionsByLetterTemp.filter((item) => item.length !== 0 && item)
             setSectionsByLetter(sectionsByLetterTemp)
         }
     }, [isLoading])
     
     return (
-        <section className={styles.wrapper}>
-            {sectionsByLetter.map((words) => <ul className={styles.list}><span className={styles.first_letter}>{words.at(0)?.at(0)?.toUpperCase()}</span>{words.map((word) => <NavigationLink text={word.replace(/-/g, " ")} path={`/section/${word.toLowerCase().replace(/-/, " ")}`} 
+        <section className={styles.content}>
+            {sectionsByLetter.map((words) => <ul className={styles.list}><span className={styles.first_letter}>{words.at(0)?.at(0)?.toUpperCase()}</span>{words.map((word) =><NavigationLink text={word.replace(/-/g, " ")} path={`/section/${word.toLowerCase().replace(/-/, " ")}`} 
             />)}</ul>)}
         </section>
     )
