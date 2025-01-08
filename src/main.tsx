@@ -32,6 +32,7 @@ const router = createBrowserRouter([
       { path: "/", element: <MainContent sectionName='New' apiContent="search?sort_by=newest&show-fields=thumbnail"/> },
       {path:"/commentisfree/:authorID", element: <MainContent />},
       {path:"/section/:sectionID", element:<MainContent />},
+      {path:"/search/:q", element: <MainContent />},
       { 
         path: "/forgotPassword", 
         element: (

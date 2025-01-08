@@ -3,6 +3,8 @@
 
 .section{
     color: $gray;
+    width: 90%;
+    margin: 1rem auto;
 }
 .form{
     display: flex;
@@ -44,6 +46,9 @@
     }
 }
 @media(min-width:760px){
+    .section{
+        width: 100%;
+    }
     .btn{
         width: 20%;
         padding: 0.4rem 1rem;
@@ -51,7 +56,7 @@
 }
 @media(min-width:1200px){
     .btn{
-        width: 10%;
+        width: 15%;
         padding: 0.4rem 1rem;
     }
 }

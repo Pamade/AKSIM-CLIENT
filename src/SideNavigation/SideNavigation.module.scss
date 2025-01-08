@@ -1,17 +1,27 @@
 @import "../Styles/variables";
-
+$darkenGray: darken($gray, 0);
 .navigation{
     position: fixed;
     left: 0;
     top: 0;
     width: 80vw;
-    height: 100%;
+    height: 100vh;
     background-color: white;
-    border-right: 1px solid black;
     padding: 1rem;
     display: none;
+    overflow-y: scroll;
     &_open{
         display: block;
+    }
+    &::-webkit-scrollbar{
+        width: 5px;
+        height: 5px;
+    }
+    &::-webkit-scrollbar-track{
+        background-color:$lightgray;
+    }
+    &::-webkit-scrollbar-thumb{
+        background-color: $darkenGray;
     }
 }
 
@@ -33,12 +43,15 @@
 
 .search_input{
     border: none;
-    border-bottom: 1px solid black;
-    border-radius: 5px;
+    border-bottom: 1px solid $gray;
     outline: none;
     padding: 0.5rem 1rem;
+    padding-left: 0;
     font-size: 1.2rem;
     width: 75%;
+    &:focus{
+        border-color: $darkenGray;
+    }
 }
 
 .list{
@@ -84,23 +97,32 @@
     margin: 0.8rem 0;
     color: $gray;
     transition: 0.3s fade-in;
-    &_content{
+    display: flex;
+    align-items: center;
+    &_search{
         display: flex;
+        cursor: pointer;
         gap: 0.5rem;
-        font-size: 1.5rem;
-        align-items: center;
     }
     & > a {
         color: $gray;
     }
 }
 
+.nav_link{
+    display: flex;
+    gap: 0.5rem;
+    &:hover{
+        color: darken($darkenGray, 20);
+    }
+    &:hover .icon{
+        color: darken($darkenGray, 20);
+    }
+}
+
 .icon{
     font-size: 1.8rem;
     color: $gray;
-    &:hover{
-        color: darken($gray, 20);
-    }
 }
 
 .content{
@@ -112,9 +134,12 @@
 @media(min-width:1200px) {
     .navigation{
         display: block;
-        position: static;
-        width: 20%;
-        border: none;
+        position: sticky;
+        // position: absolute;
+        width: 30%;
+        height: 100vh;
+        margin-right: 10px;
+        // border: none;
     }
 
     .close_button{

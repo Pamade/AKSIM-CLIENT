@@ -1,13 +1,11 @@
 import {useState} from "react";
 import styles from "./Header.module.scss"
-import logo from "./aksim logo.jpg"
+import logo from "../assets/aksim logo.jpg"
 import { useUserContext } from "../Context/UserContext";
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import SideNavigation from "../SideNavigation/SideNavigation";
-interface Props {
-    children:React.ReactNode;
-}
+
 interface ButtonProps{
     path:string,
     text:string,
