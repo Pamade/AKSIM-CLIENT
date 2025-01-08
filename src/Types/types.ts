@@ -1,3 +1,5 @@
+import { IconType } from "react-icons";
+
 export interface ArticleGuardian{
     apiUrl:string,
     id:string,
@@ -28,3 +30,8 @@ export interface GuardianApi{
     }
 }
 
+export interface NavigationLinkProps{
+    Icon?:IconType,
+    text:string,
+    path:string
+}

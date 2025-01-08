@@ -12,7 +12,10 @@ import SideNavigation from "./SideNavigation/SideNavigation.tsx"
 import SideContent from './SideContent/SideContent.tsx';
 import MainContent from './MainContent/MainContent.tsx';
 import UserLoggedRoute from './UserLoggedRoute/UserLoggedRoute.tsx';
+import SelectSections from './SelectSections/SelectSections.tsx';
 // Layout Component
+export const apiKey = import.meta.env.VITE_API_KEY;
+
 const MainLayout = () => (
   <>
     <Header /> {/* Header now inside Router context */}
@@ -33,6 +36,7 @@ const router = createBrowserRouter([
       {path:"/commentisfree/:authorID", element: <MainContent />},
       {path:"/section/:sectionID", element:<MainContent />},
       {path:"/search/:q", element: <MainContent />},
+      {path:"/select-sections", element: <SelectSections />},
       { 
         path: "/forgotPassword", 
         element: (

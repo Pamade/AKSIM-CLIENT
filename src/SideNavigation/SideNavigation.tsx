@@ -1,7 +1,6 @@
-import { NavLink, useParams, Link, useLocation, useNavigate } from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom"
 import styles from "./SideNavigation.module.scss";
 import { IoCloseCircleOutline } from "react-icons/io5";
-import { IconType } from "react-icons";
 import { MdSportsFootball } from "react-icons/md";
 import { FaHandsHelping } from "react-icons/fa";
 import { MdScience } from "react-icons/md";
@@ -11,7 +10,9 @@ import { MdEdit } from "react-icons/md";
 import { useUserContext } from "../Context/UserContext";
 import { IoMdSend } from "react-icons/io";
 import { useState } from "react";
-
+import { HiSquares2X2 } from "react-icons/hi2";
+import { NavigationLinkProps } from "../Types/types";
+import NavigationLink from "../NavigationLink/NavigationLink";
 
 interface Props{
     isNavigationOpen:boolean,
@@ -35,7 +36,7 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
                     </div>
                     <section className={styles.content}>
                         <HeadingWithLink path={"/"} Icon={IoHome} text="HOME"/>
-                        <HeadingWithLink path={`/search/${search}`} Icon={IoMdSend} text="SEARCH"/>
+                        <HeadingWithLink Icon={HiSquares2X2} path={"/select-sections"} text="SECTIONS"/>
                         <div className={styles.search}>
                             <HeadingWithLink path={`/search/${search}`} Icon={IoMdSend} text="SEARCH"/>
                             <input onChange={(e) => setSearch(e.target.value)} className={styles.search_input} type="text" />
@@ -58,17 +59,8 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
             </nav>
     )
 }
-interface NavigationLinkProps{
-    Icon?:IconType,
-    text:string,
-    path:string
-}
 
-function NavigationLink({ Icon, text, path}:NavigationLinkProps) {
-    const location = useLocation()
-        
-    return <NavLink to={path}><div className={`${location.pathname.replace("%20", " ") === path ? `${styles.item_content} ${styles.selected}` : styles.item_content}`}>{Icon && <Icon className={styles.icon} />}{text}</div></NavLink>
-}
+
 
 function HeadingWithLink({path, Icon, text}:NavigationLinkProps){
     return (

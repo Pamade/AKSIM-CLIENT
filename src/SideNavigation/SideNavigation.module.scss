@@ -61,35 +61,6 @@ $darkenGray: darken($gray, 0);
     gap: 1rem;
 }
 
-.item_content{
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    font-weight: 300;
-    padding: 0.2rem 0;
-    position: relative; /* Required for pseudo-element positioning */
-    overflow: hidden; 
-    border-bottom: 1px solid transparent; // Transparent border by default
-
-    &::after {
-            content: ""; /* Empty content for the line */
-            position: absolute;
-            bottom: 0; /* Place it at the bottom */
-            left: 0; /* Start from the left */
-            height: 1px; /* Line height */
-            width: 0; /* Initial width is 0 */
-            background-color: $gray; /* Line color */
-            transition: width 0.3s ease-in; /* Smooth animation */
-    }
-    &:hover::after{
-        width: 100%;
-    }
-}
-.selected {
-    border-bottom: 1px solid $gray;
-}
 
 .heading{
     font-size: 1.4rem;

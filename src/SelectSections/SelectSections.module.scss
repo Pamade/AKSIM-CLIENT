@@ -1,0 +1,32 @@
+.wrapper{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+.first_letter{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.list{
+    list-style: none;
+    width: 45%;
+    margin:2rem auto;
+}
+
+@media(min-width:760px){
+    .list{
+        width: 30%;
+    }
+    .wrapper{
+        margin: 2rem;
+    }
+}
+@media(min-width:1200px) {
+
+    .wrapper{
+        width: 60%;
+    }
+}
