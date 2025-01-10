@@ -2,33 +2,35 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 
-function useFetchOnLoad<T>(URL:string) {
+function useFetchOnLoad<T>(URL:string, reload?:boolean) {
     const [isLoading, setIsLoading] = useState(false)
     const [responseData, setResponseData] = useState<T | null>(null)
     const [error, setError] = useState("")
     const location = useLocation()
-    
+    const fetchData= async () => {
+        setIsLoading(true);
+        try {
+            const res = await axios.get(URL);
+            if (res.status === 200 && res.data) {
+                setResponseData(res.data)
+            }
+        } catch (e) {
+            console.log(e)
+            setError("Could not load content");
+        } finally {
+            setIsLoading(false);
+        }
+    };
     useEffect(() => {
-        const fetchData= async () => {
-                setIsLoading(true);
-                try {
-                    const res = await axios.get(URL);
-                    if (res.status === 200 && res.data) {
-                        setResponseData(res.data)
-                    }
-                } catch (e) {
-                    console.log(e)
-                    setError("Could not load content");
-                } finally {
-                    setIsLoading(false);
-                }
-            };
+
+            if (reload !== false) {
+                fetchData();
+            }
             
-            fetchData();
             
         }, [location]
     )
-    return {isLoading, responseData, error};
+    return {isLoading, responseData, error, fetchData};
 }
     
 export default useFetchOnLoad

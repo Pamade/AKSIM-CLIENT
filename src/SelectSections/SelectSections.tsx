@@ -8,7 +8,6 @@ function SelectSections(){
     const [sectionsByLetter, setSectionsByLetter] = useState<string[][]>([[]])
     const {responseData, isLoading, error} = useFetchOnLoad<GuardianApi>(`https://content.guardianapis.com/sections?api-key=${apiKey}`)    
     let sectionsByLetterTemp:string[][] = []
-    console.log(sectionsByLetter)
     useEffect(() => {
         if (responseData?.response) {
             let firstLetter = "a";

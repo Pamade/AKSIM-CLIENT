@@ -13,6 +13,7 @@ import SideContent from './SideContent/SideContent.tsx';
 import MainContent from './MainContent/MainContent.tsx';
 import UserLoggedRoute from './UserLoggedRoute/UserLoggedRoute.tsx';
 import SelectSections from './SelectSections/SelectSections.tsx';
+import SingleArticle from './SingleArticle/SingleArticle.tsx';
 // Layout Component
 export const apiKey = import.meta.env.VITE_API_KEY;
 
@@ -39,6 +40,7 @@ const router = createBrowserRouter([
       {path:"/section/:sectionID", element:<MainContent />},
       {path:"/search/:q", element: <MainContent />},
       {path:"/select-sections", element: <SelectSections />},
+      {path:"/article/:articleID", element: <SingleArticle />},
       { 
         path: "/forgotPassword", 
         element: (

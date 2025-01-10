@@ -14,6 +14,7 @@ export interface ArticleGuardian{
     fields:{
         body:string | TrustedHTML,
         thumbnail?:string,
+        byline?:string,
     }
 }
 
@@ -30,8 +31,25 @@ export interface GuardianApi{
     }
 }
 
+export interface GuardianContentSingle {
+    response: {
+        content:ArticleGuardian,
+    },
+    total:number
+}
+
 export interface NavigationLinkProps{
     Icon?:IconType,
     text:string,
     path:string
+}
+
+export interface AksimContent{
+    id:number,
+    userId:number,
+    title:string,
+    description:string,
+    content:string,
+    imageLink:string,
+    creationDate:string
 }

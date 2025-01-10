@@ -1,4 +1,3 @@
-import React, { memo } from "react";
 import useFetchOnLoad from "../CustomHooks/useFetchOnLoad";
 import { GuardianApi } from "../Types/types";
 import styles from "./MainContent.module.scss";
@@ -6,6 +5,9 @@ import photoNotFound from "../assets/photo.png";
 import { useParams } from "react-router";
 import { apiKey } from "../main";
 import Loader from "../Loader/Loader";
+import { Link } from "react-router-dom";
+import { stringDateToLocaleDateString } from "../utils/Utils";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 interface Props {
     apiContent?: string;
@@ -24,12 +26,13 @@ function MainContent({ apiContent: api, sectionName }: Props) {
           return spaceCount === 1
             ? title.toLowerCase().replace(/ /g, "-")
             : title.toLowerCase().replace(/ /g, "");
+        } else if (title.includes("/")) {
+            return title.toLowerCase().replace(/\//g, " ")
         }
         return title.toLowerCase();
       };
     
     let apiContent = "search?sort_by=newest&show-fields=thumbnail";
-    console.log(q)
     if (api) {
         apiContent = api;
     } else if (sectionID) {
@@ -41,15 +44,18 @@ function MainContent({ apiContent: api, sectionName }: Props) {
     }
 
     const { responseData, error, isLoading } = useFetchOnLoad<GuardianApi>(`https://content.guardianapis.com/${apiContent}&page-size=${pageSize}&api-key=${apiKey}`);
+    const sectionHeading = (sectionName || sectionID?.toUpperCase() || authorID || q)?.replace(/-/g, " ");
+    
     if (isLoading) return <Loader />
-    if (error) return <span className={styles.content}>{error}</span>
-    if (responseData?.response.total === 0) return <span className={styles.content}>Content not found</span>
+    if (error) return <ErrorMessage error={error}/>
+    
+    if (responseData?.response.total === 0) return <ErrorMessage error="Content Not Found"/>
     return (
         <>
-            <h2>{sectionName || sectionID?.toUpperCase() || authorID}</h2>
+            <h2 className={styles.section_heading}>{sectionHeading}</h2>
             <div className={styles.content}>
                 {responseData?.response.results.map((item) => (
-                    <div key={item.id} className={styles.single_item}>
+                    <Link to={`/article/${formatToId(item.id)}`} key={item.id} className={styles.single_item}>
                         <h3 className={styles.title}>{item.webTitle}</h3>
                         <img
                             className={styles.thumbnail}
@@ -57,14 +63,9 @@ function MainContent({ apiContent: api, sectionName }: Props) {
                             alt="article"
                         />
                         <p className={styles.date}>
-                            {new Date(item.webPublicationDate).toLocaleDateString("en-US", {
-                                weekday: "long",
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                            })}
+                            {stringDateToLocaleDateString(item.webPublicationDate)}
                         </p>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </>

@@ -1,17 +1,22 @@
 @import "../Styles/variables";
 
-.content{
-    margin: 3rem auto;
-    padding: none;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: 0.2rem;
+
+
+.section_heading{
+    margin-bottom: 2rem;
+    border-bottom: 1px solid $gray;
+    color:$gray;
 }
 
 .content{
+    display: flex;
     margin: 0;
     font-size: 2rem;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+    justify-content: space-between;
+
 }
 
 .single_item{
@@ -60,8 +65,10 @@
     .single_item{
         width: 30%;
     }
-
-    .thumbnail{
-        
+    .content {
+        &::after{
+            content:"";
+            width: 30%;
+        }
     }
 }

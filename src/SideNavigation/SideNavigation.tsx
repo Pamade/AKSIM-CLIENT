@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import styles from "./SideNavigation.module.scss";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdSportsFootball } from "react-icons/md";
@@ -44,13 +44,13 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
                         <HeadingWithLink path={state.user ? "/user/add-article" : "/login"} Icon={MdEdit} text="PUBLISH ARTICLE"/>                        <div>
                             <h4 className={styles.heading}>Popular Topics</h4>
                             <ul className={styles.list}>
-                                {sections.map(({type, icon}) => <NavigationLink path={`/section/${type}`} Icon={icon} text={type}/>)}
+                                {sections.map(({type, icon}) => <NavigationLink key={type} path={`/section/${type}`} Icon={icon} text={type}/>)}
                             </ul>
                         </div>
                         <div>
                             <h4 className={styles.heading}><NavLink to="/section/commentisfree">Opinions</NavLink></h4>
                             <ul className={styles.list}>
-                                {authors.map((author) => <NavigationLink path={`/commentisfree/${author}`} text={author}/>)}
+                                {authors.map((author) => <NavigationLink key={author} path={`/commentisfree/${author}`} text={author}/>)}
                             </ul>
                         </div>
                     </section>   
