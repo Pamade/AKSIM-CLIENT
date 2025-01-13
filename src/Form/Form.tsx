@@ -1,7 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "./Form.module.scss";
 import { FormEvent, useEffect, useState } from "react";
-import useFetchOnLoad from "../CustomHooks/useFetchOnLoad";
 import { useUserContext } from "../Context/UserContext";
 import { FieldsDisplay, FormType, FieldType, RegisterValues, LoginValues, ResetPasswordValues, ForgotPasswordResponse, ValidateTokenResponse, AuthenticationResponse, isForgotPasswordResponse, isValidateTokenResponse, isAuthenticationResponse, FieldsLoginType, FieldsResetPassword, FieldsRegisterType, FetchValues } from "./FormTypes";
 import axios from "axios";
@@ -13,6 +12,12 @@ const fields:FieldsDisplay[] = [{
     label:"Email",
 }, 
 {
+    name:"name",
+    type:"text",
+    placeholder:"Username",
+    label:"Username",
+},
+{
     name:"password",
     type:"password",
     placeholder:"Enter your password",
@@ -23,16 +28,16 @@ const fields:FieldsDisplay[] = [{
     placeholder:"Repeat password", 
     label:"Repeat Password"
 }
+
 ]
 
 function Form({formType}:FormType){
     const {token} = useParams()
-    // const {results} = useFetchOnLoad("search?page=2")
     const {fetchUserData} = useUserContext()
     const navigate = useNavigate();
     const [requestLoading, setRequestLoading] = useState(false)
     const [successMessage, setSuccessMessage] = useState("")
-    const [reigsterValues, setRegisterValues] = useState<RegisterValues>({email:'', password:'', repeatPassword:''})
+    const [reigsterValues, setRegisterValues] = useState<RegisterValues>({email:'', password:'', repeatPassword:'', name:''})
     const [loginValues, setLoginValues] = useState<LoginValues>({email:'', password:''})
     const [resetPasswordValues, setResetPasswordValues] = useState<ResetPasswordValues>({password:'', repeatPassword:'',
          tokenValue:token as string, tokenType:'forgot_password' })
@@ -65,11 +70,12 @@ function Form({formType}:FormType){
             ...prevState, [name]:value
         }))
     }
+
     const fetchPost = async (values:FetchValues, endpoint:string) => {
         const API = `http://localhost:8080/api/auth/${endpoint}`;
         try {
             setRequestLoading(true)
-            
+            console.log(values)
             const response = await axios.post(API, values, {
                 headers: {
                   'Content-Type': 'application/json',
@@ -77,7 +83,7 @@ function Form({formType}:FormType){
               });
 
             if (response.status !== 200) {
-                setErrors(["could not authenticate"])
+                setErrors(["Could not authenticate"])
             }
             const data:ForgotPasswordResponse | ValidateTokenResponse | AuthenticationResponse = response.data
         if (isForgotPasswordResponse(data)) {
@@ -135,16 +141,13 @@ function Form({formType}:FormType){
     }
 
     const RegisterForm = fields.map((field, index) => <Field onChange={handleChangeRegister} value={reigsterValues[field.name] as FieldsRegisterType} key={index} {...field} />)
-    const LoginForm = fields.slice(0,-1).map((field, index) => <Field onChange={handleChangeLogin} value={loginValues[field.name as FieldsLoginType]}  key={index} {...field} />) 
-    const EmailForm = fields.slice(0, 1).map((field, index) => <Field onChange={(e) => setForgotPasswordEmail(e.target.value)} value={forgotPasswordEmail} key={index} {...field}/>)
-    const ResetPasswordForm = fields.slice(1).map((field, index) => <Field onChange={handleChangeResetPassword} value={resetPasswordValues[field.name as FieldsResetPassword]}  key={index} {...field}/>)
+    const LoginForm = fields.filter(field => field.name === "email" || field.name === "password").map((field, index) => <Field onChange={handleChangeLogin} value={loginValues[field.name as FieldsLoginType]}  key={index} {...field} />) 
+    const EmailForm = fields.filter((field) => field.name === "email").map((field, index) => <Field onChange={(e) => setForgotPasswordEmail(e.target.value)} value={forgotPasswordEmail} key={index} {...field}/>)
+    const ResetPasswordForm =  fields.filter((field) => field.name === "password" || "repeatPassword").map((field, index) => <Field onChange={handleChangeResetPassword} value={resetPasswordValues[field.name as FieldsResetPassword]}  key={index} {...field}/>)
 
     function content(description:string, fields:JSX.Element[], buttonText:string, additionalContent?:JSX.Element){
         return (
             <div className={styles.form_wrapper}>
-                {/* <div className={styles.loading_wrapper}>
-                    {requestLoading && <ClipLoader size={125} />}
-                </div> */}
                 {successMessage? <div className={`${successMessage === ""  ? styles.success_wrapper__hidden : styles.success_wrapper}`}>
                     <p>{successMessage}</p>
                     {formType === "resetPassword" && <Link className={styles.link_back_to_login} to={"/login"}>Go To Login Page</Link>}
@@ -162,8 +165,8 @@ function Form({formType}:FormType){
                         <div>
                             {additionalContent}
                         </div>
-                </form>}    
-                
+                </form>
+                }    
             </div>
         )
     }

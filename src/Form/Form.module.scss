@@ -6,6 +6,9 @@
     border-radius: 5px;
     color: white;
     padding: 1rem;
+    box-sizing: border-box;
+    width: calc(100% - 2rem);
+    margin: 0 auto;
     height: 120px;
 }
 @mixin wrapper_hidden($col){
@@ -15,27 +18,13 @@
     visibility: hidden;    
 }
 
-// $wrapper:($color) (
-//   background-color: $color,
-//   border: 1px solid $color,
-//   border-radius: 5px,
-//   color: white,
-//   padding: 1rem,
-//   height: 120px
-// );
-
-// @mixin wrap($color) {
-//     @each $property, $value in $wrapper-styles {
-//       // Check if the value is the placeholder $color, if so replace it with the actual $color value
-//       #{$property}: if($value == $color, $color, $value);
-//     }
-//   }
-
 @media (min-width:280px) {
     .form {
         display: flex;
         flex-direction: column;
         gap: 1rem;
+        width: 95%;
+        padding: 1rem;
     }
     
     .field{
@@ -131,8 +120,11 @@
         }
     }
 }
-@media (min-width:1200px) {
-    .input {
-        min-width: 20rem;
+@media (min-width:760px) {
+    .form{
+        width: 100%;
+    }
+    .input{
+        min-width: 15rem;
     }
 }

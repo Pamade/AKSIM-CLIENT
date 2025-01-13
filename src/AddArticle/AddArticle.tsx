@@ -2,8 +2,8 @@ import ArticleCreator from "../ArticleCreator/ArticleCreator";
 import styles from "../AddArticle/AddArticle.module.scss"
 import { useState } from "react";
 import axios from "axios";
-import useFetchOnLoad from "../CustomHooks/useFetchOnLoad";
-import {AksimContent} from "../Types/types";
+
+import { useNavigate } from "react-router";
 interface Article {
     id:number,
     title:string,
@@ -25,8 +25,6 @@ interface Data {
 const AddArticle = () => {
     const [article, setArticle] = useState<Partial<Article>>({creationDate: new Date()} as Article)
     const [errors, setErrors] = useState<Errors>({} as Errors)
-    const {fetchData} = useFetchOnLoad<AksimContent[]>('http://localhost:8080/api/content/get-articles', false)
-    
     const handlePostArticle = async(e:React.FormEvent) => {
         e.preventDefault();
         const token = localStorage.getItem('access_token')
@@ -56,7 +54,7 @@ const AddArticle = () => {
                     setErrors({title:err.title, content:err.content})
                 } else  setErrors({})
             }      
-            fetchData()
+                
         } catch (e) {
             setErrors({server:"Server Error"})
         }

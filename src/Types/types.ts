@@ -14,7 +14,7 @@ export interface ArticleGuardian{
     fields:{
         body:string | TrustedHTML,
         thumbnail?:string,
-        byline?:string,
+        byline:string,
     }
 }
 
@@ -46,10 +46,21 @@ export interface NavigationLinkProps{
 
 export interface AksimContent{
     id:number,
-    userId:number,
+    userID:number,
+    userNameID:string,
     title:string,
     description:string,
     content:string,
     imageLink:string,
     creationDate:string
+}
+
+export interface ArticleProps{
+    webTitle:string,
+    thumbnail:string | undefined,
+    byline:string,
+    publicationDate:string,
+    body:TrustedHTML | string,
+    description?:string,
+    isAksim?:boolean
 }

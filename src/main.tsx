@@ -1,34 +1,20 @@
 import ReactDOM from 'react-dom/client';
 import './index.scss';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from './Login/Login.tsx';
 import Form from './Form/Form.tsx';
-import Header from "./Header/Header.tsx";
 import AddArticle from './AddArticle/AddArticle.tsx';
 import { UserProvider } from './Context/UserContext.tsx';
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute.tsx';
 import App from './App.tsx';
-import SideNavigation from "./SideNavigation/SideNavigation.tsx"
-import SideContent from './SideContent/SideContent.tsx';
 import MainContent from './MainContent/MainContent.tsx';
 import UserLoggedRoute from './UserLoggedRoute/UserLoggedRoute.tsx';
 import SelectSections from './SelectSections/SelectSections.tsx';
 import SingleArticle from './SingleArticle/SingleArticle.tsx';
-// Layout Component
+import SingleAksimArticle from './SingleArticle/SingleAksimArticle.tsx';
+import Profile from './Profile/Profile.tsx';
+import MainLayout from './MainLayout/MainLayout.tsx';
 export const apiKey = import.meta.env.VITE_API_KEY;
-
-const MainLayout = () => (
-  <>
-    <Header /> {/* Header now inside Router context */}
-    <div className="wrapper">
-      <SideNavigation isNavigationOpen={false}/>
-          <main className="wrapper-main">
-            <Outlet /> {/* Renders the nested route components */}
-          </main>
-      <SideContent />
-    </div>
-  </>
-);
 
 const router = createBrowserRouter([
   {
@@ -41,6 +27,8 @@ const router = createBrowserRouter([
       {path:"/search/:q", element: <MainContent />},
       {path:"/select-sections", element: <SelectSections />},
       {path:"/article/:articleID", element: <SingleArticle />},
+      {path:"/aksim-article/:articleID", element: <SingleAksimArticle />},
+      {path:"/profile/:userID", element:<Profile />},
       { 
         path: "/forgotPassword", 
         element: (

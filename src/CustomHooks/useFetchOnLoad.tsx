@@ -7,6 +7,7 @@ function useFetchOnLoad<T>(URL:string, reload?:boolean) {
     const [responseData, setResponseData] = useState<T | null>(null)
     const [error, setError] = useState("")
     const location = useLocation()
+
     const fetchData= async () => {
         setIsLoading(true);
         try {
@@ -21,13 +22,13 @@ function useFetchOnLoad<T>(URL:string, reload?:boolean) {
             setIsLoading(false);
         }
     };
+
     useEffect(() => {
 
-            if (reload !== false) {
+            if (reload !== false ) {
                 fetchData();
             }
-            
-            
+
         }, [location]
     )
     return {isLoading, responseData, error, fetchData};

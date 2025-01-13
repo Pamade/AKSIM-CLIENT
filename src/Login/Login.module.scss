@@ -9,12 +9,14 @@
     
 }
 
+@media (min-width:760px){
+
+}
+
 @media (min-width:1200px) {
     .form_wrapper{
         flex-direction: row;
-        justify-content:space-between;
-        margin: 0 auto;
-        width:70%;
+        justify-content:space-around;
     }
 
     

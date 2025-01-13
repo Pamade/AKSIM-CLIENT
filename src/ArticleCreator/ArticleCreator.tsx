@@ -1,4 +1,4 @@
-import  { useState, useRef, useMemo} from 'react';
+import  { useRef, useMemo} from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import DOMPurify from 'dompurify';
@@ -8,6 +8,7 @@ import axios from 'axios';
 interface Props{
     handleChangeArticleContent: (html: string) => void
 }
+
 function ArticleCreator({handleChangeArticleContent}:Props){
 
     const quillRef:any = useRef(null);
@@ -86,20 +87,6 @@ function ArticleCreator({handleChangeArticleContent}:Props){
             <section>
                 <ReactQuill modules={modules} ref={quillRef} theme="snow" onChange={handleChange} />
             </section>
-            {/* <div style={{
-                whiteSpace: "pre-wrap", // Ensures spaces, tabs, and line breaks are preserved
-                marginTop: "20px",
-        }} dangerouslySetInnerHTML={{ __html:editorHtml}} /> */}
-
-            {/* <h1>Created Quills</h1>
-            {savedDeltas.map((deltaJson, index) => {
-                const delta = JSON.parse(deltaJson);
-                const html = getHTMLFromDelta(delta);
-                return <div style={{
-                    whiteSpace: "pre-wrap", // Ensures spaces, tabs, and line breaks are preserved
-                    marginTop: "20px",
-                  }} key={index} dangerouslySetInnerHTML={{ __html: html }} />;
-            })} */}
         </div>
     );
 

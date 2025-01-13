@@ -3,7 +3,7 @@ export type FormType = {
     formType:"login" | "register" | "forgotPassword" | "resetPassword",
 }
 
-export type FieldsRegisterType = "email" | "password" | "repeatPassword";
+export type FieldsRegisterType = "email" | "password" | "repeatPassword" | "name";
 export type FieldsLoginType = "email" | "password";
 export type FieldsResetPassword = "password" | "repeatPassword";
 export type FieldsDisplay = Omit<FieldType, "value" | "onChange">;
@@ -15,6 +15,7 @@ export interface FieldType{
     label: string;
     value:string    
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+
 }
 
 export interface LoginValues {
@@ -23,7 +24,8 @@ export interface LoginValues {
 }
 
 export interface RegisterValues extends LoginValues {
-    repeatPassword:string
+    repeatPassword:string,
+    name:string
 }
 
 export interface ResetPasswordValues {

@@ -27,7 +27,7 @@ const authors = ["Siva Vaidhyanathan", "Simon Jenkins", "Polly Toynbee"] as cons
 function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
     const [search, setSearch] = useState("")
     const {state} = useUserContext()
-
+    
 
     return (
             <nav className={!isNavigationOpen ? styles.navigation : `${styles.navigation} ${styles.navigation_open}`}>
