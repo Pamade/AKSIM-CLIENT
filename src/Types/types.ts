@@ -41,7 +41,8 @@ export interface GuardianContentSingle {
 export interface NavigationLinkProps{
     Icon?:IconType,
     text:string,
-    path:string
+    path:string,
+    fontSize?:string
 }
 
 export interface AksimContent{
@@ -63,4 +64,11 @@ export interface ArticleProps{
     body:TrustedHTML | string,
     description?:string,
     isAksim?:boolean
+}
+
+export interface AksimArticleAsLinkProps {
+    content:AksimContent,
+    handleRemoveArticle?:(id: number) => Promise<void>,
+    path?:string,
+    containsThumbnail?:boolean
 }

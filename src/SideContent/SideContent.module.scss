@@ -31,23 +31,4 @@
         gap:2rem;
     }
 
-    .link{
-        display: block;
-        padding: 1rem;
-    }
-
-    .single_item{
-        border: 1px solid $gray;
-        border-radius: 5px;
-        transition: .3s;
-        word-break: break-all;
-        &:hover{
-            cursor: pointer;
-            background-color: $lightgray;
-        }
-        &_selected{
-            background-color: $lightgray;
-        }
-        // border-bottom: 1px solid $gray;
-    }
 }

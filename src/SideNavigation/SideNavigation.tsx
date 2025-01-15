@@ -11,8 +11,8 @@ import { useUserContext } from "../Context/UserContext";
 import { IoMdSend } from "react-icons/io";
 import { useState } from "react";
 import { HiSquares2X2 } from "react-icons/hi2";
-import { NavigationLinkProps } from "../Types/types";
 import NavigationLink from "../NavigationLink/NavigationLink";
+import HeadingWithLink from "../HeadingWithLink/HeadingWithLink";
 
 interface Props{
     isNavigationOpen:boolean,
@@ -27,7 +27,6 @@ const authors = ["Siva Vaidhyanathan", "Simon Jenkins", "Polly Toynbee"] as cons
 function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
     const [search, setSearch] = useState("")
     const {state} = useUserContext()
-    
 
     return (
             <nav className={!isNavigationOpen ? styles.navigation : `${styles.navigation} ${styles.navigation_open}`}>
@@ -58,19 +57,4 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
     )
 }
 
-
-
-function HeadingWithLink({path, Icon, text}:NavigationLinkProps){
-    return (
-        <h4 className={styles.heading}>
-            <NavLink 
-                to={path} 
-                className={styles.nav_link} // Optional: Add a specific class for styling
-            >
-                {Icon && <Icon className={styles.icon}/>}
-                <span>{text}</span>
-            </NavLink>
-        </h4>
-    )
-}
 export default SideNavigation

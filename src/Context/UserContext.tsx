@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useReducer } from "react";
 import axios from "axios";
 interface User {
-    username: string;
+    email: string; // this is email
+    name:string;
 }
 
 interface State {

@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       {path:"/select-sections", element: <SelectSections />},
       {path:"/article/:articleID", element: <SingleArticle />},
       {path:"/aksim-article/:articleID", element: <SingleAksimArticle />},
-      {path:"/profile/:userID", element:<Profile />},
+      {path:"/profile/:userName", element:<Profile />},
       { 
         path: "/forgotPassword", 
         element: (

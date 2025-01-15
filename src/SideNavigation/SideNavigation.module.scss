@@ -1,5 +1,4 @@
 @import "../Styles/variables";
-$darkenGray: darken($gray, 0);
 .navigation{
     position: fixed;
     left: 0;
@@ -50,41 +49,6 @@ $darkenGray: darken($gray, 0);
     flex-direction: column;
     margin-left: 1rem;
     gap: 1rem;
-}
-
-
-.heading{
-    font-size: 1.4rem;
-    padding: 0.3rem 0;
-    margin: 0.8rem 0;
-    color: $gray;
-    transition: 0.3s fade-in;
-    display: flex;
-    align-items: center;
-    &_search{
-        display: flex;
-        cursor: pointer;
-        gap: 0.5rem;
-    }
-    & > a {
-        color: $gray;
-    }
-}
-
-.nav_link{
-    display: flex;
-    gap: 0.5rem;
-    &:hover{
-        color: darken($darkenGray, 20);
-    }
-    &:hover .icon{
-        color: darken($darkenGray, 20);
-    }
-}
-
-.icon{
-    font-size: 1.8rem;
-    color: $gray;
 }
 
 .content{

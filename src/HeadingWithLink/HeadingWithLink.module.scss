@@ -1,0 +1,35 @@
+@import "../Styles/variables";
+
+.heading{
+    font-size: 1.4rem;
+    padding: 0.3rem 0;
+    margin: 0.8rem 0;
+    color: $gray;
+    transition: 0.3s fade-in;
+    display: flex;
+    align-items: center;
+    &_search{
+        display: flex;
+        cursor: pointer;
+        gap: 0.5rem;
+    }
+    & > a {
+        color: $gray;
+    }
+}
+
+.nav_link{
+    display: flex;
+    gap: 0.5rem;
+    &:hover{
+        color: darken($gray, 20);
+    }
+    &:hover .icon{
+        color: darken($gray, 20);
+    }
+}
+
+.icon{
+    font-size: 1.8rem;
+    color: $gray;
+}
