@@ -72,3 +72,16 @@ export interface AksimArticleAsLinkProps {
     path?:string,
     containsThumbnail?:boolean
 }
+
+export interface PaginationButtonsProps {
+    pagesTotal:number,
+    currentPage:number,
+    setPage:React.Dispatch<React.SetStateAction<number>>
+}
+
+export interface FiltersContent {
+    section:string,
+    lang:string,
+    fromDate:Date | null,
+    toDate:Date | null,
+}

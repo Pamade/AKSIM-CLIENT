@@ -71,7 +71,7 @@
     .profile{
         gap: 3rem;
         justify-content: center;
-        width: 250px;
+        width: 350px;
     }
 
     .user_avatar{
@@ -82,7 +82,7 @@
         margin: 0 auto;
         text-align: center;
         align-self: flex-start;
-        margin-right: 250px;
+        margin-right: 350px;
     }
 
     .list{
@@ -91,12 +91,11 @@
         gap: 1rem;
         & li h4 a {
             align-items: center;
-            
             & svg {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
             & span {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
         }
     }

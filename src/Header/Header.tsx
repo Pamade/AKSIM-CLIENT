@@ -18,12 +18,15 @@ function Button({path,text, event}:ButtonProps){
 function Header() {
     const {state, logout} = useUserContext();
     const [isNavigationOpen, setIsNavigationOpen] = useState(false)
-
+    
     return (
         <section>
             <div  className={styles.wrapper}>
                 <div className={styles.logo_bar}>
-                     <FaBars onClick={() => setIsNavigationOpen(!isNavigationOpen)} className={styles.bar}/>
+                     <FaBars onClick={(e) => {
+                        e.stopPropagation()
+                        setIsNavigationOpen(!isNavigationOpen)
+                     }} className={styles.bar}/>
                      <Link to="/" className={styles.link}><img className={styles.logo} src={logo} alt="aksim" /></Link>
                 </div>
                 {isNavigationOpen && <SideNavigation isNavigationOpen={true} setIsNavigationOpen={setIsNavigationOpen}/>}            

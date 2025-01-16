@@ -11,6 +11,10 @@
   margin: 0 auto;
 }
 
+body{
+  overflow-x: hidden;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -36,14 +40,16 @@ a {
 }
 
 .wrapper-main{
-  width: 100%;
+  width: calc(100% - 4.1rem);
+  margin: 2rem;
+  overflow-x: hidden;
 }
 
 @media(min-width:760px){
-    
-  .wrapper-main{
-      margin: 2rem;
-  }
+  // width: calc(100% - 4.1rem);
+  // .wrapper-main{
+  //     margin: 2rem;
+  // }
 }
 
 @media(min-width:1200px) {

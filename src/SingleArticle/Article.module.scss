@@ -1,6 +1,7 @@
 @import "../Styles/variables";
 
 .article{
+    width: 100%;
     color: $gray;
     margin: 2rem auto;
     display: flex;
@@ -10,10 +11,15 @@
     word-break: break-all;
 }
 
+.content_img_wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
 img{ //img for article in content
     width: 100%;
     max-height: 20rem;
-    object-fit: cover;
+    object-fit:scale-down;
 }
 
 .thumbnail{
@@ -39,9 +45,11 @@ img{ //img for article in content
 }
 
 @media (min-width:760px) {
+    
     .article{
         margin: 0 auto;
     }
+
 }
 @media (min-width:1600px){
     .article{

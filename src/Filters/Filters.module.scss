@@ -1,0 +1,20 @@
+.form{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.single_item_wrapper{
+    width: 45%;
+    margin: 1rem 0;
+}
+
+.input{
+    width: 100%;
+}
+
+@media (min-width:760px){
+    .single_item_wrapper{
+        width: 20%;
+    }
+}

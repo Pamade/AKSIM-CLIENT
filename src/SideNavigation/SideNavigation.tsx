@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom"
 import styles from "./SideNavigation.module.scss";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdSportsFootball } from "react-icons/md";
@@ -9,7 +9,7 @@ import { IoHome } from "react-icons/io5";
 import { MdEdit } from "react-icons/md";
 import { useUserContext } from "../Context/UserContext";
 import { IoMdSend } from "react-icons/io";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { HiSquares2X2 } from "react-icons/hi2";
 import NavigationLink from "../NavigationLink/NavigationLink";
 import HeadingWithLink from "../HeadingWithLink/HeadingWithLink";
@@ -27,9 +27,46 @@ const authors = ["Siva Vaidhyanathan", "Simon Jenkins", "Polly Toynbee"] as cons
 function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
     const [search, setSearch] = useState("")
     const {state} = useUserContext()
+    
+    const location = useLocation()
+    const navRef = useRef<HTMLDivElement | null>(null); // Ref for the navigation
+    const isFirstRender = useRef(true); // Tracks if it's the first render
+
+
+    const closeNavigation = () => {
+        if (isNavigationOpen && setIsNavigationOpen) {
+            setIsNavigationOpen(false);
+        }
+    };
+
+    useEffect(() => {
+
+        if (isFirstRender.current) {
+            isFirstRender.current = false
+            return 
+        }
+        closeNavigation();
+    }, [location]); // Trigger on location change
+
+    useEffect(() => {
+        const handleClickOutside = (event:MouseEvent) => {
+            if (navRef.current && !navRef.current.contains(event.target as Node)) {
+                closeNavigation();
+            }
+            console.log(navRef.current)
+        };
+
+        // Add event listener for clicks
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            // Cleanup event listener
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, [isNavigationOpen]); 
 
     return (
-            <nav className={!isNavigationOpen ? styles.navigation : `${styles.navigation} ${styles.navigation_open}`}>
+            <nav ref={navRef} className={!isNavigationOpen ? styles.navigation : `${styles.navigation} ${styles.navigation_open}`}>
                     <div className={styles.close_container}>
                         <IoCloseCircleOutline className={styles.close_button} onClick={() => {typeof setIsNavigationOpen !== "undefined" && setIsNavigationOpen(false)}}/>
                     </div>
