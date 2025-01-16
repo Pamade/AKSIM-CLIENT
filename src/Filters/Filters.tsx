@@ -1,13 +1,13 @@
 import { apiKey } from "../main"
 import useFetchOnLoad from "../CustomHooks/useFetchOnLoad"
 import { GuardianApi } from "../Types/types"
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState, memo } from "react";
 import { FiltersContent } from "../Types/types";
 import styles from "./Filters.module.scss";
+import { useSearchParams } from "react-router-dom";
 
 interface FiltersProps {
     filters:FiltersContent,
-    setFilters:React.Dispatch<React.SetStateAction<FiltersContent>>
 }
 
 interface SelectProps {
@@ -27,37 +27,16 @@ const languages:IdAndWebTitle[] = [
     { id: "fr", title: "French" },
     { id: "es", title: "Spanish" },
     { id: "de", title: "German" },
-    { id: "it", title: "Italian" },
-    { id: "pt", title: "Portuguese" },
     { id: "ru", title: "Russian" },
     { id: "zh", title: "Chinese" },
     { id: "ja", title: "Japanese" },
-    { id: "ko", title: "Korean" },
-    { id: "ar", title: "Arabic" },
-    { id: "hi", title: "Hindi" },
-    { id: "bn", title: "Bengali" },
-    { id: "pa", title: "Punjabi" },
-    { id: "ur", title: "Urdu" },
-    { id: "vi", title: "Vietnamese" },
-    { id: "th", title: "Thai" },
-    { id: "id", title: "Indonesian" },
-    { id: "tr", title: "Turkish" },
-    { id: "ms", title: "Malay" },
-    { id: "fa", title: "Persian" },
-    { id: "pl", title: "Polish" },
-    { id: "uk", title: "Ukrainian" },
-    { id: "cs", title: "Czech" },
-    { id: "sv", title: "Swedish" },
-    { id: "fi", title: "Finnish" },
-    { id: "hu", title: "Hungarian" },
-    { id: "el", title: "Greek" },
-    { id: "nl", title: "Dutch" },
-    { id: "he", title: "Hebrew" }
 ] as const;
 //get all possible sections
-function Filters({filters, setFilters}:FiltersProps){
+const Filters = ({filters}:FiltersProps) => {
     const {responseData, isLoading, error} = useFetchOnLoad<GuardianApi>(`https://content.guardianapis.com/sections?api-key=${apiKey}`)    
+    const [searchParams, setSearchParams] = useSearchParams()
     const [sections, setSections] = useState<IdAndWebTitle[]>([])
+
 
     const {section, lang, fromDate, toDate} = filters
     const results = responseData?.response.results
@@ -70,8 +49,10 @@ function Filters({filters, setFilters}:FiltersProps){
         setSections(temp)
     }, [isLoading])
 
-    const handleChange = (e:ChangeEvent<HTMLSelectElement | HTMLInputElement> , type:string) => {
-        setFilters({...filters, [type]:e.target.value})
+    const handleChange = (e:ChangeEvent<HTMLSelectElement | HTMLInputElement> , type:string) => {        
+        // setFilters({...filters, [type]:e.target.value, page:String(1)})
+        setSearchParams({...filters, [type]:e.target.value, page:String(1)} as any)
+        // buildQueryString({...filters, [type]:e.target.value, page:String(1)} as any)
     }
 
     return (
@@ -88,7 +69,7 @@ function Filters({filters, setFilters}:FiltersProps){
     )
 }
 
-function SelectDate({onChange, value, label}:Omit<SelectProps, "items">){
+const SelectDate = ({onChange, value, label}:Omit<SelectProps, "items">) =>{
     return (
         <div className={styles.single_item_wrapper}>
             <label className={styles.label}>{label}</label>
@@ -102,12 +83,12 @@ function SelectDate({onChange, value, label}:Omit<SelectProps, "items">){
     )
 }
 
-function Select({items, onChange, value, label}:SelectProps){
+const Select = ({items, onChange, value, label}:SelectProps) => {
     return (
         <div className={styles.single_item_wrapper}>
             <label className={styles.label}>{label}</label>
             <select className={styles.input} value={value} onChange={onChange}>
-                <option value="">Select content</option>
+                <option value="">All</option>
                 {items.map((item) => (
                     <option key={item.id} value={item.id}>{item.title}</option>
                 ))}

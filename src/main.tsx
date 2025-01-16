@@ -23,8 +23,8 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <MainContent sectionName='New' apiContent="search?sort_by=newest&show-fields=thumbnail"/> },
       {path:"/commentisfree/:authorID", element: <MainContent />},
-      {path:"/section/:sectionID", element:<MainContent />},
-      {path:"/search/:q", element: <MainContent />},
+      // {path:"/section/:sectionID", element:<MainContent />},
+      // {path:"/search/:q", element: <MainContent />},
       {path:"/select-sections", element: <SelectSections />},
       {path:"/article/:articleID", element: <SingleArticle />},
       {path:"/aksim-article/:articleID", element: <SingleAksimArticle />},

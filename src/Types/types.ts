@@ -75,13 +75,17 @@ export interface AksimArticleAsLinkProps {
 
 export interface PaginationButtonsProps {
     pagesTotal:number,
-    currentPage:number,
-    setPage:React.Dispatch<React.SetStateAction<number>>
+    page:number,
+    filters:FiltersContent
 }
 
 export interface FiltersContent {
+    page:number|string,
+    q:string,
+    pageSize:number | string,
     section:string,
     lang:string,
-    fromDate:Date | null,
-    toDate:Date | null,
+    fromDate: string,
+    toDate: string,
+    [key:string]:string | number 
 }
