@@ -14,6 +14,7 @@ import SingleArticle from './SingleArticle/SingleArticle.tsx';
 import SingleAksimArticle from './SingleArticle/SingleAksimArticle.tsx';
 import Profile from './Profile/Profile.tsx';
 import MainLayout from './MainLayout/MainLayout.tsx';
+import Opinions from './Opinions/Opinions.tsx';
 export const apiKey = import.meta.env.VITE_API_KEY;
 
 const router = createBrowserRouter([
@@ -21,8 +22,9 @@ const router = createBrowserRouter([
     path: "/",
     element: <MainLayout />, // Use MainLayout as the root layout
     children: [
-      { path: "/", element: <MainContent sectionName='New' apiContent="search?sort_by=newest&show-fields=thumbnail"/> },
+      { path: "/", element: <MainContent /> },
       {path:"/commentisfree/:authorID", element: <MainContent />},
+      {path:"/opinions", element:<Opinions />},
       // {path:"/section/:sectionID", element:<MainContent />},
       // {path:"/search/:q", element: <MainContent />},
       {path:"/select-sections", element: <SelectSections />},

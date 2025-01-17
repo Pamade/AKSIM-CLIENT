@@ -1,0 +1,66 @@
+@import "../Styles/variables";
+
+.content{
+    display: flex;
+    font-size: 2rem;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+    justify-content: space-between;
+}
+
+.single_item{
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem; 
+    transition: .3s;
+    &:hover{
+        cursor: pointer;
+        background: $lightgray;
+    }
+}
+
+.title{
+    font-size: 1rem;
+    color: $gray;
+}
+
+.date{
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+.thumbnail{
+    max-width: 500px;
+}
+
+@media(min-width:760px){
+    
+    .content{
+        flex-direction: row;
+    }    
+
+    .single_item{
+        width: 45%;
+        padding: 1rem;
+        border: 1px solid $lightgray;
+    }
+
+    .title{
+        height: 8rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media(min-width:1200px){
+
+    .single_item{
+        width: 30%;
+    }
+    .content {
+        &::after{
+            content:"";
+            width: 30%;
+        }
+    }
+}

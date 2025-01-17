@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom"
+import { NavLink, useLocation, useSearchParams } from "react-router-dom"
 import styles from "./SideNavigation.module.scss";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdSportsFootball } from "react-icons/md";
@@ -25,6 +25,7 @@ const sections = [{type:"sport", icon:MdSportsFootball},
 const authors = ["Siva Vaidhyanathan", "Simon Jenkins", "Polly Toynbee"] as const;
 
 function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
+    const [searchParams, setSearchParams] = useSearchParams()
     const [search, setSearch] = useState("")
     const {state} = useUserContext()
     
@@ -65,6 +66,14 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
         };
     }, [isNavigationOpen]); 
 
+
+    const handleSearch = () => {
+        setSearchParams({q:search || "", page:"1", section:"", lang:"", fromDate:"", toDate:""})
+    }
+    const handleSearchTopic = (topic:string) => {
+        setSearchParams({q:"", page:"1", section:topic, lang:"", fromDate:"", toDate:""})
+    }
+
     return (
             <nav ref={navRef} className={!isNavigationOpen ? styles.navigation : `${styles.navigation} ${styles.navigation_open}`}>
                     <div className={styles.close_container}>
@@ -74,17 +83,18 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
                         <HeadingWithLink path={"/"} Icon={IoHome} text="HOME"/>
                         <HeadingWithLink Icon={HiSquares2X2} path={"/select-sections"} text="SECTIONS"/>
                         <div className={styles.search}>
-                            <HeadingWithLink path={search ? `/search/${search}` : ""} Icon={IoMdSend} text="SEARCH"/>
+
+                            <HeadingWithLink onClick={() => handleSearch()} path={search && `/?q=${search}&page=1`} Icon={IoMdSend} text="SEARCH"/>
                             <input onChange={(e) => setSearch(e.target.value)} className={styles.search_input} type="text" />
                         </div>
                         <HeadingWithLink path={state.user ? "/user/add-article" : "/login"} Icon={MdEdit} text="PUBLISH ARTICLE"/>                        <div>
                             <h4 className={styles.heading}>Popular Topics</h4>
                             <ul className={styles.list}>
-                                {sections.map(({type, icon}) => <NavigationLink key={type} path={`/section/${type}`} Icon={icon} text={type}/>)}
+                                {sections.map(({type, icon}) => <NavigationLink onClick={() => handleSearchTopic(type)} key={type} path={`/?section=${type}&page=1`} Icon={icon} text={type}/>)}
                             </ul>
                         </div>
                         <div>
-                            <h4 className={styles.heading}><NavLink to="/section/commentisfree">Opinions</NavLink></h4>
+                            <h4 className={styles.heading}><NavLink to="/opinions">Opinions</NavLink></h4>
                             <ul className={styles.list}>
                                 {authors.map((author) => <NavigationLink key={author} path={`/commentisfree/${author}`} text={author}/>)}
                             </ul>

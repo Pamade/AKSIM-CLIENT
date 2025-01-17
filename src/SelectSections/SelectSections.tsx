@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import NavigationLink from "../NavigationLink/NavigationLink"
 import ErrorMessage from "../ErrorMessage/ErrorMessage"
 import Loader from "../Loader/Loader"
+
 function SelectSections(){
     const [sectionsByLetter, setSectionsByLetter] = useState<string[][]>([[]])
     const {responseData, isLoading, error} = useFetchOnLoad<GuardianApi>(`https://content.guardianapis.com/sections?api-key=${apiKey}`)    
@@ -37,7 +38,7 @@ function SelectSections(){
     if (error) return <ErrorMessage error={error}/>
     return (
         <section className={styles.content}>
-            {sectionsByLetter.map((words) => <ul className={styles.list}><span className={styles.first_letter}>{words.at(0)?.at(0)?.toUpperCase()}</span>{words.map((word) =><NavigationLink text={word.replace(/-/g, " ")} path={`/?section=${word.toLowerCase()}`} 
+            {sectionsByLetter.map((words) => <ul className={styles.list}><span className={styles.first_letter}>{words.at(0)?.at(0)?.toUpperCase()}</span>{words.map((word) =><NavigationLink text={word.replace(/-/g, " ")} path={`/?section=${word.toLowerCase()}&page=1`} 
             />)}</ul>)}
         </section>
     )

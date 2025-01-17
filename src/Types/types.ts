@@ -42,7 +42,8 @@ export interface NavigationLinkProps{
     Icon?:IconType,
     text:string,
     path:string,
-    fontSize?:string
+    fontSize?:string,
+    onClick?:() => void
 }
 
 export interface AksimContent{
@@ -76,13 +77,16 @@ export interface AksimArticleAsLinkProps {
 export interface PaginationButtonsProps {
     pagesTotal:number,
     page:number,
-    filters:FiltersContent
+    filters:FiltersContent | FiltersContentOpinions
+}
+
+export interface FiltersContentOpinions {
+    page:number | string;
 }
 
 export interface FiltersContent {
     page:number|string,
     q:string,
-    pageSize:number | string,
     section:string,
     lang:string,
     fromDate: string,

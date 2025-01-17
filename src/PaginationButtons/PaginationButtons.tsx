@@ -9,7 +9,9 @@ interface ButtonProps {
 }
 
 const PaginationButtons = ({pagesTotal, page, filters}:PaginationButtonsProps) => {
+    console.log(page)
     const [searchParams, setSearchParams] = useSearchParams()
+    page = Number(page)
     const prevPage = page - 1;
     const nextPage = page + 1
     const showFirstButton = page > 1
@@ -17,7 +19,7 @@ const PaginationButtons = ({pagesTotal, page, filters}:PaginationButtonsProps) =
     const showForthButton = page !== pagesTotal && nextPage !== pagesTotal
 
     const handleSetPage = (value:number) => {
-        setSearchParams({...filters, page:String(value)} as any)
+        setSearchParams({...filters, page:String(value)} )
     }
 
     return (

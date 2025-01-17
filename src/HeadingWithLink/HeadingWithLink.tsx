@@ -1,9 +1,10 @@
 import { NavigationLinkProps } from "../Types/types";
 import { NavLink } from "react-router-dom";
 import styles from "./HeadingWithLink.module.scss"
-function HeadingWithLink({path, Icon, text}:NavigationLinkProps){
+
+function HeadingWithLink({path, Icon, text, onClick}:NavigationLinkProps){
     return (
-        <h4 className={styles.heading}>
+        <h4 onClick={() => onClick && onClick()} className={styles.heading}>
             <NavLink 
                 to={path} 
                 className={styles.nav_link} // Optional: Add a specific class for styling
