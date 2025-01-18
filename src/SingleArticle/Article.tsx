@@ -13,7 +13,7 @@ function Article({webTitle, thumbnail, byline, publicationDate, body, descriptio
                     {<img className={styles.thumbnail} src={thumbnail || photoNotFound} alt="content" /> }
                 </div>
                 <p className={styles.date_and_author}>
-                    <Link className={styles.author} to={isAksim ? `/profile/${byline}` : `/search/${byline}`   }>{byline}</Link> <span>{stringDateToLocaleDateString(publicationDate)}</span>
+                    <Link className={styles.author} to={isAksim ? `/profile/${byline}` : `/opinions/${byline}`   }>{byline}</Link> <span>{stringDateToLocaleDateString(publicationDate)}</span>
                 </p>
             </div>
             <p>{description}</p>

@@ -23,6 +23,9 @@
     flex-direction: column;
     gap: 2rem;
     margin: 0 auto;
+    li {
+        padding: 1rem;
+    }
 }
 
 .list{
@@ -41,6 +44,11 @@
             font-size: 0.8rem;
         }
     }
+}
+
+.heading{
+    font-size: 2rem;
+    color: $gray;
 }
 
 .avatar_name{

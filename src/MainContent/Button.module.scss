@@ -1,0 +1,18 @@
+@import "../Styles/variables";
+
+.btn{
+    width: 7rem;
+    height: 3rem;
+    border-radius: 10px;
+    border: 1px solid $gray;
+    background-color: transparent;
+    font-weight: 500;
+    cursor: pointer;
+    &:hover{
+        background-color: $lightgray;
+    }
+}
+.selected{
+    cursor:default;
+    background-color: $lightgray;
+}

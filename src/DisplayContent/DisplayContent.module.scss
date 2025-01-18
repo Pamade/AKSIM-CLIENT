@@ -23,6 +23,7 @@
 .title{
     font-size: 1rem;
     color: $gray;
+    word-break: break-all;
 }
 
 .date{
@@ -32,6 +33,7 @@
 
 .thumbnail{
     max-width: 500px;
+    max-height: 250px;
 }
 
 @media(min-width:760px){

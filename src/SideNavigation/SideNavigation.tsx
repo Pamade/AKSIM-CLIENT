@@ -96,7 +96,7 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
                         <div>
                             <h4 className={styles.heading}><NavLink to="/opinions">Opinions</NavLink></h4>
                             <ul className={styles.list}>
-                                {authors.map((author) => <NavigationLink key={author} path={`/commentisfree/${author}`} text={author}/>)}
+                                {authors.map((author) => <NavigationLink key={author} path={`/opinions/${author}`} text={author}/>)}
                             </ul>
                         </div>
                     </section>   

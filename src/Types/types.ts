@@ -77,7 +77,8 @@ export interface AksimArticleAsLinkProps {
 export interface PaginationButtonsProps {
     pagesTotal:number,
     page:number,
-    filters:FiltersContent | FiltersContentOpinions
+    filters?:FiltersContent | FiltersContentOpinions,
+    setPage:React.Dispatch<React.SetStateAction<number>>
 }
 
 export interface FiltersContentOpinions {
@@ -92,4 +93,11 @@ export interface FiltersContent {
     fromDate: string,
     toDate: string,
     [key:string]:string | number 
+}
+
+export interface AksimResponse {
+    results:AksimContent[],
+    currentPage:number,
+    totalItems:number,
+    totalPages:number
 }

@@ -1,6 +1,6 @@
 import { apiKey } from "../main"
 import useFetchOnLoad from "../CustomHooks/useFetchOnLoad"
-import { ArticleGuardian, GuardianApi } from "../Types/types"
+import { GuardianApi } from "../Types/types"
 import { ChangeEvent, useEffect, useState, memo, useRef } from "react";
 import { FiltersContent } from "../Types/types";
 import styles from "./Filters.module.scss";
@@ -60,7 +60,7 @@ const Filters = memo(({filters}:FiltersProps) => {
     const handleChange = (e:ChangeEvent<HTMLSelectElement | HTMLInputElement> , type:string) => {        
         setSearchParams({...filters, [type]:e.target.value, page:String(1)} as any)
     }
-    if (error) return <ErrorMessage error="Error occured"/>
+    if (error) return <ErrorMessage error=""/>
     return (
         <section>
             <div>

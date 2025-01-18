@@ -23,10 +23,8 @@ const router = createBrowserRouter([
     element: <MainLayout />, // Use MainLayout as the root layout
     children: [
       { path: "/", element: <MainContent /> },
-      {path:"/commentisfree/:authorID", element: <MainContent />},
       {path:"/opinions", element:<Opinions />},
-      // {path:"/section/:sectionID", element:<MainContent />},
-      // {path:"/search/:q", element: <MainContent />},
+      {path:"/opinions/:authorID", element: <Opinions />},
       {path:"/select-sections", element: <SelectSections />},
       {path:"/article/:articleID", element: <SingleArticle />},
       {path:"/aksim-article/:articleID", element: <SingleAksimArticle />},

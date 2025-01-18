@@ -8,20 +8,26 @@ interface ButtonProps {
     disabled?:boolean
 }
 
-const PaginationButtons = ({pagesTotal, page, filters}:PaginationButtonsProps) => {
-    console.log(page)
+const PaginationButtons = ({pagesTotal, page, filters, setPage}:PaginationButtonsProps) => {
+
     const [searchParams, setSearchParams] = useSearchParams()
-    page = Number(page)
+    page = Number(page) || 1;
     const prevPage = page - 1;
     const nextPage = page + 1
     const showFirstButton = page > 1
     const showSecondButton = page < pagesTotal
-    const showForthButton = page !== pagesTotal && nextPage !== pagesTotal
+    const showForthButton = page < pagesTotal - 1 && pagesTotal > 2
 
     const handleSetPage = (value:number) => {
-        setSearchParams({...filters, page:String(value)} )
+        if (filters) {
+            setSearchParams({...filters, page:String(value)} )
+        } else {
+            setPage(value)
+        }
     }
 
+    console.log(pagesTotal)
+    
     return (
         <div className={styles.wrapper}>
             {showFirstButton && <Button label={prevPage} onClick={() => handleSetPage(prevPage)} />}

@@ -1,10 +1,15 @@
-import { ArticleGuardian} from "../Types/types"
+import { AksimContent, ArticleGuardian} from "../Types/types"
 import { Link } from "react-router-dom"
 import { stringDateToLocaleDateString } from "../utils/Utils"
 import photoNotFound from "../assets/photo.png";
 import styles from "./DisplayContent.module.scss"
 
-function DisplayContent({data}:{data:ArticleGuardian[]}){
+interface ContentProps{
+    data:ArticleGuardian[] | AksimContent[],
+    isTheGuardian:boolean,
+}
+
+function DisplayContent({data, isTheGuardian}:ContentProps){
 
     const formatToId = (title:string) => {
         if (title.includes(" ")) {
@@ -18,23 +23,34 @@ function DisplayContent({data}:{data:ArticleGuardian[]}){
         return title.toLowerCase();
       };
 
-    return (
-        <div className={styles.content}>
-        {data.map((item) => (
-            <Link to={`/article/${formatToId(item.id)}`} key={item.id} className={styles.single_item}>
-                <h3 className={styles.title}>{item.webTitle}</h3>
-                <img
-                    className={styles.thumbnail}
-                    src={item.fields?.thumbnail || photoNotFound}
-                    alt="article"
-                />
-                <p className={styles.date}>
-                    {stringDateToLocaleDateString(item.webPublicationDate)}
-                </p>
-            </Link>
-        ))}
+     return (
+    <div className={styles.content}>
+      {data.map((item) => {
+        // Determine the dynamic mapping of properties
+        const title = (item as ArticleGuardian).webTitle || (item as AksimContent).title;
+        const thumbnail = (item as ArticleGuardian).fields?.thumbnail || (item as AksimContent).imageLink || photoNotFound;
+        const publicationDate = (item as ArticleGuardian).webPublicationDate || (item as AksimContent).creationDate;
+
+        return (
+          <Link
+            to={isTheGuardian ? `/article/${formatToId(String(item.id))}` : `/aksim-article/${formatToId(String(item.id))}`}
+            key={item.id}
+            className={styles.single_item}
+          >
+            <h3 className={styles.title}>{title}</h3>
+            <img
+              className={styles.thumbnail}
+              src={thumbnail}
+              alt="article"
+            />
+            <p className={styles.date}>
+              {stringDateToLocaleDateString(publicationDate)}
+            </p>
+          </Link>
+        );
+      })}
     </div>
-    )
+  );
 }
 
 export default DisplayContent
