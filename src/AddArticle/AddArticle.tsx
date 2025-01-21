@@ -2,8 +2,9 @@ import ArticleCreator from "../ArticleCreator/ArticleCreator";
 import styles from "../AddArticle/AddArticle.module.scss"
 import { useState } from "react";
 import axios from "axios";
-
 import { useNavigate } from "react-router";
+import { useUserContext } from "../Context/UserContext";
+
 interface Article {
     id:number,
     title:string,
@@ -25,6 +26,9 @@ interface Data {
 const AddArticle = () => {
     const [article, setArticle] = useState<Partial<Article>>({creationDate: new Date()} as Article)
     const [errors, setErrors] = useState<Errors>({} as Errors)
+    const navigate = useNavigate()
+    const {state} = useUserContext()
+
     const handlePostArticle = async(e:React.FormEvent) => {
         e.preventDefault();
         const token = localStorage.getItem('access_token')
@@ -52,7 +56,11 @@ const AddArticle = () => {
                 const err = data.errors
                 if (err) {
                     setErrors({title:err.title, content:err.content})
-                } else  setErrors({})
+                } else  {
+                    setErrors({})
+                    return navigate("/profile/" + state.user?.name)
+                }
+                
             }      
                 
         } catch (e) {

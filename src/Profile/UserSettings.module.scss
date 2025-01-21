@@ -1,0 +1,74 @@
+@import "../Styles/variables";
+
+.form{
+    width: 100%;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.input{
+    
+    margin: 1rem 0;
+    border: none;
+    border-bottom: 1px solid $gray;
+    &:focus{
+        outline: none;
+    }
+}
+
+.forms_wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.email_input_btn{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.input_container{
+    display: flex;
+    flex-direction: column;
+}
+
+.label{
+    cursor: pointer;
+}
+
+.error{
+    color: $warning;
+}
+
+.check_password_container {
+    display: flex;
+    flex-direction: column;
+    cursor: default;
+    max-height: 0; /* Initially hidden */
+    overflow: hidden; /* Prevent content overflow */
+    opacity: 0; /* Hidden by default */
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  }
+ .show {
+    max-height: 200px; /* Set to a value that accommodates your content */
+    opacity: 1; /* Make it visible */
+  }
+ .hide {
+    max-height: 0; 
+    opacity: 0; 
+ }
+
+  .btn{
+    width: 4rem;
+    height: 1.5rem;
+    cursor: pointer;
+    background-color: transparent;
+    outline: none;
+    border: 1px solid $gray;
+    &:hover{
+        background-color: $lightgray;
+    }
+  }

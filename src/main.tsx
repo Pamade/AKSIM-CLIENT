@@ -15,6 +15,8 @@ import SingleAksimArticle from './SingleArticle/SingleAksimArticle.tsx';
 import Profile from './Profile/Profile.tsx';
 import MainLayout from './MainLayout/MainLayout.tsx';
 import Opinions from './Opinions/Opinions.tsx';
+import UserArticlesDisplay from './Profile/UserArticlesDisplay.tsx';
+import UserSettings from './Profile/UserSettings.tsx';
 export const apiKey = import.meta.env.VITE_API_KEY;
 
 const router = createBrowserRouter([
@@ -28,7 +30,15 @@ const router = createBrowserRouter([
       {path:"/select-sections", element: <SelectSections />},
       {path:"/article/:articleID", element: <SingleArticle />},
       {path:"/aksim-article/:articleID", element: <SingleAksimArticle />},
-      {path:"/profile/:userName", element:<Profile />},
+      {path:"/profile/:userName", element:(<Profile />), children:[{
+        path:"",
+        element:<UserArticlesDisplay />
+      }, 
+      {
+        path:"settings",
+        element:<UserSettings />
+      }
+    ]},
       { 
         path: "/forgotPassword", 
         element: (
