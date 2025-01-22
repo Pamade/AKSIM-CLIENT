@@ -3,6 +3,7 @@ import axios from "axios";
 interface User {
     email: string; // this is email
     name:string;
+    profile_picture_link?:string
 }
 
 interface State {

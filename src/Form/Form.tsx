@@ -143,7 +143,7 @@ function Form({formType}:FormType){
     const RegisterForm = fields.map((field, index) => <Field onChange={handleChangeRegister} value={reigsterValues[field.name] as FieldsRegisterType} key={index} {...field} />)
     const LoginForm = fields.filter(field => field.name === "email" || field.name === "password").map((field, index) => <Field onChange={handleChangeLogin} value={loginValues[field.name as FieldsLoginType]}  key={index} {...field} />) 
     const EmailForm = fields.filter((field) => field.name === "email").map((field, index) => <Field onChange={(e) => setForgotPasswordEmail(e.target.value)} value={forgotPasswordEmail} key={index} {...field}/>)
-    const ResetPasswordForm =  fields.filter((field) => field.name === "password" || "repeatPassword").map((field, index) => <Field onChange={handleChangeResetPassword} value={resetPasswordValues[field.name as FieldsResetPassword]}  key={index} {...field}/>)
+    const ResetPasswordForm =  fields.filter((field) => field.name === "password" || field.name === "repeatPassword").map((field, index) => <Field onChange={handleChangeResetPassword} value={resetPasswordValues[field.name as FieldsResetPassword]}  key={index} {...field}/>)
 
     function content(description:string, fields:JSX.Element[], buttonText:string, additionalContent?:JSX.Element){
         return (

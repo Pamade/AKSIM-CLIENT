@@ -8,7 +8,6 @@ import Loader from "../Loader/Loader";
 
 function UserSettings(){
     const {state} = useUserContext()
-    const [errors, setErrors] = useState<String[]>([])
     const [newEmailCredentials, setNewEmailCredentials] = useState<{ [key: string]: string }>({
         oldEmail: state.user?.email as string,
         newEmail: "",
@@ -21,14 +20,17 @@ function UserSettings(){
       })
 
     const [passwordCredentials, setPasswordCredentials] = useState<{ [key: string]: string }>({
-        repeatPassword:"",
-        newPassword:"",
+        userEmail:state.user?.email as string,
+        validationPassowrd:"",
+        newPassword:""
     })
-
+    
       useEffect(() => {
+        // MAKE SURE THAT USER DATA IS CORRECTLY FETCHED
         if (state.user) {
-            setNewEmailCredentials({...newEmailCredentials, oldEmail:state.user?.email});
+            setNewEmailCredentials({...newEmailCredentials, oldEmail:state.user.email});
             setNameCredentials({...nameCredentials, oldName:state.user.name})
+            setPasswordCredentials({...passwordCredentials, userEmail:state.user.email})
         }
       }, [state.user])
 
@@ -38,10 +40,10 @@ function UserSettings(){
         return (
             <>
                 <h5 className={stylesProfile.heading}>Settings</h5>
-                {/* {errors.map((error) => error)} */}
                 <div className={styles.forms_wrapper}>
-                    <Form placeholder="SET NEW EMAIL" labelValue={email} showPasswordBox={true} stateForm={newEmailCredentials} setStateForm={setNewEmailCredentials} url={"change-email"} type="email" label="Email" name="newEmail"/>
-                    <Form placeholder="SET NEW NAME" labelValue={name} showPasswordBox={false} stateForm={nameCredentials} setStateForm={setNameCredentials} url={"change-name"} type="text" label="Name" name="newName"/>
+                    <Form passwordNameInput="password" placeholder="SET NEW EMAIL" labelValue={email} stateForm={newEmailCredentials} setStateForm={setNewEmailCredentials} url={"change-email"} type="email" label="Email" name="newEmail"/>
+                    <Form placeholder="SET NEW NAME" labelValue={name} stateForm={nameCredentials} setStateForm={setNameCredentials} url={"change-name"} type="text" label="Name" name="newName"/>
+                    <Form passwordNameInput="validationPassword" placeholder="SET NEW PASSWORD" labelValue="Password" stateForm={passwordCredentials} setStateForm={setPasswordCredentials} url={"change-password"} type="password" label="" name="newPassword"/>
                 </div>
             </>
         )
@@ -53,7 +55,6 @@ function UserSettings(){
 }
 
 interface PropsForm {
-    showPasswordBox:boolean,
     stateForm:{[key:string]:string},
     setStateForm:React.Dispatch<React.SetStateAction<{
         [key: string]: string;
@@ -63,19 +64,21 @@ interface PropsForm {
     type:string,
     name:string,
     labelValue:string,
-    placeholder:string
+    placeholder:string,
+    passwordNameInput?:string
 }
 
 
-function Form({showPasswordBox, stateForm, url, setStateForm, label, type, name, labelValue, placeholder}:PropsForm){
+function Form({stateForm, url, setStateForm, label, type, name, labelValue, placeholder, passwordNameInput}:PropsForm){
     const [errors, setErrors] = useState<string[]>([])
     const [isLoading, setIsLoading] = useState(false)
-
-
+    const [isVisiblePassword, setIsVisiblePassowrd] = useState(false)
     const navigate = useNavigate();
     const {fetchUserData} = useUserContext()
-    let token = localStorage.getItem("access_token") as string
+
+    
     const handleSubmit = async (e:FormEvent) => {
+        let token = localStorage.getItem("access_token") as string
         e.preventDefault()  
         
         try {
@@ -88,7 +91,7 @@ function Form({showPasswordBox, stateForm, url, setStateForm, label, type, name,
             })            
             const errors = response.data.errors;
             if (response.status === 200) {
-
+                setErrors([])
                 if (response.data.access_token) {
                     localStorage.setItem("access_token", response.data.access_token)
                     token = localStorage.getItem("access_token") as string
@@ -97,7 +100,6 @@ function Form({showPasswordBox, stateForm, url, setStateForm, label, type, name,
                 if (url === "change-name" && !errors) {
                     console.log("idzie")
                     navigate(`/profile/${stateForm.newName}/settings`)
-                    
                 }
                 fetchUserData(token)
                 if (errors) {
@@ -115,19 +117,14 @@ function Form({showPasswordBox, stateForm, url, setStateForm, label, type, name,
     }
     
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-
         const {name, value} = e.target
-
         setStateForm({...stateForm, [name]:value})
     }
-
-    const [isVisiblePassword, setIsVisiblePassowrd] = useState(false)
-
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
             {errors.map((error) => <p className={styles.error}>{error}</p>)}
-            <div onClick={() => setIsVisiblePassowrd(true)} className={styles.email_input_btn}>
+            <div onClick={() => setIsVisiblePassowrd(!isVisiblePassword)} className={styles.email_input_btn}>
                 <label className={styles.label}>
                     <span>{label}</span>
                     <p>{labelValue}</p>
@@ -135,20 +132,15 @@ function Form({showPasswordBox, stateForm, url, setStateForm, label, type, name,
             <div>
                 <div className={styles.input_container}>
                     <input onChange={handleChange} name={name} className={styles.input} placeholder={placeholder} type={type} />
-                    {!showPasswordBox ? !isLoading ? <button onSubmit={handleSubmit} className={styles.btn}>SEND</button> : <Loader /> : null}
                 </div>
             </div>
             </div>
-            {showPasswordBox && <div className={`${styles.check_password_container} ${isVisiblePassword ? styles.show : styles.hide}`}>
-                    <input onChange={handleChange} name="password" className={styles.input} placeholder="CONFIRM YOUR PASSWORD" type="password" />
-                    {isLoading ? <Loader />: <button onSubmit={handleSubmit} className={styles.btn}>SEND</button>}
-            </div>}
+            <div className={`${styles.check_password_container} ${isVisiblePassword ? styles.show : styles.hide}`}>
+                    {name !== "newName" && <input onChange={handleChange} name={passwordNameInput} className={styles.input} placeholder="CONFIRM YOUR PASSWORD" type="password" />}
+                    {isLoading ? <Loader />: <button onSubmit={handleSubmit} className={styles.btn}>SUBMIT</button>}
+            </div>
         </form>
     )
 }
-
-
-
-
 
 export default UserSettings;

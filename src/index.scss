@@ -46,10 +46,9 @@ a {
 }
 
 @media(min-width:760px){
-  // width: calc(100% - 4.1rem);
-  // .wrapper-main{
-  //     margin: 2rem;
-  // }
+  .wrapper-main{
+      margin: 0;
+  }
 }
 
 @media(min-width:1200px) {
