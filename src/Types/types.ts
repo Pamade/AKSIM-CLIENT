@@ -101,3 +101,9 @@ export interface AksimResponse {
     totalItems:number,
     totalPages:number
 }
+
+export interface ProfileDataUser {
+    userName:string,
+    userEmail:string,
+    profilePictureLink?:string,
+}

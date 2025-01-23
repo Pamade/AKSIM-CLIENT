@@ -9,11 +9,10 @@ import AksimArticleAsLink from "../AksimArticleAsLink/AksimArticleAsLink"
 import Loader from "../Loader/Loader"
 import PaginationButtons from "../PaginationButtons/PaginationButtons"
 import styles from "./Profile.module.scss"
-
+import { Link } from "react-router-dom"
 const pageSize = 3 as const;
 
 function UserArticlesDisplay(){
-
     const {userName} = useParams()
     const {state} = useUserContext()
     const [page, setPage] = useState(1)
@@ -51,7 +50,6 @@ function UserArticlesDisplay(){
                         setPagesTotal(newPagesTotal)
                         if (page > newPagesTotal) {
                           setPage(newPagesTotal);
-                          
                         }
               
                         return updatedArticles;
@@ -65,13 +63,25 @@ function UserArticlesDisplay(){
         }
     }
 
+    const heading = <h5 className={styles.heading}>
+            {state.user?.name === userName
+            ? paginatedArticles.length > 0
+                ? "Published Articles"
+                : <>
+                    <h5 className={styles.heading}>You don't have any articles</h5>
+                    <Link to="/user/add-article" className={styles.link}>Publish article</Link>
+                </>
+            : paginatedArticles.length > 0
+                ? "Published Articles"
+                : "This user does not have any articles"}
+        </h5>// display different info for logged user
+
     return (
         <>
             {error && <ErrorMessage error={messageRemoving} />}
             {isLoading && <Loader />}
-            <h5 className={styles.heading}>Published Articles</h5>
-            {paginatedArticles.map((content) => <AksimArticleAsLink containsThumbnail={true} handleRemoveArticle={handleRemoveArticle} path={ `/aksim-article/${content.id}`} content={content}/>)}
-                                                                                                                                        
+            {heading}
+            {paginatedArticles.map((content) => <AksimArticleAsLink containsThumbnail={true} handleRemoveArticle={handleRemoveArticle} path={ `/aksim-article/${content.id}`} content={content}/>)}                                                                                                                            
             {articles && articles?.length > 0 && <PaginationButtons setPage={setPage} page={page} pagesTotal={pagesTotal}/>}
         </>
     )

@@ -1,9 +1,13 @@
 @import "../Styles/variables";
 
-
+.content{
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+    
+}
 
 .wrapper{
-    position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -19,7 +23,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    
 }
 
 .content_wrapper{
@@ -32,7 +35,6 @@
         padding: 1rem;
     }
 }
-
 
 .set_background{
     display: flex;
@@ -50,6 +52,12 @@
 
 .icon{
     font-size: 2rem;
+}
+
+.not_found{
+    font-size: 2rem;
+    color: $gray;
+    margin: 2rem;
 }
 
 .list{
@@ -79,10 +87,16 @@
     margin: 2rem 0;
 }
 
+.link{
+    color: $gray;
+    border-bottom: 1px solid $gray;
+}
+
 .user_avatar{
     width: 250px;
-    cursor: pointer;
-    
+    height: 250px;
+    border-radius: 10%;
+    object-fit: cover;
 }
 
 .file_input{
@@ -90,6 +104,10 @@
 }
 
 @media(min-width:760px){
+    .content{
+        // padding: 2rem;
+    }
+
     .wrapper{
         flex-direction: row;
         align-items: flex-start;
@@ -110,15 +128,26 @@
         justify-content: center;
         width: 350px;
         margin-left: 1rem;
+        text-align: left;
     }
 
-    .user_avatar{
-        width: 100%;
+    .mail_email{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 1rem;
+        color: $gray;
+        margin: 0.5rem 0;
+    }
+
+    .name{
+        border-bottom: 1px solid $gray;
+        padding-bottom: 0.2rem;
     }
 
     .avatar_name{
         margin: 0 auto;
-        text-align: center;
+        text-align: left;
         align-self: flex-start;
         margin-right: 350px;
     }
@@ -141,6 +170,6 @@
 }
 @media (min-width:1200px){
     .wrapper{
-        width: 60%;
+        width: 100%;
     }
 }
