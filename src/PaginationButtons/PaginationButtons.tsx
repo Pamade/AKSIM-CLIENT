@@ -22,7 +22,8 @@ const PaginationButtons = ({pagesTotal, page, filters, setPage}:PaginationButton
         if (filters) {
             setSearchParams({...filters, page:String(value)} )
         } else {
-            setPage(value)
+            setPage && setPage(value)
+            
         }
     }
 

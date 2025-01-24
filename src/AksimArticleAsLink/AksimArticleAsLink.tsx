@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "./AksimArticleAsLink.module.scss";
 import { AksimArticleAsLinkProps } from "../Types/types";
 import { IoCloseCircleOutline } from "react-icons/io5";
@@ -7,13 +7,14 @@ import { useUserContext } from "../Context/UserContext";
 
 
 function AksimArticleAsLink({content, path, handleRemoveArticle, containsThumbnail}:AksimArticleAsLinkProps) {
+    const navigate = useNavigate();
     const {articleID} = useParams();
     const {id, title, description, userNameID, creationDate, imageLink} = content;
     const {state} = useUserContext()
 
     // fire only user profile
     return (
-        <li style={{backgroundImage:"url()"}} key={id} className={articleID &&  Number(articleID) === id ? `${styles.single_item} ${styles.single_item_selected}` :  styles.single_item}> 
+        <li key={id} className={articleID &&  Number(articleID) === id ? `${styles.single_item} ${styles.single_item_selected}` :  styles.single_item}> 
             <Link className={styles.link} to={path || `/aksim-article/${id}`} >
                 <div className={styles.content_wrapper}>
                     <div>
@@ -33,7 +34,11 @@ function AksimArticleAsLink({content, path, handleRemoveArticle, containsThumbna
                             }} className={`${styles.icon} ${styles.icon_remove}`}/>
                         </button>
                         <button className={styles.btn}>
-                            <MdEdit className={styles.icon}/>
+                            <MdEdit onClick={(e) => {
+                                e.preventDefault()
+                                e.stopPropagation()
+                                navigate(`/user/edit-article/${id}`)
+                            }} className={styles.icon}/>
                         </button>
                         </div>
                     }   

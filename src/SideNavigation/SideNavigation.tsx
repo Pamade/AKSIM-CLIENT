@@ -13,6 +13,8 @@ import { useEffect, useState, useRef } from "react";
 import { HiSquares2X2 } from "react-icons/hi2";
 import NavigationLink from "../NavigationLink/NavigationLink";
 import HeadingWithLink from "../HeadingWithLink/HeadingWithLink";
+import { FaUsers } from "react-icons/fa";
+
 
 interface Props{
     isNavigationOpen:boolean,
@@ -83,10 +85,10 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
                         <HeadingWithLink path={"/"} Icon={IoHome} text="HOME"/>
                         <HeadingWithLink Icon={HiSquares2X2} path={"/select-sections"} text="SECTIONS"/>
                         <div className={styles.search}>
-
                             <HeadingWithLink onClick={() => handleSearch()} path={search && `/?q=${search}&page=1`} Icon={IoMdSend} text="SEARCH"/>
                             <input onChange={(e) => setSearch(e.target.value)} className={styles.search_input} type="text" />
                         </div>
+                        <HeadingWithLink path={"/aksim-users"} Icon={FaUsers} text="AKSIM USERS"/>
                         <HeadingWithLink path={state.user ? "/user/add-article" : "/login"} Icon={MdEdit} text="PUBLISH ARTICLE"/>                        <div>
                             <h4 className={styles.heading}>Popular Topics</h4>
                             <ul className={styles.list}>

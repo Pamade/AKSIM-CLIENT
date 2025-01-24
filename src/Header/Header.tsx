@@ -5,15 +5,7 @@ import { useUserContext } from "../Context/UserContext";
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import SideNavigation from "../SideNavigation/SideNavigation";
-
-interface ButtonProps{
-    path:string,
-    text:string,
-    event?:() => void
-}
-function Button({path,text, event}:ButtonProps){
-    return <Link onClick={event} className={styles.button} to={path}>{text}</Link>
-}
+import noAvatar from "../assets/user.png";
 
 function Header() {
     const {state, logout} = useUserContext();
@@ -32,10 +24,11 @@ function Header() {
                 {isNavigationOpen && <SideNavigation isNavigationOpen={true} setIsNavigationOpen={setIsNavigationOpen}/>}            
                 <h1 className={styles.heading}><Link to={"/"}>AKSIM</Link></h1>
                 {!state.user?<div>
-                    <Button text="Login" path="/login"/>
-                </div> : <div className={styles.buttons}>
-                    <Button text="Add Article" path="user/add-article" />
-                    <Button event={logout} text="Logout" path="/" />
+                    <Link className={styles.login} to="/login">Login</Link>
+                </div> : 
+                <div className={styles.avatar_login}>
+                    <Link to={`/profile/${state.user.name}`}><img className={styles.avatar} src={state.user.profile_picture_link || noAvatar} alt="user" /></Link>
+                    <Link className={styles.login} onClick={logout} to="/">Logout</Link>
                 </div>}              
             </div>
         </section>

@@ -36,7 +36,7 @@ function Profile() {
 
 
     const [errorUploading, setErrorUploading] = useState("")
-    // const [userProfilePicture, setUserProfilePicture]
+
     const handleUploadProfileFile = () => {
 
       if (loggedUser) {
@@ -90,6 +90,7 @@ function Profile() {
   return (
         <section className={styles.content}>
           <section className={styles.wrapper}>
+                {errorUploading && <h3>{errorUploading}</h3>}
                 <div className={styles.profile}>
                     <div className={styles.avatar_name}>
                         <img style={loggedUser ? {cursor:"pointer"} : {cursor:"default"}} onClick={handleUploadProfileFile} className={styles.user_avatar} src={photo} alt="user" /> 
@@ -98,7 +99,7 @@ function Profile() {
                           <p className={styles.name}>Name: {name}</p>
                         </div>
                     </div>
-                    {loggedUser &&<>
+                    {loggedUser && <>
                           <input onChange={handleUploadProfileFile} type="file" id="avatarFileInput" className={styles.file_input} />
                         {loggedUserContent}
                     </>

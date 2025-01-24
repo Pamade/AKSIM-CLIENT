@@ -78,7 +78,7 @@ export interface PaginationButtonsProps {
     pagesTotal:number,
     page:number,
     filters?:FiltersContent | FiltersContentOpinions,
-    setPage:React.Dispatch<React.SetStateAction<number>>
+    setPage?:React.Dispatch<React.SetStateAction<number>>
 }
 
 export interface FiltersContentOpinions {
@@ -106,4 +106,8 @@ export interface ProfileDataUser {
     userName:string,
     userEmail:string,
     profilePictureLink?:string,
+}
+
+export interface ProfileDataUserWithCount extends ProfileDataUser{
+    articlesCount:number
 }

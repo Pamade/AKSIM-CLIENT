@@ -1,4 +1,4 @@
-import  { useRef, useMemo} from 'react';
+import  { useRef, useMemo, useEffect} from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import DOMPurify from 'dompurify';
@@ -6,10 +6,11 @@ import '../ql-config.scss'
 import axios from 'axios';
 
 interface Props{
-    handleChangeArticleContent: (html: string) => void
+    handleChangeArticleContent: (html: string) => void,
+    initialContent?:string
 }
 
-function ArticleCreator({handleChangeArticleContent}:Props){
+function ArticleCreator({handleChangeArticleContent, initialContent}:Props){
 
     const quillRef:any = useRef(null);
 
@@ -81,6 +82,13 @@ function ArticleCreator({handleChangeArticleContent}:Props){
         }  
     };
 
+    useEffect(() => {
+      // Set the initial content when the component mounts or when initialContent changes
+      if (quillRef.current && initialContent) {
+        const editor = quillRef.current.getEditor();
+        editor.clipboard.dangerouslyPasteHTML(initialContent);
+      }
+    }, [initialContent]);
 
     return (
         <div className="main">

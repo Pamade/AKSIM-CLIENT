@@ -21,8 +21,8 @@ function UserArticlesDisplay(){
     const [pagesTotal, setPagesTotal] = useState(0)
     let {responseData, error, isLoading} = useFetchOnLoad<AksimContent[]>(`http://localhost:8080/api/content/get-articles/${userName}`, true)
     const paginatedArticles = articles ? articles.slice((page - 1) * pageSize, page * pageSize) : [];
-
     const isCurrentLoggedUser = userName === state.user?.name
+    
     useEffect(() => {
 
         if (responseData) {
@@ -45,7 +45,6 @@ function UserArticlesDisplay(){
                     setArticles((prev) => {
                         const updatedArticles = prev ? prev.filter((article) => article.id !== id) : prev;
                         const newPagesTotal = updatedArticles ? Math.ceil(updatedArticles.length / pageSize) : 1;
-              
                         // Adjust the page if necessary
                         setPagesTotal(newPagesTotal)
                         if (page > newPagesTotal) {
@@ -81,8 +80,12 @@ function UserArticlesDisplay(){
             {error && <ErrorMessage error={messageRemoving} />}
             {isLoading && <Loader />}
             {heading}
-            {paginatedArticles.map((content) => <AksimArticleAsLink containsThumbnail={true} handleRemoveArticle={handleRemoveArticle} path={ `/aksim-article/${content.id}`} content={content}/>)}                                                                                                                            
-            {articles && articles?.length > 0 && <PaginationButtons setPage={setPage} page={page} pagesTotal={pagesTotal}/>}
+            <section className={styles.articles_and_buttons}>
+                <div className={styles.paginated_articles}>
+                    {paginatedArticles.map((content) => <AksimArticleAsLink containsThumbnail={true} handleRemoveArticle={handleRemoveArticle} path={ `/aksim-article/${content.id}`} content={content}/>)}                                                                                                                            
+                </div>
+                {articles && articles?.length > 0 && <PaginationButtons setPage={setPage} page={page} pagesTotal={pagesTotal}/>}
+            </section>
         </>
     )
 }

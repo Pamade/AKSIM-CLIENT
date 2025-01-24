@@ -17,6 +17,9 @@ import MainLayout from './MainLayout/MainLayout.tsx';
 import Opinions from './Opinions/Opinions.tsx';
 import UserArticlesDisplay from './Profile/UserArticlesDisplay.tsx';
 import UserSettings from './Profile/UserSettings.tsx';
+import EditArticle from './EditArticle/EditArticle.tsx';
+import AksimUsers from './AksimUsers/AksimUsers.tsx';
+
 export const apiKey = import.meta.env.VITE_API_KEY;
 
 const router = createBrowserRouter([
@@ -61,14 +64,24 @@ const router = createBrowserRouter([
           </UserLoggedRoute>
         ),
       },
-      { 
-        
+      {   
         path: "/user/add-article", 
         element: 
          <ProtectedRoute>
             <AddArticle />
           </ProtectedRoute>
       },
+      {   
+        path: "/user/edit-article/:articleID", 
+        element: 
+         <ProtectedRoute>
+            <EditArticle />
+          </ProtectedRoute>
+      },
+      {
+        path:"/aksim-users",
+        element:<AksimUsers />
+      }
     ],
   },
 ]);
