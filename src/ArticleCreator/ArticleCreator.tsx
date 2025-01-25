@@ -4,6 +4,7 @@ import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import DOMPurify from 'dompurify';
 import '../ql-config.scss'
 import axios from 'axios';
+import { apiAksimBaseUrl } from '../main';
 
 interface Props{
     handleChangeArticleContent: (html: string) => void,
@@ -29,7 +30,7 @@ function ArticleCreator({handleChangeArticleContent, initialContent}:Props){
             
             try {
               // Send the image to the server for storage
-              const response = await axios.post('http://localhost:8080/api/user/add-image-to-article', formData, {
+              const response = await axios.post(`${apiAksimBaseUrl}/user/add-image-to-article`, formData, {
                 headers: {
                    Authorization: "Bearer " + localStorage.getItem("access_token"), 
                   'Content-Type': 'multipart/form-data',

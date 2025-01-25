@@ -4,9 +4,10 @@ import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { ProfileDataUser } from "../Types/types";
 import DisplayUsers from "../DisplayUsers/DisplayUsers";
+import { apiAksimBaseUrl } from "../main";
 
 function AksimUsers() {
-    const {responseData, isLoading, error} = useFetchOnLoad<ProfileDataUser[]>("http://localhost:8080/api/content/get-users-aksim")
+    const {responseData, isLoading, error} = useFetchOnLoad<ProfileDataUser[]>(`${apiAksimBaseUrl}/content/get-users-aksim`)
     if (isLoading) return <Loader />
     if (error) return <ErrorMessage error="Could not load users"/>
     if (responseData?.length === 0) return <ErrorMessage error="Users not found"/>

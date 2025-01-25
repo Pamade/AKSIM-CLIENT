@@ -3,15 +3,12 @@ import styles from "./SideContent.module.scss";
 import { useEffect} from "react";
 import { AksimContent, AksimResponse } from "../Types/types";
 import AksimArticleAsLink from "../AksimArticleAsLink/AksimArticleAsLink";
+import { apiAksimBaseUrl } from "../main";
 
 function SideContent(){
     
-    let {responseData, error, isLoading, fetchData} = useFetchOnLoad<AksimResponse>('http://localhost:8080/api/content/get-articles', false)
-    if (responseData) {
-        // responseData = {...responseData, results:responseData.results.reverse().slice(0,6)};
-    }
-    
-    console.log(responseData)
+    let {responseData, error, isLoading, fetchData} = useFetchOnLoad<AksimResponse>(`${apiAksimBaseUrl}/content/get-articles`, false)
+
     useEffect(() => {
         fetchData()
     }, [])

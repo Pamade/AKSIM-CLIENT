@@ -3,9 +3,11 @@ import { ProfileDataUser } from "../Types/types"
 import styles from "./UsersProfile.module.scss"
 import { useParams } from "react-router-dom"
 import DisplayUsers from "../DisplayUsers/DisplayUsers"
+import { apiAksimBaseUrl } from "../main"
+
 function UsersProfiles(){
     const {userName} = useParams()
-    const {responseData, isLoading} = useFetchOnLoad<ProfileDataUser[]>("http://localhost:8080/api/content/get-users-profiles")
+    const {responseData, isLoading} = useFetchOnLoad<ProfileDataUser[]>(`${apiAksimBaseUrl}/content/get-users-profiles`)
     const users = responseData?.filter((user) => user.userName !== userName)
 
     if (isLoading) return <></>

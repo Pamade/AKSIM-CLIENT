@@ -10,6 +10,7 @@ import axios from "axios";
 import useFetchOnLoad from "../CustomHooks/useFetchOnLoad";
 import { ProfileDataUser} from "../Types/types";
 import UsersProfiles from "../UsersProfiles/UsersProfiles";
+import { apiAksimBaseUrl } from "../main";
 
 const sections = 
     [ 
@@ -21,7 +22,7 @@ function Profile() {
     const {fetchUserData} = useUserContext();
     const {state} = useUserContext()
     const {userName} = useParams()
-    const {responseData, isLoading} = useFetchOnLoad<ProfileDataUser>(`http://localhost:8080/api/content/get-user-profile/${userName}`)
+    const {responseData, isLoading} = useFetchOnLoad<ProfileDataUser>(`${apiAksimBaseUrl}/content/get-user-profile/${userName}`)
     
     const [userProfileData, setUserProfileData] = useState<ProfileDataUser | null>(null)
 
@@ -54,7 +55,7 @@ function Profile() {
                 formData.append('userEmail', state.user?.email || "test");
                 try {
                     // Send the image to the server for storage
-                    const response = await axios.patch('http://localhost:8080/api/user/add-profile-picture', formData, {
+                    const response = await axios.patch(`${apiAksimBaseUrl}/user/add-profile-picture`, formData, {
                         headers: {
                             Authorization: "Bearer " + token,
                             'Content-Type': 'multipart/form-data',

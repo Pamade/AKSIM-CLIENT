@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { useUserContext } from "../Context/UserContext";
 import { FieldsDisplay, FormType, FieldType, RegisterValues, LoginValues, ResetPasswordValues, ForgotPasswordResponse, ValidateTokenResponse, AuthenticationResponse, isForgotPasswordResponse, isValidateTokenResponse, isAuthenticationResponse, FieldsLoginType, FieldsResetPassword, FieldsRegisterType, FetchValues } from "./FormTypes";
 import axios from "axios";
+import { apiAksimBaseUrl } from "../main";
 
 const fields:FieldsDisplay[] = [{
     name:"email",
@@ -72,7 +73,7 @@ function Form({formType}:FormType){
     }
 
     const fetchPost = async (values:FetchValues, endpoint:string) => {
-        const API = `http://localhost:8080/api/auth/${endpoint}`;
+        const API = `${apiAksimBaseUrl}/auth/${endpoint}`;
         try {
             setRequestLoading(true)
             console.log(values)

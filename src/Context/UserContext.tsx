@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useReducer } from "react";
 import axios from "axios";
+import { apiAksimBaseUrl } from "../main";
+
+
 interface User {
     email: string; // this is email
     name:string;
@@ -65,7 +68,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         dispatch({ type: "START_FETCH_USER_DATA" });
 
         try {
-            const res = await axios.get("http://localhost:8080/api/user/info", {
+            const res = await axios.get(`${apiAksimBaseUrl}/user/info`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",

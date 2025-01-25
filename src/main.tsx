@@ -21,7 +21,7 @@ import EditArticle from './EditArticle/EditArticle.tsx';
 import AksimUsers from './AksimUsers/AksimUsers.tsx';
 
 export const apiKey = import.meta.env.VITE_API_KEY;
-
+export const apiAksimBaseUrl = import.meta.env.VITE_API_SERVER_URL;
 const router = createBrowserRouter([
   {
     path: "/",

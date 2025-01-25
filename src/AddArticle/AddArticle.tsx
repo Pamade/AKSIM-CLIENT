@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { useUserContext } from "../Context/UserContext";
-
+import { apiAksimBaseUrl } from "../main";
 interface Article {
     id?: number; // Allow for optional ID for editing
     title: string;
@@ -52,13 +52,13 @@ const AddArticle = ({ articleToEdit }: AddArticleProps) => {
         
         try {
             const res = article.id
-                ? await axios.put<Data>(`http://localhost:8080/api/user/update-article/${article.id}`, formData, {
+                ? await axios.put<Data>(`${apiAksimBaseUrl}/user/update-article/${article.id}`, formData, {
                       headers: {
                           Authorization: `Bearer ${token}`,
                           "Content-Type": "multipart/form-data",
                       },
                   })
-                : await axios.post<Data>("http://localhost:8080/api/user/add-article", formData, {
+                : await axios.post<Data>(`${apiAksimBaseUrl}/user/add-article`, formData, {
                       headers: {
                           Authorization: `Bearer ${token}`,
                           "Content-Type": "multipart/form-data",

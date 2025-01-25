@@ -10,6 +10,8 @@ import Loader from "../Loader/Loader"
 import PaginationButtons from "../PaginationButtons/PaginationButtons"
 import styles from "./Profile.module.scss"
 import { Link } from "react-router-dom"
+import { apiAksimBaseUrl } from "../main"
+
 const pageSize = 3 as const;
 
 function UserArticlesDisplay(){
@@ -19,7 +21,7 @@ function UserArticlesDisplay(){
     const [articles, setArticles] = useState<AksimContent[] | null>(null)
     const [messageRemoving, setMessageRemoving] = useState("")
     const [pagesTotal, setPagesTotal] = useState(0)
-    let {responseData, error, isLoading} = useFetchOnLoad<AksimContent[]>(`http://localhost:8080/api/content/get-articles/${userName}`, true)
+    let {responseData, error, isLoading} = useFetchOnLoad<AksimContent[]>(`${apiAksimBaseUrl}/content/get-articles/${userName}`, true)
     const paginatedArticles = articles ? articles.slice((page - 1) * pageSize, page * pageSize) : [];
     const isCurrentLoggedUser = userName === state.user?.name
     
@@ -36,7 +38,7 @@ function UserArticlesDisplay(){
     const handleRemoveArticle = async (id:number) => {
         if (isCurrentLoggedUser) {
             try {
-                const res = await axios.delete(`http://localhost:8080/api/user/remove-article/${id}`, {
+                const res = await axios.delete(`${apiAksimBaseUrl}/user/remove-article/${id}`, {
                     headers:{
                         Authorization:"Bearer " + localStorage.getItem("access_token")
                     }

@@ -5,6 +5,7 @@ import { FormEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import Loader from "../Loader/Loader";
+import { apiAksimBaseUrl } from "../main";
 
 function UserSettings(){
     const {state} = useUserContext()
@@ -83,7 +84,7 @@ function Form({stateForm, url, setStateForm, label, type, name, labelValue, plac
         
         try {
             setIsLoading(true)
-            const response = await axios.patch("http://localhost:8080/api/user/" + url, stateForm, {
+            const response = await axios.patch(`${apiAksimBaseUrl}/user/` + url, stateForm, {
                 headers:{
                     Authorization:"Bearer " + token,
                     "Content-Type":"application/json"

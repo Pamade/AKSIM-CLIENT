@@ -10,6 +10,8 @@ import PaginationButtons from "../PaginationButtons/PaginationButtons";
 import Filters from "../Filters/Filters";
 import DisplayContent from "../DisplayContent/DisplayContent";
 import Button from "./Button";
+import { apiAksimBaseUrl } from "../main";
+
 const pageSize = 18 as const;
 
 function MainContent() {
@@ -48,12 +50,11 @@ function MainContent() {
     
 
     const { responseData, error, isLoading } = useFetchOnLoad<GuardianApi>(`https://content.guardianapis.com/search?${buildQueryString(objFromParams)}&page-size=${pageSize}&show-fields=thumbnail&api-key=${apiKey}`);
-    const {responseData:responseAksim, error:errorAksim, isLoading:isLoadingAksimn} = useFetchOnLoad<AksimResponse>(`http://localhost:8080/api/content/get-articles?size=${pageSize}&${buildQueryString(objFromParams)}`)
+    const {responseData:responseAksim} = useFetchOnLoad<AksimResponse>(`${apiAksimBaseUrl}/content/get-articles?size=${pageSize}&${buildQueryString(objFromParams)}`)
     
     // const sectionHeading = (sectionName || sectionID?.toUpperCase() || authorID || q)?.replace(/-/g, " ");
     // API DOES NOT SUPPORT PAGING THAT FAR, SO I WANT TO INCLUDE MAX 100 PAGES
     const pagesTotalGuardian = responseData ? responseData?.response.pages > 100 ? 100 : responseData.response.pages : 0
-    const pagesTotalAksim = responseAksim &&responseAksim?.totalPages;
     const noContent = responseData?.response.total === 0 || error;
     const results = responseData?.response.results;
     const pagesAksim = responseAksim?.totalPages || 0;
@@ -85,8 +86,6 @@ function MainContent() {
             <ErrorMessage error="Content Not Found" />
         ) : (
             <>
-                {}
-                {/* <PaginationButtons filters={filters} page={Number(filters.page)} pagesTotal={pagesTotal} /> */}
                 {responseAksim && !isTheGuardianSelected && 
                 <>
                     <DisplayContent isTheGuardian={isTheGuardianSelected} data={responseAksim.results}/>
@@ -105,10 +104,6 @@ function MainContent() {
                     </>
                 )  }
                 
-                {/* <div className={styles.buttons_wrapper}>
-                        <PaginationButtons filters={filters} page={Number(filters.page)} pagesTotal={pagesTotal} />
-                    </div> */}
-               
             </>
         )}
     </>
