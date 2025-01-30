@@ -26,8 +26,6 @@ const PaginationButtons = ({pagesTotal, page, filters, setPage}:PaginationButton
             
         }
     }
-
-    console.log(pagesTotal)
     
     return (
         <div className={styles.wrapper}>

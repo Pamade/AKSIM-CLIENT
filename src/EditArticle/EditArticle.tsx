@@ -10,7 +10,6 @@ function EditArticle(){
     const {responseData} = useFetchOnLoad<AksimContent>(`${apiAksimBaseUrl}/content/get-article/${articleID}`)
     const {state} = useUserContext();
 
-    console.log(responseData)
     const formData = {
         title:responseData?.title || "",
         description:responseData?.description || "",

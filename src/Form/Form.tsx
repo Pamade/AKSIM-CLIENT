@@ -76,7 +76,6 @@ function Form({formType}:FormType){
         const API = `${apiAksimBaseUrl}/auth/${endpoint}`;
         try {
             setRequestLoading(true)
-            console.log(values)
             const response = await axios.post(API, values, {
                 headers: {
                   'Content-Type': 'application/json',

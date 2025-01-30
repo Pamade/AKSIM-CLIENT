@@ -78,14 +78,14 @@ function Profile() {
 
     const loggedUserContent = (
         <ul className={styles.list}>
-            {sections.map((section) => <li><HeadingWithLink path={section.path} text={section.text} Icon={section.icon}/></li>)}
+            {sections.map((section) => <li key={section.path}><HeadingWithLink path={section.path} text={section.text} Icon={section.icon}/></li>)}
         </ul>
     )
   
   const photo = (loggedUser ? state.user?.profile_picture_link : userProfileData?.profilePictureLink) || userNotFound
   const name = (loggedUser ? state.user?.name : userProfileData?.userName)
   const email = (loggedUser ? state.user?.email : userProfileData?.userEmail)
-    console.log(photo)
+
   if (isLoading) return <></>
   if (userProfileData === null) return <h4 className={styles.not_found}>User {userName} not found</h4>
   return (

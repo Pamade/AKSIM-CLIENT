@@ -124,7 +124,15 @@
     .form{
         width: 100%;
     }
+
     .input{
         min-width: 15rem;
+    }
+}
+
+@media (min-width:1200px){
+    .error_wrapper{        
+        width: 15rem;
+        margin-left: 1rem;
     }
 }

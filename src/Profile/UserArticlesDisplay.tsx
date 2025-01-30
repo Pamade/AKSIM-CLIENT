@@ -84,7 +84,7 @@ function UserArticlesDisplay(){
             {heading}
             <section className={styles.articles_and_buttons}>
                 <div className={styles.paginated_articles}>
-                    {paginatedArticles.map((content) => <AksimArticleAsLink containsThumbnail={true} handleRemoveArticle={handleRemoveArticle} path={ `/aksim-article/${content.id}`} content={content}/>)}                                                                                                                            
+                    {paginatedArticles.map((content) => <AksimArticleAsLink key={content.id} containsThumbnail={true} handleRemoveArticle={handleRemoveArticle} path={ `/aksim-article/${content.id}`} content={content}/>)}                                                                                                                            
                 </div>
                 {articles && articles?.length > 0 && <PaginationButtons setPage={setPage} page={page} pagesTotal={pagesTotal}/>}
             </section>

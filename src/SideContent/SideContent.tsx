@@ -11,7 +11,6 @@ function SideContent(){
 
     useEffect(() => {
         fetchData()
-        console.log(error, "EE")
     }, [])
 
     const content = !isLoading && responseData?.results.slice(0,5).map((content:AksimContent) => <AksimArticleAsLink key={content.id} content={content}/>)

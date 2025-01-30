@@ -16,7 +16,7 @@ function useFetchOnLoad<T>(URL:string, reload?:boolean) {
                 setResponseData(res.data)
             }
         } catch (e) {
-            console.log(e)
+
             setError("Could not load content");
         } finally {
             setIsLoading(false);

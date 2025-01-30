@@ -55,7 +55,6 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
             if (navRef.current && !navRef.current.contains(event.target as Node)) {
                 closeNavigation();
             }
-            console.log(navRef.current)
         };
 
         // Add event listener for clicks
@@ -68,7 +67,6 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
 
     useEffect(() => {
         const handleResize = () => {
-            console.log(window.innerWidth)
             if (window.innerWidth > 1200) {
                 closeNavigation()
             }

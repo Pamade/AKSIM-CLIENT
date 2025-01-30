@@ -99,7 +99,6 @@ function Form({stateForm, url, setStateForm, label, type, name, labelValue, plac
                 }
                 
                 if (url === "change-name" && !errors) {
-                    console.log("idzie")
                     navigate(`/profile/${stateForm.newName}/settings`)
                 }
                 fetchUserData(token)
@@ -109,7 +108,6 @@ function Form({stateForm, url, setStateForm, label, type, name, labelValue, plac
             }
 
         } catch (e) {
-            console.log(e)
             setErrors(["Server error"]);
         } finally {
             setIsLoading(false)

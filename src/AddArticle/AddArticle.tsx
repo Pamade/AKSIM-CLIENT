@@ -43,7 +43,7 @@ const AddArticle = ({ articleToEdit }: AddArticleProps) => {
         e.preventDefault();
         const token = localStorage.getItem("access_token");
         const formData = new FormData();
-        console.log(article)
+
         if (article.imageFile) {
             formData.append("imageFile", article.imageFile); // Append the actual file to the FormData
         }
@@ -94,7 +94,7 @@ const AddArticle = ({ articleToEdit }: AddArticleProps) => {
         if (articleToEdit) {
             setArticle(articleToEdit); // Pre-fill the form if we're editing an existing article
         }
-        console.log(article)
+        
     }, [articleToEdit]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

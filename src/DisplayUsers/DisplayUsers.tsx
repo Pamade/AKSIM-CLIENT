@@ -11,7 +11,7 @@ function DisplayUsers({users}:Props) {
 
     return (
         users?.map((user) => 
-            <Link  to={`/profile/${user.userName}`} className={styles.single_user}>
+            <Link key={user.userEmail} to={`/profile/${user.userName}`} className={styles.single_user}>
                 <img className={styles.avatar} src={user.profilePictureLink || userNotFound} alt="user"/>
                 <h6 className={styles.user_name}>{user.userName}</h6>
             </Link>
