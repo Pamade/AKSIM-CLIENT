@@ -1,5 +1,5 @@
 import useFetchOnLoad from "../CustomHooks/useFetchOnLoad";
-import { FiltersContent, GuardianApi, AksimContent, AksimResponse } from "../Types/types";
+import { FiltersContent, GuardianApi, AksimResponse } from "../Types/types";
 import styles from "./MainContent.module.scss";
 import { apiKey } from "../main";
 import Loader from "../Loader/Loader";
@@ -46,6 +46,11 @@ function MainContent() {
     useEffect(() => {
         setFilters(objFromParams as any)
         setFiltersAksim(objFromParams as any)
+
+        if (searchParams.get("section")) {
+            setIsTheGuardianSelected(true) //alow switching to section, when on Aksim articles
+        }
+        
     }, [searchParams])
     
 
@@ -58,18 +63,13 @@ function MainContent() {
     const noContent = responseData?.response.total === 0 || error;
     const results = responseData?.response.results;
     const pagesAksim = responseAksim?.totalPages || 0;
-    
-
-    useEffect(() => {
-        if (Number(searchParams.get("page")) > pagesTotalGuardian) {
-            // setSearchParams({page:"1"})
-            // setFilters({...filters, page:1})
-        }
-    }, [])
-
 
     if (isLoading) return <>
-        <Filters   filters={filters}/>
+        <div className={styles.btn_select_content_wrapper}>
+            <Button setIsTheGuardianSelected={setIsTheGuardianSelected} isSelected={isTheGuardianSelected} text="The Guardian"/>
+            <Button setIsTheGuardianSelected={setIsTheGuardianSelected} isSelected={!isTheGuardianSelected} text="Aksim"/>
+        </div>
+        <Filters filters={filters}/>
         <Loader />
     </>
     
@@ -90,10 +90,9 @@ function MainContent() {
                 <>
                     <DisplayContent isTheGuardian={isTheGuardianSelected} data={responseAksim.results}/>
                     <div className={styles.buttons_wrapper}>
-                            {pagesAksim !== 0 &&<PaginationButtons filters={filtersAksim} page={Number(filtersAksim.page)} pagesTotal={pagesAksim} />}
-                        </div>
+                        {pagesAksim !== 0 &&<PaginationButtons filters={filtersAksim} page={Number(filtersAksim.page)} pagesTotal={pagesAksim} />}
+                    </div>
                 </>
-                 
                 }
                 {results && isTheGuardianSelected && (
                     <>

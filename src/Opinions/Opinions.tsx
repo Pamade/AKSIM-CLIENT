@@ -28,7 +28,9 @@ function Opinions(){
     return <>
         <h5 className={styles.heading}>{authorID}</h5>
         {results && <DisplayContent isTheGuardian={true} data={results}/>}
-        <PaginationButtons filters={filters} page={Number(filters.page) || 1} pagesTotal={pagesTotal}/>
+        <div className={styles.buttons_wrapper}>
+            <PaginationButtons filters={filters} page={Number(filters.page) || 1} pagesTotal={pagesTotal}/>
+        </div>
     </>
 }
 

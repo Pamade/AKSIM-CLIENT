@@ -18,20 +18,10 @@ li {
     text-transform: uppercase;
     color: $gray;
     gap: 0.5rem;
-    &::after {
-        content: ""; /* Empty content for the pseudo-element */
-        position: absolute;
-        bottom: 0; /* Place it at the bottom of the item */
-        left: 0; /* Start from the left */
-        width: 0; /* Start with no width */
-        height: 1px; /* Match the desired border thickness */
-        background-color: $gray; /* Your border color */
-        transition: width 0.3s ease-in-out; /* Smooth animation */
+    &:hover {
+        border-bottom: 1px solid $gray;
     }
-
-    &:hover::after {
-        width: 100%; /* Expand the line to the full width */
-    }
+    
 }
 .selected {
     border-bottom: 1px solid $gray;

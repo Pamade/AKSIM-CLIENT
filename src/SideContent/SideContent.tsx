@@ -11,6 +11,7 @@ function SideContent(){
 
     useEffect(() => {
         fetchData()
+        console.log(error, "EE")
     }, [])
 
     const content = !isLoading && responseData?.results.slice(0,5).map((content:AksimContent) => <AksimArticleAsLink key={content.id} content={content}/>)
@@ -18,7 +19,7 @@ function SideContent(){
     if (error) return <></>
     return (
         <section className={styles.wrapper}>
-            <h4 className={styles.heading}>AKSIM CONTENT</h4>
+            <h4 className={styles.heading}>AKSIM</h4>
             <ul className={styles.content_wrapper}>
                 {content}
             </ul>

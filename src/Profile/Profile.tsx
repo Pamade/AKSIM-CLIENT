@@ -85,7 +85,7 @@ function Profile() {
   const photo = (loggedUser ? state.user?.profile_picture_link : userProfileData?.profilePictureLink) || userNotFound
   const name = (loggedUser ? state.user?.name : userProfileData?.userName)
   const email = (loggedUser ? state.user?.email : userProfileData?.userEmail)
-
+    console.log(photo)
   if (isLoading) return <></>
   if (userProfileData === null) return <h4 className={styles.not_found}>User {userName} not found</h4>
   return (

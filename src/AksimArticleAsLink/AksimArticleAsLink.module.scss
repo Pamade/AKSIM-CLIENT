@@ -1,8 +1,7 @@
 @import "../Styles/variables";
 
 .single_item{
-    border: 1px solid $gray;
-    border-radius: 5px;
+    border-bottom: 1px solid $gray;
     transition: .3s;
     word-break: break-all;
     display: flex;
@@ -11,10 +10,10 @@
     gap: 1rem;
     &:hover{
         cursor: pointer;
-        background-color: $lightgray;
+        box-shadow: rgba(0, 1, 0, .2) 0 2px 8px;
     }
     &_selected{
-        background-color: $lightgray;
+        box-shadow: rgba(0, 1, 0, .2) 0 2px 8px;
     }
 }
 

@@ -3,21 +3,24 @@ import AddArticle from "../AddArticle/AddArticle";
 import useFetchOnLoad from "../CustomHooks/useFetchOnLoad";
 import { AksimContent } from "../Types/types";
 import { apiAksimBaseUrl } from "../main";
+import { useUserContext } from "../Context/UserContext";
 
 function EditArticle(){
     const {articleID} = useParams()
-    const {responseData} = useFetchOnLoad<AksimContent>(`${apiAksimBaseUrl}/api/content/get-article/${articleID}`)
+    const {responseData} = useFetchOnLoad<AksimContent>(`${apiAksimBaseUrl}/content/get-article/${articleID}`)
+    const {state} = useUserContext();
 
-    // const {content} = responseData
     console.log(responseData)
-    const state = {
+    const formData = {
         title:responseData?.title || "",
         description:responseData?.description || "",
         content:responseData?.content || "",
-        creationDate:new Date()
+        creationDate:new Date(),
+        id:Number(articleID),
+        userNameID:state.user!.name
     }
     return (
-        <AddArticle articleToEdit={state}/>
+        <AddArticle articleToEdit={formData}/>
     )
 }
 

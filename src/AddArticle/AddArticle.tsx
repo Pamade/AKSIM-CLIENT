@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { useUserContext } from "../Context/UserContext";
 import { apiAksimBaseUrl } from "../main";
+
 interface Article {
     id?: number; // Allow for optional ID for editing
     title: string;
@@ -12,6 +13,7 @@ interface Article {
     content: string;
     creationDate: Date;
     imageFile?: File;
+    userNameID?:string
 }
 
 interface Errors {
@@ -41,18 +43,24 @@ const AddArticle = ({ articleToEdit }: AddArticleProps) => {
         e.preventDefault();
         const token = localStorage.getItem("access_token");
         const formData = new FormData();
-
+        console.log(article)
         if (article.imageFile) {
             formData.append("imageFile", article.imageFile); // Append the actual file to the FormData
         }
+
+        if (articleToEdit && articleID) {
+            formData.append("userNameID", String(article.userNameID))
+            formData.append("id", String(article.id))
+        }
+
         formData.append("title", article.title || "");
         formData.append("description", article.description || "");
         formData.append("content", article.content || "");
         formData.append("creationDate", new Date().toISOString());
         
         try {
-            const res = article.id
-                ? await axios.put<Data>(`${apiAksimBaseUrl}/user/update-article/${article.id}`, formData, {
+            const res = articleID 
+                ? await axios.put<Data>(`${apiAksimBaseUrl}/user/update-article/${articleID }`, formData, {
                       headers: {
                           Authorization: `Bearer ${token}`,
                           "Content-Type": "multipart/form-data",
@@ -86,6 +94,7 @@ const AddArticle = ({ articleToEdit }: AddArticleProps) => {
         if (articleToEdit) {
             setArticle(articleToEdit); // Pre-fill the form if we're editing an existing article
         }
+        console.log(article)
     }, [articleToEdit]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,7 +118,6 @@ const AddArticle = ({ articleToEdit }: AddArticleProps) => {
             }));
         }
     };
-    console.log(article.id)
     return (
         <section className={styles.section}>
             

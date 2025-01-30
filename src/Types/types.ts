@@ -107,7 +107,3 @@ export interface ProfileDataUser {
     userEmail:string,
     profilePictureLink?:string,
 }
-
-export interface ProfileDataUserWithCount extends ProfileDataUser{
-    articlesCount:number
-}

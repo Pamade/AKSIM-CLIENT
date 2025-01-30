@@ -30,7 +30,7 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
     const [searchParams, setSearchParams] = useSearchParams()
     const [search, setSearch] = useState("")
     const {state} = useUserContext()
-    
+
     const location = useLocation()
     const navRef = useRef<HTMLDivElement | null>(null); // Ref for the navigation
     const isFirstRender = useRef(true); // Tracks if it's the first render
@@ -43,7 +43,6 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
     };
 
     useEffect(() => {
-
         if (isFirstRender.current) {
             isFirstRender.current = false
             return 
@@ -61,13 +60,26 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
 
         // Add event listener for clicks
         document.addEventListener("click", handleClickOutside);
-
         return () => {
             // Cleanup event listener
             document.removeEventListener("click", handleClickOutside);
         };
     }, [isNavigationOpen]); 
 
+    useEffect(() => {
+        const handleResize = () => {
+            console.log(window.innerWidth)
+            if (window.innerWidth > 1200) {
+                closeNavigation()
+            }
+        };
+    
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+      }, []);
 
     const handleSearch = () => {
         setSearchParams({q:search || "", page:"1", section:"", lang:"", fromDate:"", toDate:""})
@@ -96,7 +108,7 @@ function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
                             </ul>
                         </div>
                         <div>
-                            <h4 className={styles.heading}><NavLink to="/opinions">Opinions</NavLink></h4>
+                            <h4 className={styles.heading}>Opinions</h4>
                             <ul className={styles.list}>
                                 {authors.map((author) => <NavigationLink key={author} path={`/opinions/${author}`} text={author}/>)}
                             </ul>
