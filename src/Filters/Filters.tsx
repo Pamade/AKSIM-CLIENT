@@ -35,7 +35,7 @@ const languages:IdAndWebTitle[] = [
 //get all possible sections
 const Filters = memo(({filters}:FiltersProps) => {
     const {responseData, isLoading, error} = useFetchOnLoad<GuardianApi>(`https://content.guardianapis.com/sections?api-key=${apiKey}`)    
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [, setSearchParams] = useSearchParams()
     const [sections, setSections] = useState<IdAndWebTitle[]>([])
 
     let results = useRef<IdAndWebTitle[]>([])

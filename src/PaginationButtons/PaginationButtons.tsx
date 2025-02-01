@@ -10,7 +10,7 @@ interface ButtonProps {
 
 const PaginationButtons = ({pagesTotal, page, filters, setPage}:PaginationButtonsProps) => {
 
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [, setSearchParams] = useSearchParams()
     page = Number(page) || 1;
     const prevPage = page - 1;
     const nextPage = page + 1

@@ -1,4 +1,4 @@
-import { NavLink, useLocation, useSearchParams } from "react-router-dom"
+import {useLocation, useSearchParams } from "react-router-dom"
 import styles from "./SideNavigation.module.scss";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdSportsFootball } from "react-icons/md";
@@ -27,7 +27,7 @@ const sections = [{type:"sport", icon:MdSportsFootball},
 const authors = ["Siva Vaidhyanathan", "Simon Jenkins", "Polly Toynbee"] as const;
 
 function SideNavigation({isNavigationOpen, setIsNavigationOpen}:Props) {
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [, setSearchParams] = useSearchParams()
     const [search, setSearch] = useState("")
     const {state} = useUserContext()
 

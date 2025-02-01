@@ -9,7 +9,7 @@ interface ButtonSelectAksimTheGuardian {
 
 function Button({text, isSelected, setIsTheGuardianSelected}:ButtonSelectAksimTheGuardian){
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [, setSearchParams] = useSearchParams();
 
     return <button onClick={() =>{
          setSearchParams({page:String(1)})

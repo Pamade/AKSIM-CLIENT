@@ -15,13 +15,13 @@ import { apiAksimBaseUrl } from "../main";
 const pageSize = 18 as const;
 
 function MainContent() {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const [isTheGuardianSelected, setIsTheGuardianSelected] = useState(true)
     const objFromParams = Object.fromEntries([...searchParams])
       
     const buildQueryString = (filters:{[key:string]:string}) => {
         return Object.entries(filters)
-            .filter(([key, value]) => value !== "")
+            .filter(([, value]) => value !== "")
             .map(([key, value]) => {
                 // Convert camelCase keys to kebab-case
                 const kebabCaseKey = key.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);

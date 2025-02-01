@@ -95,7 +95,7 @@ function Form({formType}:FormType){
             isTokenValid && formType === "resetPassword" ? null : navigate("/")
         }
         else if (isAuthenticationResponse(data)){
-            const {access_token, refresh_token, errors} = data
+            const {access_token, errors} = data
             if (access_token) {
                 localStorage.setItem("access_token", access_token)
                 fetchUserData(access_token)

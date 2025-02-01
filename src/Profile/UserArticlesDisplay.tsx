@@ -69,7 +69,7 @@ function UserArticlesDisplay(){
             ? paginatedArticles.length > 0
                 ? "Published Articles"
                 : <>
-                    <h5 className={styles.heading}>You don't have any articles</h5>
+                    <span>You don't have any articles</span>
                     <Link to="/user/add-article" className={styles.link}>Publish article</Link>
                 </>
             : paginatedArticles.length > 0
@@ -81,7 +81,7 @@ function UserArticlesDisplay(){
         <>
             {error && <ErrorMessage error={messageRemoving} />}
             {isLoading && <Loader />}
-            {heading}
+            {!isLoading && heading}
             <section className={styles.articles_and_buttons}>
                 <div className={styles.paginated_articles}>
                     {paginatedArticles.map((content) => <AksimArticleAsLink key={content.id} containsThumbnail={true} handleRemoveArticle={handleRemoveArticle} path={ `/aksim-article/${content.id}`} content={content}/>)}                                                                                                                            
