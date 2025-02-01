@@ -1,4 +1,4 @@
-@import "../Styles/variables";
+@import "../styles/variables";
 
 $darkenLightGray:darken($lightgray, 10);
 
@@ -7,7 +7,6 @@ $darkenLightGray:darken($lightgray, 10);
     gap: 0.5rem;
 }
 .button{
-    // padding:1rem;
     width: 3rem;
     height: 3rem;
     border-radius: 25%;

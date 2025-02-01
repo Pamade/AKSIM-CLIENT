@@ -13,7 +13,7 @@ function SideContent(){
         fetchData()
     }, [])
 
-    const content = !isLoading && responseData?.results.slice(0,5).map((content:AksimContent) => <AksimArticleAsLink key={content.id} content={content}/>)
+    const content = !isLoading && responseData?.results.slice(0,5).map((content:AksimContent) => <AksimArticleAsLink key={content.id} content={content}/>) || <></>
     if (error) return <></>
     return (
         <section className={styles.wrapper}>
