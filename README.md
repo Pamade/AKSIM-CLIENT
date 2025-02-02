@@ -1,30 +1,26 @@
-# React + TypeScript + Vite
+# Aksim
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+The **Article Publishing App** is a full-stack web application that allows users to create, edit, publish, and manage articles. It is built using **React** for the frontend, **Java (Spring Boot)** for the backend, and **MySQL** for the database.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Logo](https://res.cloudinary.com/dv1p5rdbi/image/upload/v1738524367/jb8g9tsnkcgfgjlr6bwx.png)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **User authentication and authorization**: Sign up, login, and JWT-based authentication.
+- **Article management**: Create, edit, delete, and publish articles.
+- **View and search articles**: Users can view and search published articles.
+- **User roles**: User and Reader roles for different levels of access.
+- **Responsive UI**: Modern and responsive user interface built with React and SASS.
+- **Switchable article sources**: Option to switch between "Aksim Articles" and articles from The Guardian API.
+- **Profile customization**: Users can update their profile picture.
+- **Secure credential management**: Protection of sensitive user information.
 
-- Configure the top-level `parserOptions` property like this:
+## Tech Stack
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- **Frontend**: React, Vite, SASS
+- **Backend**: Java, Spring Boot, Spring Security
+- **Database**: MySQL
+- **API Communication**: RESTful APIs
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
