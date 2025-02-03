@@ -107,7 +107,7 @@ function Profile() {
                     }
                 </div>
                 <div className={styles.content_wrapper}>
-                        <Outlet />
+                  <Outlet />
                 </div>
           </section>
           <div>

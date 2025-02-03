@@ -17,7 +17,7 @@ function Article({webTitle, thumbnail, byline, publicationDate, body, descriptio
                 </p>
             </div>
             <p>{description}</p>
-            <div dangerouslySetInnerHTML={{__html:body}}>
+                <div dangerouslySetInnerHTML={{__html:body}}>
             </div>
         </article>
     )

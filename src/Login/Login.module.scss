@@ -6,7 +6,14 @@
         flex-direction: column;
         gap: 4rem;
     }
-    
+    .login_testing{
+        padding: 2rem;
+        margin: 2rem;
+        border: 1px solid $lightgray;
+        & h6 {
+            font-weight: normal;
+        }
+    }
 }
 
 @media (min-width:1200px) {

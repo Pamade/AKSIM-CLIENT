@@ -69,7 +69,7 @@ function UserArticlesDisplay(){
             ? paginatedArticles.length > 0
                 ? "Published Articles"
                 : <>
-                    <span>You don't have any articles</span>
+                    <p>You don't have any articles</p>
                     <Link to="/user/add-article" className={styles.link}>Publish article</Link>
                 </>
             : paginatedArticles.length > 0
