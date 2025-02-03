@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **Article Publishing App** is a full-stack web application that allows users to create, edit, publish, and manage articles. It is built using **React** for the frontend, **Java (Spring Boot)** for the backend, and **MySQL** for the database.
+The **Aksim** is a full-stack web application that allows users to create, edit, publish, and manage articles. It is built using **React** for the frontend, **Java (Spring Boot)** for the backend, and **MySQL** for the database.
 
 ![Logo](https://res.cloudinary.com/dv1p5rdbi/image/upload/v1738524367/jb8g9tsnkcgfgjlr6bwx.png)
 
