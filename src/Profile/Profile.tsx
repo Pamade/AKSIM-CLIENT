@@ -85,7 +85,9 @@ function Profile() {
   
   const photo = (loggedUser ? state.user?.profile_picture_link : userProfileData?.profilePictureLink) || userNotFound
   const name = (loggedUser ? state.user?.name : userProfileData?.userName)
-  const email = (loggedUser ? state.user?.email : userProfileData?.userEmail)
+  const email = loggedUser && state.user?.email
+
+  console.log(userProfileData)
 
 
 if (responseData === null || responseData.userEmail === null) return (
@@ -105,7 +107,7 @@ return (
                       alt="user" 
                   /> 
                   <div className={styles.mail_email}>
-                      <p className={styles.name}>Email: {email}</p>
+                      {loggedUser && <p className={styles.name}>Email: {email}</p>}
                       <p className={styles.name}>Name: {name}</p>
                   </div>
               </div>
