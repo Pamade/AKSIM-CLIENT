@@ -11,6 +11,7 @@ import useFetchOnLoad from "../CustomHooks/useFetchOnLoad";
 import { ProfileDataUser} from "../Types/types";
 import UsersProfiles from "../UsersProfiles/UsersProfiles";
 import { apiAksimBaseUrl } from "../main";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 const sections = 
     [ 
@@ -86,36 +87,47 @@ function Profile() {
   const name = (loggedUser ? state.user?.name : userProfileData?.userName)
   const email = (loggedUser ? state.user?.email : userProfileData?.userEmail)
 
-  if (isLoading) return <></>
-  if (userProfileData === null) return <h4 className={styles.not_found}>User {userName} not found</h4>
-  return (
-        <section className={styles.content}>
-          <section className={styles.wrapper}>
-                {errorUploading && <h3>{errorUploading}</h3>}
-                <div className={styles.profile}>
-                    <div className={styles.avatar_name}>
-                        <img style={loggedUser ? {cursor:"pointer"} : {cursor:"default"}} onClick={handleUploadProfileFile} className={styles.user_avatar} src={photo} alt="user" /> 
-                        <div className={styles.mail_email}>
-                          <p className={styles.name}>Email: {email}</p>
-                          <p className={styles.name}>Name: {name}</p>
-                        </div>
-                    </div>
-                    {loggedUser && <>
-                          <input onChange={handleUploadProfileFile} type="file" id="avatarFileInput" className={styles.file_input} />
-                        {loggedUserContent}
-                    </>
-                    }
-                </div>
-                <div className={styles.content_wrapper}>
-                  <Outlet />
-                </div>
-          </section>
-          <div>
-            <UsersProfiles />
+
+if (responseData === null || responseData.userEmail === null) return (
+  isLoading ? <></> : <ErrorMessage error="User not found"/> 
+)
+return (
+  <section className={styles.content}>
+      <section className={styles.wrapper}>
+          {errorUploading && <h3>{errorUploading}</h3>}
+          <div className={styles.profile}>
+              <div className={styles.avatar_name}>
+                  <img 
+                      style={loggedUser ? {cursor: "pointer"} : {cursor: "default"}} 
+                      onClick={handleUploadProfileFile} 
+                      className={styles.user_avatar} 
+                      src={photo} 
+                      alt="user" 
+                  /> 
+                  <div className={styles.mail_email}>
+                      <p className={styles.name}>Email: {email}</p>
+                      <p className={styles.name}>Name: {name}</p>
+                  </div>
+              </div>
+              {loggedUser && <>
+                  <input onChange={handleUploadProfileFile} type="file" id="avatarFileInput" className={styles.file_input} />
+                  {loggedUserContent}
+              </>}
           </div>
-        </section>
-        
-    )
+          <div className={styles.content_wrapper}>
+            <div className={styles.articles_and_buttons}>
+              <div>
+                <Outlet />
+              </div>
+            </div>
+          </div>
+      </section>
+      {/* Keep UsersProfiles outside of Outlet to prevent re-rendering on content change */}
+      <div className={styles.users_wrapper}>
+        <UsersProfiles />
+      </div>
+  </section>
+);
 }
 
 export default Profile;

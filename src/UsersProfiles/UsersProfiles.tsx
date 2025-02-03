@@ -7,10 +7,9 @@ import { apiAksimBaseUrl } from "../main"
 
 function UsersProfiles(){
     const {userName} = useParams()
-    const {responseData, isLoading} = useFetchOnLoad<ProfileDataUser[]>(`${apiAksimBaseUrl}/content/get-users-profiles`)
+    const {responseData} = useFetchOnLoad<ProfileDataUser[]>(`${apiAksimBaseUrl}/content/get-users-profiles`)
     const users = responseData?.filter((user) => user.userName !== userName)
 
-    if (isLoading) return <></>
     return (
     <section>
         <h5 className={styles.heading}>Other Aksim Users</h5>
